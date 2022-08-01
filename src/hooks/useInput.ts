@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {isEmail} from "../utils/isEmail";
 
 interface validations {
   isEmpty?: boolean
@@ -30,8 +31,7 @@ const useValidation = (value: string, validations: validations) => {
           value ? setIsEmpty(false) : setIsEmpty(true)
           break
         case 'isNotEmail':
-          const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          re.test(String(value).toLowerCase()) ? setIsNotEmail(false) : setIsNotEmail(true)
+          isEmail(value) ? setIsNotEmail(false) : setIsNotEmail(true)
           break
       }
     }

@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../models/IUser";
-import {userSignIn, userSignUp} from "./UserActionCreators";
+import {userSignInWithEmail, userSignInWithLogin, userSignUp} from "./UserActionCreators";
 
 interface UserState {
   data: null | IUser
@@ -23,19 +23,6 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [userSignIn.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
-      state.isLoading = false;
-      state.error = ''
-      state.data = action.payload;
-    },
-    [userSignIn.pending.type]: (state) => {
-      state.isLoading = true;
-    },
-    [userSignIn.rejected.type]: (state,  action) => {
-      state.isLoading = false;
-      console.log(action)
-      state.error = action.error.message
-    },
     [userSignUp.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoading = false;
       state.error = ''
@@ -45,6 +32,32 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [userSignUp.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [userSignInWithLogin.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data = action.payload;
+    },
+    [userSignInWithLogin.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [userSignInWithLogin.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [userSignInWithEmail.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data = action.payload;
+    },
+    [userSignInWithEmail.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [userSignInWithEmail.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

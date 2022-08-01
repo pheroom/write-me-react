@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useInput} from "../hooks/useInput";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
-import {userSlice} from "../store/UserReducers/UserSlice";
 import {useAppDispatch, useAppSelector} from "../store";
-import {userSignIn} from "../store/UserReducers/UserActionCreators";
+import {isEmail} from "../utils/isEmail";
+import {userSignInWithEmail, userSignInWithLogin} from "../store/UserReducers/UserActionCreators";
 
 const SignIn = () => {
   const login = useInput('', {minLength: 3, isEmpty: false})
@@ -15,7 +15,11 @@ const SignIn = () => {
 
   function signIn(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
-    dispatch(userSignIn({email: login.value, password: password.value}))
+    if(isEmail(login.value)){
+      dispatch(userSignInWithEmail({email: login.value, password: password.value}))
+    } else{
+      dispatch(userSignInWithLogin({login: login.value, password: password.value}))
+    }
   }
 
   if(isLoading) return <div style={{background: 'black'}}>loading...</div>
