@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {isEmail} from "../utils/isEmail";
+import {isOnlyLettersNumbersUnderscores} from "../utils/isOnlyLettersNumbersUnderscores";
 
 interface validations {
   isEmpty?: boolean
   minLength?: number
   maxLength?: number
   isNotEmail?: boolean
+  isNotLettersNumUnder?: boolean
 }
 
 const useValidation = (value: string, validations: validations) => {
@@ -13,6 +15,7 @@ const useValidation = (value: string, validations: validations) => {
   const [isMinLength, setIsMinLength] = useState(false)
   const [isMaxLength, setIsMaxLength] = useState(false)
   const [isNotEmail, setIsNotEmail] = useState(false)
+  const [isNotLettersNumUnder, setIsNotLettersNumUnder] = useState(false)
 
   const [inputValid, setInputValid] = useState(false)
 
@@ -33,20 +36,23 @@ const useValidation = (value: string, validations: validations) => {
         case 'isNotEmail':
           isEmail(value) ? setIsNotEmail(false) : setIsNotEmail(true)
           break
+        case 'isLettersNumUnder':
+          isOnlyLettersNumbersUnderscores(value) ? setIsNotLettersNumUnder(false) : setIsNotLettersNumUnder(true)
+          break
       }
     }
   }, [value])
 
   useEffect(() => {
-    if (isEmpty || isMinLength || isNotEmail || isMaxLength) {
+    if (isEmpty || isMinLength || isNotEmail || isMaxLength || isNotLettersNumUnder) {
       setInputValid(false)
     } else {
       setInputValid(true)
     }
-  }, [isEmpty, isMinLength, isNotEmail, isMaxLength])
+  }, [isEmpty, isMinLength, isNotEmail, isMaxLength, isNotLettersNumUnder])
 
   return {
-    isEmpty, isMinLength, isNotEmail, isMaxLength, inputValid
+    isEmpty, isMinLength, isNotEmail, isMaxLength, isNotLettersNumUnder, inputValid
   }
 }
 

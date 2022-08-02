@@ -1,16 +1,16 @@
 import React from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
-import {useInput} from "../hooks/useInput";
-import {getAuth} from "firebase/auth";
-import {useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth";
 import {useAppDispatch, useAppSelector} from "../store";
 import {userSignUp} from "../store/UserReducers/UserActionCreators";
+import {useLoginInput} from "../UI/useLoginInput";
+import {usePasswordInput} from "../UI/usePasswordInput";
+import {useEmailInput} from "../UI/useEmailInput";
 
 const SignUp = () => {
-  const login = useInput('', {minLength: 3, maxLength: 16, isEmpty: false})
-  const email = useInput('', {isNotEmail: false, isEmpty: false})
-  const password = useInput('', {minLength: 6, maxLength: 20, isEmpty: true})
+  const {loginInput, login} = useLoginInput('')
+  const {emailInput, email} = useEmailInput('')
+  const {passwordInput, password} = usePasswordInput('')
 
   const dispatch = useAppDispatch()
   const {data, isLoading, error} = useAppSelector(state => state.user)
@@ -26,35 +26,9 @@ const SignUp = () => {
     <div>
       {error && <div>{error}</div>}
       <form onSubmit={signUp}>
-        {(login.isDirty && login.isEmpty) && <div>is empty</div>}
-        {(login.isDirty && !login.isEmpty && login.isMinLength) && <div>min length</div>}
-        {(login.isDirty && login.isMaxLength) && <div>max length</div>}
-        <input
-          type="text"
-          value={login.value}
-          onChange={login.onChange}
-          onBlur={login.onBlur}
-          placeholder={'Lогин'}
-        />
-        {(email.isDirty && email.isEmpty) && <div>is empty</div>}
-        {(email.isDirty && !email.isEmpty && email.isNotEmail) && <div>is not email</div>}
-        <input
-          type="text"
-          value={email.value}
-          onChange={email.onChange}
-          onBlur={email.onBlur}
-          placeholder={'Электронная почта'}
-        />
-        {(password.isDirty && password.isEmpty) && <div>is empty</div>}
-        {(password.isDirty && !password.isEmpty && password.isMinLength) && <div>min length</div>}
-        {(password.isDirty && password.isMaxLength) && <div>max length</div>}
-        <input
-          type="text"
-          value={password.value}
-          onChange={password.onChange}
-          onBlur={password.onBlur}
-          placeholder={'Пароль'}
-        />
+        {loginInput}
+        {emailInput}
+        {passwordInput}
         <button disabled={!login.inputValid || !email.inputValid || !password.inputValid} type={'submit'}>Sign Un</button>
       </form>
       <Link to={RouteNames.SIGNIN}>to sign in</Link>
@@ -63,3 +37,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

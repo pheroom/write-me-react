@@ -6,15 +6,16 @@ import {RouteNames} from "../router";
 import {useAppSelector} from "../store";
 
 const Navbar = () => {
-  const {data} = useAppSelector(state => state.user)
+  const {data: user} = useAppSelector(state => state.user)
 
   return (
-    data
+    user
       ? <header className={s.navbar}>
         <div className="container">
           <div className={s.inner}>
             <Link to={RouteNames.CHAT}><Logo/></Link>
             <Link to={RouteNames.PROFILE}>to profile</Link>
+            <h3>{user.displayName}</h3>
           </div>
         </div>
       </header>
