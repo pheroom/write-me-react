@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/write-me-react/static/css/main.863a51cb.css",
-    "main.js": "/write-me-react/static/js/main.c67aa80a.js",
+    "main.js": "/write-me-react/static/js/main.43a3a64e.js",
     "static/media/free-icon-speech-bubble-4081342.png": "/write-me-react/static/media/free-icon-speech-bubble-4081342.d3ef6ff8cefe13474437.png",
     "index.html": "/write-me-react/index.html",
     "main.863a51cb.css.map": "/write-me-react/static/css/main.863a51cb.css.map",
-    "main.c67aa80a.js.map": "/write-me-react/static/js/main.c67aa80a.js.map"
+    "main.43a3a64e.js.map": "/write-me-react/static/js/main.43a3a64e.js.map"
   },
   "entrypoints": [
     "static/css/main.863a51cb.css",
-    "static/js/main.c67aa80a.js"
+    "static/js/main.43a3a64e.js"
   ]
 }
