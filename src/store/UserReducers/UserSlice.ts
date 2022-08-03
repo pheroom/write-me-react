@@ -1,6 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../models/IUser";
-import {userSignInWithEmail, userSignInWithLogin, userSignUp} from "./UserActionCreators";
+import {
+  changePassword,
+  updateUser,
+  userSignIn, userSignUp
+} from "./UserActionCreators";
 
 interface UserState {
   data: null | IUser
@@ -36,28 +40,41 @@ export const userSlice = createSlice({
       console.log(action)
       state.error = action.error.message
     },
-    [userSignInWithLogin.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+    [userSignIn.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoading = false;
       state.error = ''
       state.data = action.payload;
     },
-    [userSignInWithLogin.pending.type]: (state) => {
+    [userSignIn.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [userSignInWithLogin.rejected.type]: (state,  action) => {
+    [userSignIn.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message
     },
-    [userSignInWithEmail.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+    [updateUser.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
       state.isLoading = false;
       state.error = ''
       state.data = action.payload;
     },
-    [userSignInWithEmail.pending.type]: (state) => {
+    [updateUser.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [userSignInWithEmail.rejected.type]: (state,  action) => {
+    [updateUser.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [changePassword.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data = action.payload;
+    },
+    [changePassword.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [changePassword.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

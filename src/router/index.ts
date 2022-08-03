@@ -2,7 +2,7 @@ import React from "react";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Chat from "../components/Chat";
-import CurrentUserProfile from "../pages/CurrentUserProfile";
+import EditProfile from "../pages/EditProfile";
 
 export interface IRoute{
   path: string
@@ -13,7 +13,7 @@ export enum RouteNames{
   SIGNUP = '/sign-up',
   SIGNIN = '/sign-in',
   CHAT = '/',
-  PROFILE = '/user',
+  EDIT_PROFILE = '/edit-profile',
 }
 
 export const PublicRoutes: IRoute[] = [
@@ -23,5 +23,5 @@ export const PublicRoutes: IRoute[] = [
 
 export const PrivateRoutes: IRoute[] = [
   {path: RouteNames.CHAT, element: Chat},
-  {path: RouteNames.PROFILE, element: CurrentUserProfile},
+  {path: RouteNames.EDIT_PROFILE, element: EditProfile},
 ]
