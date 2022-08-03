@@ -1,11 +1,10 @@
 import UsersService from "./UsersService";
-import {User as FirebaseUser} from "@firebase/auth";
+import {User as FirebaseUser, EmailAuthProvider, reauthenticateWithCredential} from "@firebase/auth";
 import ProfileService from "./ProfileService";
 import {IUserUpdates} from "../models/IUserUpdates";
 import {getUserByFirebaseObject} from "../utils/getUserByFirebaseObject";
 import NamesService from "./NamesService";
 import StorageService from "./StorageService";
-import AuthService from "./AuthService";
 
 export default class UsersDataService {
   static async firstUpdateLogin(user: FirebaseUser, newLogin: string){
@@ -34,8 +33,10 @@ export default class UsersDataService {
     return getUserByFirebaseObject(user)
   }
   static async changePassword(user: FirebaseUser, email: string, password: string, newPassword: string){
-    const response = await AuthService.signInWithEmailAndPassword(email, password)
+    const credential = await EmailAuthProvider.credential(email, password)
+    await reauthenticateWithCredential(user, credential)
     await ProfileService.updatePassword(user, newPassword)
-    return response
+    return getUserByFirebaseObject(user)
   }
 }
+

@@ -8,21 +8,22 @@ const AppRouter = () => {
 
   const user = useAppSelector(state => state.user)
 
-  return (
-    user.data
-      ? <Routes>
+  return <Routes>
+    {user.data
+      ? <>
         {PrivateRoutes.map(route =>
           <Route key={route.path} path={route.path} element={<route.element/>}/>
         )}
         <Route path={'*'} element={<PageNotFound path={RouteNames.CHAT}/>}/>
-      </Routes>
-      : <Routes>
+      </>
+      : <>
         {PublicRoutes.map(route =>
           <Route key={route.path} path={route.path} element={<route.element/>}/>
         )}
         <Route path={'*'} element={<PageNotFound path={RouteNames.SIGNIN}/>}/>
-      </Routes>
-  );
+      </>
+    }
+  </Routes>
 };
 
 export default AppRouter;

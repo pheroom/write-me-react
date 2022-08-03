@@ -10,6 +10,7 @@ export default class AuthService {
       throw new Error('Аккаунта с такой почтой не существует')
     }
     const response = await signInWithEmailAndPassword(getAuth(), email, password)
+    console.log(response)
     return getUserByFirebaseObject(response.user)
   }
 

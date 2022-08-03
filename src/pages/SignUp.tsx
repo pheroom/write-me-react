@@ -6,6 +6,7 @@ import {userSignUp} from "../store/UserReducers/UserActionCreators";
 import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import {useEmailInput} from "../UI/useEmailInput";
+import Loader from "../UI/Loader";
 
 const SignUp = () => {
   const {loginInput, login} = useLoginInput('')
@@ -20,7 +21,7 @@ const SignUp = () => {
     dispatch(userSignUp({login: login.value, email: email.value, password: password.value}))
   }
 
-  if(isLoading) return <div>loading...</div>
+  if(isLoading) return <Loader/>
 
   return (
     <div>
