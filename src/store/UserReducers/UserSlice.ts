@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../models/IUser";
 import {
-  changePassword,
+  changePassword, signOut,
   updateUser,
   userSignIn, userSignUp
 } from "./UserActionCreators";
@@ -75,6 +75,19 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [changePassword.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [signOut.fulfilled.type]: (state, action: PayloadAction<IUser>) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data = action.payload;
+    },
+    [signOut.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [signOut.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

@@ -1,4 +1,4 @@
-import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
+import {getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, Auth} from "firebase/auth";
 import {getUserByFirebaseObject} from "../utils/getUserByFirebaseObject";
 import UsersService from "./UsersService";
 import UsersDataService from "./UsersDataService";
@@ -10,7 +10,6 @@ export default class AuthService {
       throw new Error('Аккаунта с такой почтой не существует')
     }
     const response = await signInWithEmailAndPassword(getAuth(), email, password)
-    console.log(response)
     return getUserByFirebaseObject(response.user)
   }
 
@@ -35,5 +34,10 @@ export default class AuthService {
     const user = getUserByFirebaseObject(response.user)
     await UsersService.addNewUser(user)
     return user
+  }
+
+  static async signOut(auth: Auth) {
+    await signOut(auth)
+    return null
   }
 }

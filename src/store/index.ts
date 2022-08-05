@@ -1,10 +1,12 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import userReducer from './UserReducers/UserSlice'
+import roomsReducer from './RoomsReducers/RoomsSlice'
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    rooms: roomsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
