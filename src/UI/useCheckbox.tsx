@@ -9,5 +9,5 @@ export function useCheckbox(initStatus: boolean){
     onChange={e => setStatus(prev => !prev)}
   />
 
-  return {checkbox: {value: status}, checkboxInput}
+  return {checkbox: {value: status, setStatus}, checkboxInput}
 }

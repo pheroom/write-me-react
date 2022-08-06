@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IRoom} from "../../models/IRoom";
-import {createRoom, getAllRooms} from "./RoomsActionCreators";
+import {createRoom, getAllRooms, removeRoom} from "./RoomsActionCreators";
 
 interface RoomsState {
   data: null | IRoom[]
@@ -26,12 +26,25 @@ export const roomsSlice = createSlice({
     [createRoom.fulfilled.type]: (state, action: PayloadAction<IRoom>) => {
       state.isLoading = false;
       state.error = ''
-      state.data ? state.data.push(action.payload) : state.data = [action.payload];
+      // state.data ? state.data.push(action.payload) : state.data = [action.payload];
     },
     [createRoom.pending.type]: (state) => {
       state.isLoading = true;
     },
     [createRoom.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [removeRoom.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      // state.data = state.data ? state.data.filter(room => room.roomId !== action.payload) : null
+    },
+    [removeRoom.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [removeRoom.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

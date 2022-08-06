@@ -13,6 +13,8 @@ const CreateRoom: FC<CreateRoomProps> = ({createRoom, }) => {
 
   function createRoomHandle(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
+    name.setValue('')
+    checkbox.setStatus(false)
     createRoom(name.value, checkbox.value)
   }
 

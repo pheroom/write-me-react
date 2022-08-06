@@ -15,7 +15,12 @@ export const getAllRooms = createAsyncThunk(
   }
 )
 
-
+export const removeRoom = createAsyncThunk(
+  'rooms/removeRoom',
+  async ({roomId, uid}: {roomId: string, uid: string}) => {
+    return await RoomsService.deleteRoom(roomId, uid)
+  }
+)
 
 
 
