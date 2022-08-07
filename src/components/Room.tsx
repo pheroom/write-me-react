@@ -1,13 +1,17 @@
 import React, {FC, useEffect, useState} from 'react';
-import {IRoom} from "../models/IRoom";
-import Loader from "../UI/Loader";
+import {IRoom, ParticipantStatuses} from "../models/IRoom";
 import Error from "../UI/Error";
 import {messagesObserver} from "../firebaseAPI/messagesObserver";
 import {IMessage} from "../models/IMessage";
 import {useAppDispatch} from "../store";
-import {useSelectorRoom, useSelectorRooms, useSelectorUser} from "../hooks/redux";
+import {useSelectorRoom} from "../hooks/redux";
 import {addMessage} from "../store/RoomReducers/RoomActionCreators";
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
+import Messages from "./Messages";
+import JoinToRoom from "./JoinToRoom";
+import UserLink from "./UserLink";
+import {Link} from "react-router-dom";
+import {RouteNames} from "../router";
 
 interface RoomProps {
   room: IRoom
@@ -45,6 +49,7 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
     dispatch(addMessage({text, authorId: uid, roomId: room.roomId}))
   }
 
+  if(!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>
   return (
     <div>
       <div onClick={e => setInfoVisible(true)} style={{border: '2px solid orange'}}>
@@ -61,16 +66,20 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
           <br/>
           {room.isPrivate ? "Это приватная комната" : "Это публичная комната"}
           <br/>
+          <div style={{border: '2px solid teal'}}>
+            <h4>Учасстники:</h4>
+            {Object.entries(room.participants).map(([pid, status]) =>
+              <div key={pid}>
+                <UserLink uid={pid}/>: {status}
+              </div>
+            )}
+          </div>
+          {room.participants[uid] === ParticipantStatuses.HOST && <Link to={RouteNames.EDIT_ROOM}>Редактировать комнату</Link>}
           <button onClick={removeRoomHandle}>Удалить комнату</button>
           <button onClick={e => setInfoVisible(false)}>Скрыть информацию</button>
         </div>
         : <div>
-          {roomData.messages
-            ? roomData.messages.map(message =>
-              <div key={message.messageId}>{message.text}</div>
-            )
-            : <div>Сообщений пока нет</div>
-          }
+          <Messages messages={roomData.messages} uid={uid}/>
           <form onSubmit={sendMessage}>
             <input type="text" value={text} onChange={e => setText(e.target.value)}/>
             <button type={'submit'}>send</button>

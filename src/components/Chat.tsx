@@ -11,7 +11,7 @@ import Room from "./Room";
 import {roomsObserver} from "../firebaseAPI/roomsObserver";
 import {roomsSlice} from "../store/RoomsReducers/RoomsSlice";
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
-import {setRoomById} from "../store/RoomReducers/RoomActionCreators";
+import {getMessages, getRoomById} from "../store/RoomReducers/RoomActionCreators";
 import {RouteNames} from "../router";
 
 const Chat = () => {
@@ -28,7 +28,7 @@ const Chat = () => {
   const messages = roomData.messages
 
   const {setRooms} = roomsSlice.actions
-  const {setRoom} = roomSlice.actions
+  const {setRoom, setMessages} = roomSlice.actions
 
   useEffect(()=>{
     const unsubscribe = roomsObserver(roomsData, roomsUpdateHandle)
@@ -37,9 +37,11 @@ const Chat = () => {
 
   useEffect(()=>{
     if(roomId){
-      dispatch(setRoomById(roomId))
+      dispatch(getRoomById(roomId))
+      dispatch(getMessages(roomId))
     } else{
       dispatch(setRoom(null))
+      dispatch(setMessages(null))
     }
   },[roomId])
 

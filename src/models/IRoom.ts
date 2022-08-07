@@ -1,17 +1,18 @@
 export interface IRoom{
   roomId: string
   authorId: string
-  participants: IParticipant[]
+  participants: IParticipant
   title: string
   createdAt: number
   isPrivate: boolean
   avatarURL: string | null
   isDialog: boolean
+  description: string
+  applications: string[]
 }
 
 export interface IParticipant{
-  uid: string,
-  status: ParticipantStatuses
+  [uid: string]: ParticipantStatuses
 }
 
 export enum ParticipantStatuses{

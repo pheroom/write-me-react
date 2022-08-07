@@ -7,6 +7,8 @@ import EditProfile from "../pages/EditProfile";
 import FeedPage from "../pages/FeedPage";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
+import User from "./User";
+import EditRoom from "../pages/EditRoom";
 
 const AppRouter = () => {
 
@@ -18,6 +20,10 @@ const AppRouter = () => {
         <Route path={RouteNames.EDIT_PROFILE} element={<EditProfile/>}/>
         <Route path={RouteNames.FEED} element={<FeedPage/>}>
           <Route path={RouteNames.FEED_PARAMS} element={<FeedPage/>}/>
+        </Route>
+        <Route path={RouteNames.EDIT_ROOM} element={<EditRoom/>}/>
+        <Route path={RouteNames.USER} element={<User/>}>
+          <Route path={RouteNames.USER_PARAMS} element={<User/>}/>
         </Route>
         <Route path={'*'} element={<PageNotFound path={RouteNames.FEED}/>}/>
       </>
