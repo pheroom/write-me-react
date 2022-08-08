@@ -4,14 +4,15 @@ import Error from "../UI/Error";
 import {messagesObserver} from "../firebaseAPI/messagesObserver";
 import {IMessage} from "../models/IMessage";
 import {useAppDispatch} from "../store";
-import {useSelectorRoom} from "../hooks/redux";
-import {addMessage} from "../store/RoomReducers/RoomActionCreators";
+import {addMessage, removeParticipant} from "../store/RoomReducers/RoomActionCreators";
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
 import Messages from "./Messages";
 import JoinToRoom from "./JoinToRoom";
 import UserLink from "./UserLink";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {RouteNames} from "../router";
+import Loader from "../UI/Loader";
+import {roomObserver} from "../firebaseAPI/roomObserver";
 
 interface RoomProps {
   room: IRoom
@@ -20,24 +21,34 @@ interface RoomProps {
   error: string
   messages: IMessage[] | null
   uid: string
+  infoVisible: boolean
+  setInfoVisible: (status: boolean) => void
 }
 
-const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}) => {
-  const [infoVisible, setInfoVisible] = useState(false)
-
+const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error, setInfoVisible, infoVisible}) => {
   const [text, setText] = useState('')
 
+  const navigate = useNavigate()
+
   const dispatch = useAppDispatch()
-  let {roomData, isRoomLoading, roomError} = useSelectorRoom()
-  const {setMessages} = roomSlice.actions
+  // let {roomData, isRoomLoading, roomError} = useSelectorRoom()
+  const {setMessages, setRoom} = roomSlice.actions
 
   useEffect(()=>{
-    const unsubscribe = messagesObserver(room.roomId, messages, messagesUpdateHandle)
-    return unsubscribe
-  },[messages])
+    const unsubscribeMessages = messagesObserver(room.roomId, messages, messagesUpdateHandle)
+    const unsubscribeInfo = roomObserver(room.roomId, room, roomUpdateHandle)
+    return () => {
+      unsubscribeMessages()
+      unsubscribeInfo()
+    }
+  },[])
 
   function messagesUpdateHandle(newMessages: IMessage[] | null){
     dispatch(setMessages(newMessages))
+  }
+
+  function roomUpdateHandle(newRoom: IRoom | null){
+    dispatch(setRoom(newRoom))
   }
 
   function removeRoomHandle() {
@@ -49,6 +60,11 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
     dispatch(addMessage({text, authorId: uid, roomId: room.roomId}))
   }
 
+  function leaveRoom(){
+    dispatch(removeParticipant({roomId: room.roomId, uid: uid}))
+    navigate(RouteNames.FEED)
+  }
+
   if(!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>
   return (
     <div>
@@ -56,6 +72,8 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
         {room.avatarURL ? <img src={room.avatarURL} alt={'room avatar'}/> : "Фотография не установлена"}
         <br/>
         {room.title}
+        <br/>
+        <div>{Object.entries(room.participants).length} подписчиков</div>
       </div>
       {error && <Error message={error}/>}
       {infoVisible
@@ -67,19 +85,21 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
           {room.isPrivate ? "Это приватная комната" : "Это публичная комната"}
           <br/>
           <div style={{border: '2px solid teal'}}>
-            <h4>Учасстники:</h4>
-            {Object.entries(room.participants).map(([pid, status]) =>
-              <div key={pid}>
-                <UserLink uid={pid}/>: {status}
-              </div>
-            )}
+            {/*<h4>Учасстники:</h4>*/}
+            {/*{Object.entries(room.participants).map(([pid, status]) =>*/}
+            {/*  <div key={pid}>*/}
+            {/*    <UserLink uid={pid}/>: {status}*/}
+            {/*  </div>*/}
+            {/*)}*/}
           </div>
-          {room.participants[uid] === ParticipantStatuses.HOST && <Link to={RouteNames.EDIT_ROOM}>Редактировать комнату</Link>}
-          <button onClick={removeRoomHandle}>Удалить комнату</button>
+          {room.participants[uid] === ParticipantStatuses.HOST
+            ? <Link to={RouteNames.EDIT_ROOM + '/' + room.roomId}>Редактировать комнату</Link>
+            : <button onClick={leaveRoom}>Отписаться</button>
+          }
           <button onClick={e => setInfoVisible(false)}>Скрыть информацию</button>
         </div>
         : <div>
-          <Messages messages={roomData.messages} uid={uid}/>
+          <Messages messages={messages} uid={uid}/>
           <form onSubmit={sendMessage}>
             <input type="text" value={text} onChange={e => setText(e.target.value)}/>
             <button type={'submit'}>send</button>
@@ -91,5 +111,3 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error}
 };
 
 export default Room;
-
-//{roomId, authorId, participants, title, createdAt, isPrivate, avatarURL}

@@ -4,8 +4,8 @@ import {
   acceptApplication,
   addApplication,
   addMessage,
-  addParticipant, getMessages, getRoomById, rejectApplication,
-  removeMessage, updateParticipant,
+  addParticipant, blockUser, getMessages, getRoomById, getRoomData, rejectApplication,
+  removeMessage, removeParticipant, unblockUser, updateParticipant,
 } from "./RoomActionCreators";
 import {IMessage} from "../../models/IMessage";
 
@@ -59,6 +59,19 @@ export const roomSlice = createSlice({
       console.log(action)
       state.error = action.error.message
     },
+    [getRoomData.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data = action.payload;
+    },
+    [getRoomData.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [getRoomData.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
     [addMessage.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.error = ''
@@ -83,6 +96,38 @@ export const roomSlice = createSlice({
       console.log(action)
       state.error = action.error.message
     },
+    [blockUser.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      if(state.data.room) {
+        state.data.room.participants = action.payload.participants
+        state.data.room.applications = action.payload.applications
+      }
+    },
+    [blockUser.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [blockUser.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [unblockUser.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      if(state.data.room) {
+        state.data.room.participants = action.payload.participants
+        state.data.room.applications = action.payload.applications
+      }
+    },
+    [unblockUser.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [unblockUser.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
     [addParticipant.fulfilled.type]: (state, action) => {
       state.isLoading = false;
       state.error = ''
@@ -94,6 +139,21 @@ export const roomSlice = createSlice({
       state.isLoading = true;
     },
     [addParticipant.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [removeParticipant.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      if(state.data.room) {
+        state.data.room.participants = action.payload
+      }
+    },
+    [removeParticipant.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [removeParticipant.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

@@ -31,12 +31,20 @@ const Messages: FC<MessagesProps> = ({messages, uid}) => {
     }
   }
 
+  function copyMessage(){
+    if(currentMessage){
+      navigator.clipboard.writeText(currentMessage.text)
+    }
+  }
+
   return (
     <div>
       {eventsVisible && <div style={{background: 'green'}}>
         <button onClick={removeHandle}>remove</button>
         <br/>
         <button onClick={e => setEventsVisible(false)}>Скрыть меню</button>
+        <br/>
+        <button onClick={copyMessage}>copy</button>
         <br/>
         {currentMessage?.text}
       </div>}

@@ -3,6 +3,7 @@ import {IUser} from "../models/IUser";
 import UsersService from "../firebaseAPI/UsersService";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
+import Loader from "../UI/Loader";
 
 interface UserLinkProps{
   uid: string
@@ -19,7 +20,7 @@ const UserLink: FC<UserLinkProps> = ({uid}) => {
     <>
       {user
         ? <Link to={RouteNames.USER + '/' + uid}>{user.displayName}</Link>
-        : <div>Unnamed</div>
+        : <span>Unnamed</span>
       }
     </>
   );

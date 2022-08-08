@@ -9,6 +9,7 @@ export interface IRoom{
   isDialog: boolean
   description: string
   applications: string[]
+  blockedList: string[]
 }
 
 export interface IParticipant{

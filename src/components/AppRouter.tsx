@@ -21,7 +21,9 @@ const AppRouter = () => {
         <Route path={RouteNames.FEED} element={<FeedPage/>}>
           <Route path={RouteNames.FEED_PARAMS} element={<FeedPage/>}/>
         </Route>
-        <Route path={RouteNames.EDIT_ROOM} element={<EditRoom/>}/>
+        <Route path={RouteNames.EDIT_ROOM} element={<EditRoom/>}>
+          <Route path={RouteNames.EDIT_ROOM_PARAMS} element={<EditRoom/>}/>
+        </Route>
         <Route path={RouteNames.USER} element={<User/>}>
           <Route path={RouteNames.USER_PARAMS} element={<User/>}/>
         </Route>

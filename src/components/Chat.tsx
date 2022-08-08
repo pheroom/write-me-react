@@ -11,16 +11,18 @@ import Room from "./Room";
 import {roomsObserver} from "../firebaseAPI/roomsObserver";
 import {roomsSlice} from "../store/RoomsReducers/RoomsSlice";
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
-import {getMessages, getRoomById} from "../store/RoomReducers/RoomActionCreators";
+import {getRoomData} from "../store/RoomReducers/RoomActionCreators";
 import {RouteNames} from "../router";
 
 const Chat = () => {
+  const [infoVisible, setInfoVisible] = useState(false)
+
   const {roomId} = useParams()
 
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  let {userData, isUserLoading, userError} = useSelectorUser()
+  let {userData} = useSelectorUser()
   const user = userData as IUser
   let {roomsData, roomsError, isRoomsLoading} = useSelectorRooms()
   let {roomData, isRoomLoading, roomError} = useSelectorRoom()
@@ -28,20 +30,20 @@ const Chat = () => {
   const messages = roomData.messages
 
   const {setRooms} = roomsSlice.actions
-  const {setRoom, setMessages} = roomSlice.actions
+  // const {setRoom, setMessages} = roomSlice.actions
 
   useEffect(()=>{
+    dispatch(getAllRooms())
     const unsubscribe = roomsObserver(roomsData, roomsUpdateHandle)
     return unsubscribe
-  },[roomsData])
+  },[])
 
   useEffect(()=>{
+    setInfoVisible(false)
     if(roomId){
-      dispatch(getRoomById(roomId))
-      dispatch(getMessages(roomId))
+      dispatch(getRoomData(roomId))
     } else{
-      dispatch(setRoom(null))
-      dispatch(setMessages(null))
+      dispatch(getRoomData(null))
     }
   },[roomId])
 
@@ -66,7 +68,7 @@ const Chat = () => {
       <h2>Комнаты:</h2>
       <RoomsSide rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
       <br/>
-      {room && <Room uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>}
+      {room && <Room infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>}
       <br/>
     </div>
   );

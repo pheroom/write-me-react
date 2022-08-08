@@ -17,7 +17,8 @@ export default class RoomsService {
       avatarURL: null,
       isDialog: false,
       description: '',
-      applications: []
+      applications: [],
+      blockedList: []
     })
     return await RoomsService.getRoom(roomId)
   }
@@ -34,9 +35,37 @@ export default class RoomsService {
     await remove(ref(getDatabase(), 'roomsInfo/' + roomId))
     return roomId
   }
+  static async blockUser(roomId: string, uid: string, blockedUid: string) {
+    const room = await RoomsService.getRoom(roomId)
+    if(room && room.participants[uid] !== ParticipantStatuses.HOST)
+      throw new Error('Вы не можете блокировать кого-то в этой комнате')
+    delete room.participants[blockedUid]
+    const newParticipants = {...room.participants}
+    const newBlockedList = room.blockedList ? [...room.blockedList, blockedUid] : [blockedUid]
+    await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants, blockedList: newBlockedList})
+    return {participants: newParticipants, blockedList: newBlockedList}
+  }
+  static async unblockUser(roomId: string, uid: string, blockedUid: string) {
+    const room = await RoomsService.getRoom(roomId)
+    if(room && room.participants[uid] !== ParticipantStatuses.HOST)
+      throw new Error('Вы не можете разблокировать кого-то в этой комнате')
+    const newParticipants = {...room.participants, [blockedUid]: ParticipantStatuses.COMMON}
+    const newBlockedList = room.blockedList ? room.blockedList.filter((userId: string) => userId !== blockedUid) : []
+    await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants, blockedList: newBlockedList})
+    return {participants: newParticipants, blockedList: newBlockedList}
+  }
   static async addParticipant(roomId: string, uid: string) {
     const room = await RoomsService.getRoom(roomId)
     const newParticipants = {...room.participants, [uid]: ParticipantStatuses.COMMON}
+    await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
+    return newParticipants
+  }
+  static async removeParticipant(roomId: string, uid: string) {
+    const room = await RoomsService.getRoom(roomId)
+    if(room.participants[uid] === ParticipantStatuses.HOST)
+      throw new Error('Вы не можете покинуть эту группу')
+    delete room.participants[uid]
+    const newParticipants = {...room.participants}
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
     return newParticipants
   }
@@ -46,22 +75,26 @@ export default class RoomsService {
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
     return newParticipants
   }
-  static async addApplication(roomId: string, uid: string) {
+  static async addApplication(roomId: string, aid: string) {
     const room = await RoomsService.getRoom(roomId)
-    const newApplications = room.applications ? [...room.applications, uid] : [uid]
+    const newApplications = room.applications ? [...room.applications, aid] : [aid]
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {applications: newApplications})
     return newApplications
   }
-  static async acceptApplication(roomId: string, uid: string) {
+  static async acceptApplication(roomId: string, uid: string, aid: string) {
     const room = await RoomsService.getRoom(roomId)
-    const newParticipants = {...room.participants, [uid]: ParticipantStatuses.COMMON}
-    const newApplications = room.applications.filter((userId: string) => userId !== uid)
+    if(room.participants[uid] !== ParticipantStatuses.HOST)
+      throw new Error('У ваc нет прав на это действие')
+    const newParticipants = {...room.participants, [aid]: ParticipantStatuses.COMMON}
+    const newApplications = room.applications ? room.applications.filter((userId: string) => userId !== aid) : []
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants, applications: newApplications})
     return {participants: newParticipants, applications: newApplications}
   }
-  static async rejectApplication(roomId: string, uid: string) {
+  static async rejectApplication(roomId: string, uid: string, aid: string) {
     const room = await RoomsService.getRoom(roomId)
-    const newApplications = room.applications.filter((userId: string) => userId !== uid)
+    if(room.participants[uid] !== ParticipantStatuses.HOST)
+      throw new Error('У ваc нет прав на это действие')
+    const newApplications = room.applications ? room.applications.filter((userId: string) => userId !== aid) : []
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {applications: newApplications})
     return newApplications
   }
