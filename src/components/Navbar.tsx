@@ -3,7 +3,7 @@ import s from '../styles/Navbar.module.css'
 import Logo from "./Logo";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
-import {useAppDispatch, useAppSelector} from "../store";
+import {useAppDispatch} from "../store";
 import {signOut} from "../store/UserReducers/UserActionCreators";
 import {useSelectorUser} from "../hooks/redux";
 

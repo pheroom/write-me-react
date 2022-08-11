@@ -4,7 +4,7 @@ import {IUser} from "../models/IUser";
 import UsersService from "../firebaseAPI/UsersService";
 import Loader from "../UI/Loader";
 
-const User = () => {
+const UserPage = () => {
   const [user, setUser] = useState<null | IUser>(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -31,4 +31,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default UserPage;

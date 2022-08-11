@@ -8,11 +8,10 @@ import {addMessage, removeParticipant} from "../store/RoomReducers/RoomActionCre
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
 import Messages from "./Messages";
 import JoinToRoom from "./JoinToRoom";
-import UserLink from "./UserLink";
 import {Link, useNavigate} from "react-router-dom";
 import {RouteNames} from "../router";
-import Loader from "../UI/Loader";
 import {roomObserver} from "../firebaseAPI/roomObserver";
+import Loader from "../UI/Loader";
 
 interface RoomProps {
   room: IRoom
@@ -31,7 +30,6 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  // let {roomData, isRoomLoading, roomError} = useSelectorRoom()
   const {setMessages, setRoom} = roomSlice.actions
 
   useEffect(()=>{
@@ -41,7 +39,7 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
       unsubscribeMessages()
       unsubscribeInfo()
     }
-  },[])
+  },[room.roomId])
 
   function messagesUpdateHandle(newMessages: IMessage[] | null){
     dispatch(setMessages(newMessages))
@@ -51,6 +49,7 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
     dispatch(setRoom(newRoom))
   }
 
+  //todo
   function removeRoomHandle() {
     removeRoom(room.roomId)
   }
@@ -65,7 +64,12 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
     navigate(RouteNames.FEED)
   }
 
+  function copyInviteLink(){
+    navigator.clipboard.writeText(window.location.href)
+  }
+
   if(!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>
+  if(isLoading) return <Loader/>
   return (
     <div>
       <div onClick={e => setInfoVisible(true)} style={{border: '2px solid orange'}}>
@@ -84,14 +88,7 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
           <br/>
           {room.isPrivate ? "Это приватная комната" : "Это публичная комната"}
           <br/>
-          <div style={{border: '2px solid teal'}}>
-            {/*<h4>Учасстники:</h4>*/}
-            {/*{Object.entries(room.participants).map(([pid, status]) =>*/}
-            {/*  <div key={pid}>*/}
-            {/*    <UserLink uid={pid}/>: {status}*/}
-            {/*  </div>*/}
-            {/*)}*/}
-          </div>
+          <button onClick={copyInviteLink}>copy invite link</button>
           {room.participants[uid] === ParticipantStatuses.HOST
             ? <Link to={RouteNames.EDIT_ROOM + '/' + room.roomId}>Редактировать комнату</Link>
             : <button onClick={leaveRoom}>Отписаться</button>
@@ -111,3 +108,12 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
 };
 
 export default Room;
+
+//<div style={{border: '2px solid teal'}}>
+//             <h4>Учасстники:</h4>
+//             {Object.entries(room.participants).map(([pid, status]) =>
+//               <div key={pid}>
+//                 <UserLink uid={pid}/>: {status}
+//               </div>
+//             )}
+//           </div>

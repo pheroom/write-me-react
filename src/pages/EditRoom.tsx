@@ -14,9 +14,7 @@ import {
 } from "../store/RoomReducers/RoomActionCreators";
 import {useParams} from "react-router-dom";
 import {roomSlice} from "../store/RoomReducers/RoomSlice";
-import {messagesObserver} from "../firebaseAPI/messagesObserver";
 import {roomObserver} from "../firebaseAPI/roomObserver";
-import {IMessage} from "../models/IMessage";
 
 const EditRoom = () => {
   const {roomData, roomError, isRoomLoading} = useSelectorRoom()
@@ -26,7 +24,7 @@ const EditRoom = () => {
 
   const dispatch = useAppDispatch()
   const {userData} = useSelectorUser()
-  const {setMessages, setRoom} = roomSlice.actions
+  const {setRoom} = roomSlice.actions
 
   useEffect(()=>{
     if(room && room.roomId){

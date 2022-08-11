@@ -116,8 +116,7 @@ export const roomSlice = createSlice({
       state.isLoading = false;
       state.error = ''
       if(state.data.room) {
-        state.data.room.participants = action.payload.participants
-        state.data.room.applications = action.payload.applications
+        state.data.room.blockedList = action.payload
       }
     },
     [unblockUser.pending.type]: (state) => {

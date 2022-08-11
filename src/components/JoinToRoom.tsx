@@ -1,10 +1,7 @@
 import React, {FC} from 'react';
 import {IRoom} from "../models/IRoom";
 import {useAppDispatch} from "../store";
-import {useSelectorRoom} from "../hooks/redux";
-import {roomSlice} from "../store/RoomReducers/RoomSlice";
 import {addApplication, addParticipant} from "../store/RoomReducers/RoomActionCreators";
-import {removeRoom} from "../store/RoomsReducers/RoomsActionCreators";
 import Error from "../UI/Error";
 
 interface JoinToRoomProps {

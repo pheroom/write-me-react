@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {useNameInput} from "../UI/useNameInput";
-import Checkbox from "../UI/Checkbox";
 import {useCheckbox} from "../UI/useCheckbox";
 
 interface CreateRoomProps{

@@ -49,10 +49,9 @@ export default class RoomsService {
     const room = await RoomsService.getRoom(roomId)
     if(room && room.participants[uid] !== ParticipantStatuses.HOST)
       throw new Error('Вы не можете разблокировать кого-то в этой комнате')
-    const newParticipants = {...room.participants, [blockedUid]: ParticipantStatuses.COMMON}
     const newBlockedList = room.blockedList ? room.blockedList.filter((userId: string) => userId !== blockedUid) : []
-    await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants, blockedList: newBlockedList})
-    return {participants: newParticipants, blockedList: newBlockedList}
+    await update(ref(getDatabase(), 'roomsInfo/' + roomId), {blockedList: newBlockedList})
+    return newBlockedList
   }
   static async addParticipant(roomId: string, uid: string) {
     const room = await RoomsService.getRoom(roomId)
