@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import {useAppDispatch, useAppSelector} from "../store";
-import {isEmail} from "../utils/isEmail";
 import {userSignIn} from "../store/UserReducers/UserActionCreators";
 import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
@@ -13,7 +12,7 @@ const SignIn = () => {
   const {passwordInput, password} = usePasswordInput('')
 
   const dispatch = useAppDispatch()
-  const {data, isLoading, error} = useAppSelector(state => state.user)
+  const {isLoading, error} = useAppSelector(state => state.user)
 
   function signIn(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()

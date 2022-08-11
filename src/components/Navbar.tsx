@@ -3,19 +3,27 @@ import s from '../styles/Navbar.module.css'
 import Logo from "./Logo";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
-import {useAppSelector} from "../store";
+import {useAppDispatch} from "../store";
+import {signOut} from "../store/UserReducers/UserActionCreators";
+import {useSelectorUser} from "../hooks/redux";
 
 const Navbar = () => {
-  const {data: user} = useAppSelector(state => state.user)
+  const {userData} = useSelectorUser()
+  const dispatch = useAppDispatch()
+
+  function logout(){
+    dispatch(signOut())
+  }
 
   return (
-    user
+    userData
       ? <header className={s.navbar}>
         <div className="container">
           <div className={s.inner}>
-            <Link to={RouteNames.CHAT}><Logo/></Link>
+            <Link to={RouteNames.FEED}><Logo/></Link>
             <Link to={RouteNames.EDIT_PROFILE}>Редактировать профиль</Link>
-            <h3>{user.displayName}</h3>
+            <h3>{userData.displayName}</h3>
+            <button onClick={logout}>logout</button>
           </div>
         </div>
       </header>

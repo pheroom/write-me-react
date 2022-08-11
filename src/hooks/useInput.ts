@@ -71,6 +71,6 @@ export const useInput = (initialValue: string, validations: object) => {
   }
 
   return {
-    value, onChange, onBlur, isDirty, ...valid
+    value, onChange, onBlur, isDirty, setValue, ...valid
   }
 }

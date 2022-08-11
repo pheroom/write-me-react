@@ -37,5 +37,12 @@ export const changePassword = createAsyncThunk(
   }
 )
 
+export const signOut = createAsyncThunk(
+  'user/signOut',
+  async () => {
+    return await AuthService.signOut(getAuth())
+  }
+)
+
 
 
