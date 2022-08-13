@@ -1,6 +1,7 @@
 import {useInput} from "../hooks/useInput";
 import {loginRule} from "../utils/validationRules";
 import React from "react";
+import Input from "./Input";
 
 export const useLoginInput = (value: string, ...args: any[]) => {
   const login = useInput(value, loginRule)
@@ -10,7 +11,7 @@ export const useLoginInput = (value: string, ...args: any[]) => {
     {(login.isDirty && !login.isEmpty && login.isMinLength) && <div>min length</div>}
     {(login.isDirty && login.isMaxLength) && <div>max length</div>}
     {(login.isDirty && login.isNotLettersNumUnder) && <div>is not only letters and numbers</div>}
-    <input
+    <Input
       type="text"
       value={login.value}
       onChange={login.onChange}

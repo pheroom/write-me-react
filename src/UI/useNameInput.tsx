@@ -1,6 +1,7 @@
 import {useInput} from "../hooks/useInput";
 import React from "react";
 import {nameRule} from "../utils/validationRules";
+import Input from "./Input";
 
 export const useNameInput = (value: string, ...args: any[]) => {
   const name = useInput(value, nameRule)
@@ -9,7 +10,7 @@ export const useNameInput = (value: string, ...args: any[]) => {
     {(name.isDirty && name.isEmpty) && <div>is empty</div>}
     {(name.isDirty && !name.isEmpty && name.isMinLength) && <div>min length</div>}
     {(name.isDirty && name.isMaxLength) && <div>max length</div>}
-    <input
+    <Input
       type="text"
       value={name.value}
       onChange={name.onChange}

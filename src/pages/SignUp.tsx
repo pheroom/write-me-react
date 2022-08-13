@@ -7,6 +7,7 @@ import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import {useEmailInput} from "../UI/useEmailInput";
 import Loader from "../UI/Loader";
+import ButtonMedium from "../UI/ButtonMedium";
 
 const SignUp = () => {
   const {loginInput, login} = useLoginInput('')
@@ -16,24 +17,29 @@ const SignUp = () => {
   const dispatch = useAppDispatch()
   const {isLoading, error} = useAppSelector(state => state.user)
 
-  function signUp(e: React.FormEvent<HTMLFormElement>){
+  function signUp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     dispatch(userSignUp({login: login.value, email: email.value, password: password.value}))
   }
 
-  if(isLoading) return <Loader/>
+  if (isLoading) return <Loader/>
 
   return (
-    <div>
-      {error && <div>{error}</div>}
-      <form onSubmit={signUp}>
-        {loginInput}
-        {emailInput}
-        {passwordInput}
-        <button disabled={!login.inputValid || !email.inputValid || !password.inputValid} type={'submit'}>Sign Un</button>
-      </form>
-      <Link to={RouteNames.SIGNIN}>to sign in</Link>
-    </div>
+    <main className={'sign-up'}>
+      <div className="sign-up__inner">
+        <h3 className={'sign-up__title'}>Регистрация</h3>
+        {error && <div>{error}</div>}
+        <form onSubmit={signUp} className={'sign-up__form'}>
+          {loginInput}
+          {emailInput}
+          {passwordInput}
+          <ButtonMedium className={'sign-up__button'} disabled={!login.inputValid || !email.inputValid || !password.inputValid} type={'submit'}>
+            Sign Un
+          </ButtonMedium>
+        </form>
+        <Link to={RouteNames.SIGNIN}>to sign in</Link>
+      </div>
+    </main>
   );
 };
 

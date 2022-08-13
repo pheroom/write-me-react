@@ -1,6 +1,6 @@
 import React from 'react';
 import s from "../styles/Logo.module.css";
-import logo from "../assets/free-icon-speech-bubble-4081342.png";
+import logo from "../assets/logo.png";
 
 const Logo = () => {
   return (

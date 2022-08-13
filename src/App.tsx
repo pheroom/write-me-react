@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import './App.css'
+import './styles/index.scss'
 import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
 import {initializeApp} from "firebase/app";

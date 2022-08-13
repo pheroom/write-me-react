@@ -1,0 +1,40 @@
+.input{
+  all: unset;
+  border-bottom: 1px solid $disabledCol;
+  padding: 6px 0;
+  &:focus{
+    border-bottom: 2px solid $activeCol;
+    padding: 6px 0 5px 0;
+  }
+}
+
+.password-input{
+  display: flex;
+  align-items: center;
+  &__view{
+    height: 25px;
+  }
+}
+
+.button-medium{
+  color: white;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 12px 19px;
+  border-radius: 4px;
+  min-width: 150px;
+  background-color: $activeCol;
+  &:disabled{
+    background-color: $disabledCol;
+  }
+}
+
+a{
+  color: $activeCol;
+}
+
+.checkbox{
+
+}
