@@ -8,6 +8,7 @@ import {usePasswordInput} from "../UI/usePasswordInput";
 import {useEmailInput} from "../UI/useEmailInput";
 import Loader from "../UI/Loader";
 import ButtonMedium from "../UI/ButtonMedium";
+import Error from "../UI/Error";
 
 const SignUp = () => {
   const {loginInput, login} = useLoginInput('')
@@ -28,16 +29,16 @@ const SignUp = () => {
     <main className={'sign-up'}>
       <div className="sign-up__inner">
         <h3 className={'sign-up__title'}>Регистрация</h3>
-        {error && <div>{error}</div>}
+        {error && <Error message={error}/>}
         <form onSubmit={signUp} className={'sign-up__form'}>
           {loginInput}
           {emailInput}
           {passwordInput}
           <ButtonMedium className={'sign-up__button'} disabled={!login.inputValid || !email.inputValid || !password.inputValid} type={'submit'}>
-            Sign Un
+            Зарегистрироваться
           </ButtonMedium>
         </form>
-        <Link to={RouteNames.SIGNIN}>to sign in</Link>
+        <Link className={'sign-up__link'} to={RouteNames.SIGNIN}>Войти в аккаунт</Link>
       </div>
     </main>
   );

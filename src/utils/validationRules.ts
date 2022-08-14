@@ -7,7 +7,7 @@ export const loginRule = {
 
 export const passwordRule = {
   minLength: 6,
-  maxLength: 16,
+  maxLength: 30,
   isEmpty: false,
   isNotLettersNumUnder: false
 }

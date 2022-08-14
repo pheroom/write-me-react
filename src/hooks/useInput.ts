@@ -36,7 +36,7 @@ const useValidation = (value: string, validations: validations) => {
         case 'isNotEmail':
           isEmail(value) ? setIsNotEmail(false) : setIsNotEmail(true)
           break
-        case 'isLettersNumUnder':
+        case 'isNotLettersNumUnder':
           isOnlyLettersNumbersUnderscores(value) ? setIsNotLettersNumUnder(false) : setIsNotLettersNumUnder(true)
           break
       }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import {useAppDispatch, useAppSelector} from "../store";
@@ -7,34 +7,46 @@ import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import Loader from "../UI/Loader";
 import ButtonMedium from "../UI/ButtonMedium";
+import TemporaryError from "../UI/TemporaryError";
+import {userSlice} from "../store/UserReducers/UserSlice";
+import Error from "../UI/Error";
+import RegularLoader from "../UI/RegularLoader";
 
 const SignIn = () => {
-  const {loginInput, login} = useLoginInput('')
-  const {passwordInput, password} = usePasswordInput('')
+  const {loginInput, login} = useLoginInput('', 'sign-in__input', 'sign-in__input-box')
+  const {passwordInput, password} = usePasswordInput('', 'sign-in__input', 'sign-in__input-box')
 
   const dispatch = useAppDispatch()
+  const {resetError} = userSlice.actions
   const {isLoading, error} = useAppSelector(state => state.user)
+
+  useEffect(()=>{
+    return () => {
+      dispatch(resetError())
+    }
+  }, [])
 
   function signIn(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
     dispatch(userSignIn({login: login.value, password: password.value}))
   }
 
-  if(isLoading) return <Loader/>
-
   return (
   <main className={'sign-in'}>
+    {isLoading && <Loader/>}
     <div className="sign-in__inner">
       <h3 className={'sign-in__title'}>Вход</h3>
-      {error && <div>{error}</div>}
+      {error && <div className={'sign-in__error'}>
+        <Error message={error}/>
+      </div>}
       <form onSubmit={signIn} className={'sign-in__form'}>
         {loginInput}
         {passwordInput}
         <ButtonMedium className={'sign-in__button'} disabled={!login.inputValid || !password.inputValid} type={'submit'}>
-          Sign In
+          Войти
         </ButtonMedium>
       </form>
-      <Link to={RouteNames.SIGNUP}>to sign up</Link>
+      <Link className={'sign-in__link'} to={RouteNames.SIGNUP}>Создать аккаунт</Link>
     </div>
   </main>
   );

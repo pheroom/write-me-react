@@ -47,9 +47,11 @@ function App() {
     }
   }, [user, loading, error])
 
-  if(loading || isLoading) return <Loader/>
+  // if(loading || isLoading) return <Loader/>
   return (
     <div className='app'>
+
+      {(loading || isLoading) && <Loader/>}
       {errorFirebase && <div>{errorFirebase.message}</div>}
       <Navbar/>
       <AppRouter/>

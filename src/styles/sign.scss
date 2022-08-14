@@ -1,13 +1,28 @@
 .sign-up, .sign-in{
+  margin: 0 10px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #EDEEF2;
+  &__inner{
+    width: 400px;
+    background-color: #fff;
+    padding: 26px 30px;
+    border-radius: 9px;
+  }
+  &__error{
+    margin-bottom: 10px;
+  }
   &__title{
     margin-bottom: 10px;
   }
+  &__input-box, &__input{
+    min-width: 100%;
+  }
   &__form{
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -17,5 +32,8 @@
   }
   &__button{
     margin-top: 10px;
+  }
+  &__link{
+    color: $activeCol;
   }
 }

@@ -2,23 +2,24 @@ import {useInput} from "../hooks/useInput";
 import {loginRule} from "../utils/validationRules";
 import React from "react";
 import Input from "./Input";
+import LabelError from "./LabelError";
 
-export const useLoginInput = (value: string, ...args: any[]) => {
+export const useLoginInput = (value: string, className?: string, boxClassName?: string) => {
   const login = useInput(value, loginRule)
 
-  const loginInput = <div>
-    {(login.isDirty && login.isEmpty) && <div>is empty</div>}
-    {(login.isDirty && !login.isEmpty && login.isMinLength) && <div>min length</div>}
-    {(login.isDirty && login.isMaxLength) && <div>max length</div>}
-    {(login.isDirty && login.isNotLettersNumUnder) && <div>is not only letters and numbers</div>}
+  const loginInput = <div className={boxClassName}>
     <Input
-      type="text"
+      error={login.isDirty && !login.inputValid}
       value={login.value}
       onChange={login.onChange}
       onBlur={login.onBlur}
       placeholder={'Логин'}
-      {...args}
+      className={className}
     />
+    {(login.isDirty && login.isEmpty) && <LabelError>Имя не укказано</LabelError>}
+    {(login.isDirty && !login.isEmpty && login.isMinLength) && <LabelError>Имя слишком короткое</LabelError>}
+    {(login.isDirty && login.isMaxLength) && <LabelError>Имя слишком длинное</LabelError>}
+    {(login.isDirty && !login.isEmpty && login.isNotLettersNumUnder) && <LabelError>Имя содержит некорректные символы</LabelError>}
   </div>
 
   return {loginInput, login}

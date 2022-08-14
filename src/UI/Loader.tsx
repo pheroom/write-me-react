@@ -2,8 +2,10 @@ import React from 'react';
 
 const Loader = () => {
   return (
-    <div style={{background: 'green'}}>
-      Loader...
+    <div className={'loader-large'}>
+      <div className={'loader-large__inner'}>
+        <div className="loader-large__spinner"></div>
+      </div>
     </div>
   );
 };
