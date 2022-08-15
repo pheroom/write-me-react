@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles/index.scss'
 import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
@@ -13,6 +13,8 @@ import {IFirebaseUser} from "./models/IFirebaseUser";
 import {getStorage} from "firebase/storage";
 import {useAuthState} from "react-firebase-hooks/auth";
 import Loader from "./UI/Loader";
+import SideMenu from "./components/SideMenu";
+import {useSelectorUser} from "./hooks/redux";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCVlhvxUeJ_wISXgIiYmg48_o6js6NqpYo",
@@ -31,9 +33,14 @@ const database = getDatabase(app);
 const auth = getAuth(app)
 const storage = getStorage(app)
 
+export const menuVisibleContext = React.createContext({status: false, change: () => console.warn('menuVisibleContext.change не реализован')})
+
 function App() {
+  const [menuVisible, setMenuVisible] = useState(false)
+  const menuVisibleContextState = {status: menuVisible, change: () => setMenuVisible(prev => !prev)}
+
   const dispatch = useAppDispatch()
-  const {data, isLoading, error} = useAppSelector(state => state.user)
+  const {userData, userError, isUserLoading} = useSelectorUser()
   const {setUser} = userSlice.actions
 
   const [user, loading, errorFirebase] = useAuthState(getAuth())
@@ -41,21 +48,23 @@ function App() {
   useEffect(() => {
     if (user) {
       const firebaseObj = getUserByFirebaseObject(auth.currentUser as IFirebaseUser)
-      if (JSON.stringify(data) !== JSON.stringify(firebaseObj)) {
+      if (JSON.stringify(userData) !== JSON.stringify(firebaseObj)) {
         dispatch(setUser(firebaseObj))
       }
     }
-  }, [user, loading, error])
+  }, [user, loading, userError])
 
-  // if(loading || isLoading) return <Loader/>
+  if(loading) return <Loader/>
   return (
-    <div className='app'>
-
-      {(loading || isLoading) && <Loader/>}
-      {errorFirebase && <div>{errorFirebase.message}</div>}
-      <Navbar/>
-      <AppRouter/>
-    </div>
+    <menuVisibleContext.Provider value={menuVisibleContextState}>
+      <div className='app'>
+        {isUserLoading && <Loader/>}
+        {errorFirebase && <div>{errorFirebase.message}</div>}
+        {menuVisible && userData && <SideMenu user={userData}/>}
+        <Navbar/>
+        <AppRouter/>
+      </div>
+    </menuVisibleContext.Provider>
   );
 }
 

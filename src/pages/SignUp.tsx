@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import {useAppDispatch, useAppSelector} from "../store";
@@ -9,27 +9,36 @@ import {useEmailInput} from "../UI/useEmailInput";
 import Loader from "../UI/Loader";
 import ButtonMedium from "../UI/ButtonMedium";
 import Error from "../UI/Error";
+import {userSlice} from "../store/UserReducers/UserSlice";
 
 const SignUp = () => {
-  const {loginInput, login} = useLoginInput('')
-  const {emailInput, email} = useEmailInput('')
-  const {passwordInput, password} = usePasswordInput('')
+  const {loginInput, login} = useLoginInput('', 'sign-up__input', 'sign-up__input-box')
+  const {emailInput, email} = useEmailInput('', 'sign-up__input', 'sign-up__input-box')
+  const {passwordInput, password} = usePasswordInput('', 'sign-up__input', 'sign-up__input-box')
 
   const dispatch = useAppDispatch()
+  const {resetError} = userSlice.actions
   const {isLoading, error} = useAppSelector(state => state.user)
+
+  useEffect(()=>{
+    return () => {
+      dispatch(resetError())
+    }
+  }, [])
 
   function signUp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     dispatch(userSignUp({login: login.value, email: email.value, password: password.value}))
   }
 
-  if (isLoading) return <Loader/>
-
+  if(isLoading) return <Loader/>
   return (
     <main className={'sign-up'}>
       <div className="sign-up__inner">
         <h3 className={'sign-up__title'}>Регистрация</h3>
-        {error && <Error message={error}/>}
+        {error && <div className={'sign-in__error'}>
+          <Error message={error}/>
+        </div>}
         <form onSubmit={signUp} className={'sign-up__form'}>
           {loginInput}
           {emailInput}

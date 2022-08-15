@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Logo from "./Logo";
 import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import {useAppDispatch} from "../store";
 import {signOut} from "../store/UserReducers/UserActionCreators";
 import {useSelectorUser} from "../hooks/redux";
+import ButtonLineRegular from "../UI/ButtonLineRegular";
+import ProfilePane from "./ProfilePane";
 
 const Navbar = () => {
+
   const {userData} = useSelectorUser()
   const dispatch = useAppDispatch()
 
@@ -21,9 +24,10 @@ const Navbar = () => {
           userData
             ? <div className={'navbar__inner'}>
               <Link to={RouteNames.FEED}><Logo/></Link>
-              <Link to={RouteNames.EDIT_PROFILE}>Редактировать профиль</Link>
-              <h3>{userData.displayName}</h3>
-              <button onClick={logout}>logout</button>
+              <ProfilePane user={userData}/>
+              {/*<Link to={RouteNames.EDIT_PROFILE}>Редактировать профиль</Link>*/}
+              {/*<h3>{userData.displayName}</h3>*/}
+              <ButtonLineRegular onClick={logout}>Выйти</ButtonLineRegular>
             </div>
             : <Logo/>
         }

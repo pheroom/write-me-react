@@ -1,0 +1,24 @@
+.profile-pane{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 5px 10px;
+  cursor: pointer;
+  &__email, &__name{
+    padding-bottom: 2px;
+  }
+  &:hover &__name, &:hover &__email{
+    border-bottom: 2px solid white;
+    padding-bottom: 0;
+  }
+  &__info{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  &__img{
+    height: 50px;
+  }
+}

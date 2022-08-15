@@ -4,17 +4,17 @@ import {emailRule} from "../utils/validationRules";
 import Input from "./Input";
 import LabelError from "./LabelError";
 
-export const useEmailInput = (value: string, ...args: any[]) => {
+export const useEmailInput = (value: string, className?: string, boxClassName?: string) => {
   const email = useInput(value, emailRule)
 
-  const emailInput = <div>
+  const emailInput = <div className={boxClassName}>
     <Input
       value={email.value}
       error={email.isDirty && !email.inputValid}
       onChange={email.onChange}
       onBlur={email.onBlur}
       placeholder={'Электронная почта'}
-      {...args}
+      className={className}
     />
     {(email.isDirty && email.isEmpty) && <LabelError>Почта не укказана</LabelError>}
     {(email.isDirty && email.isMaxLength) && <LabelError>Почта слишком длинная</LabelError>}

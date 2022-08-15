@@ -59,16 +59,16 @@ const FeedPage = () => {
   }
 
   return (
-    <div>
-      <h2>Создать комнату:</h2>
-      <CreateRoom createRoom={createRoomHandle}/>
-      <br/>
-      <h2>Комнаты:</h2>
+    <main className={'feed'}>
+      {/*<h2>Создать комнату:</h2>*/}
+      {/*<CreateRoom createRoom={createRoomHandle}/>*/}
       <RoomsSide rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
+      {room
+        ? <Room infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>
+        : <div>Комната не выбрана</div>
+      }
       <br/>
-      {room && <Room infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>}
-      <br/>
-    </div>
+    </main>
   );
 };
 

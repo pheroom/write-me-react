@@ -7,10 +7,8 @@ import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import Loader from "../UI/Loader";
 import ButtonMedium from "../UI/ButtonMedium";
-import TemporaryError from "../UI/TemporaryError";
 import {userSlice} from "../store/UserReducers/UserSlice";
 import Error from "../UI/Error";
-import RegularLoader from "../UI/RegularLoader";
 
 const SignIn = () => {
   const {loginInput, login} = useLoginInput('', 'sign-in__input', 'sign-in__input-box')

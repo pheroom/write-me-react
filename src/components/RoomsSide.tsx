@@ -1,8 +1,10 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {Link} from "react-router-dom";
 import {IRoom} from "../models/IRoom";
 import Loader from "../UI/Loader";
 import Error from "../UI/Error";
+import BurgerMenu from "../UI/BurgerMenu";
+import {menuVisibleContext} from "../App";
 
 interface RoomsSideProps {
   rooms: IRoom[] | null
@@ -11,13 +13,16 @@ interface RoomsSideProps {
 }
 
 const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error}) => {
+  const {status, change} = useContext(menuVisibleContext)
+
   if (isLoading) return <Loader/>
   return (
-    <div>
+    <div className={'rooms-side'}>
       {error && <Error message={error}/>}
+      <BurgerMenu status={status} change={change}/>
       {rooms
         ? rooms.map(room =>
-          <Link to={room.roomId} key={room.roomId}>
+          <Link className={'rooms-side__room'} to={room.roomId} key={room.roomId}>
             {room.avatarURL && <img src={room.avatarURL} alt="avatar"/>}
             <h3>{room.title}</h3>
           </Link>

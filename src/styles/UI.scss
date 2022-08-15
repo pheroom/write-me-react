@@ -21,15 +21,25 @@
 .password-input{
   display: flex;
   align-items: center;
-  &__inner{
-    min-width: 100%;
-  }
+  position: relative;
   &__elem{
-    all: unset;
+    width: 100%;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid $disabledCol;
+    padding: 6px 30px 6px 0;
+  }
+  &__elem--error{
+    border-bottom: 2px solid $errorCol;
+    padding: 6px 30px 5px 0;
+  }
+  &__elem:focus{
+    border-bottom: 2px solid $activeCol;
+    padding: 6px 30px 5px 0;
   }
   &__view{
-    position: relative;
-    right: 25px;
+    position: absolute;
+    right: 0px;
     height: 25px;
   }
 }
@@ -50,6 +60,29 @@
   }
 }
 
+.button-line-regular{
+  color: white;
+  border: 1px solid white;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 10px 25px;
+  border-radius: 7px;
+  min-width: 150px;
+  background-color: transparent;
+  &:disabled{
+    right: 70px;
+    background-color: $disabledCol;
+  }
+}
+
+.burger-menu{
+  &__img{
+    height: 50px;
+    cursor: pointer;
+  }
+}
+
 .temporary-error{
   color: $errorCol;
 }
@@ -57,7 +90,7 @@
 .error{
   background: rgba(0, 0, 0, 0.75);
   color: white;
-  padding: 7px 8px;
+  padding: 8px 10px;
   border-radius: 3.16667px;
 }
 
