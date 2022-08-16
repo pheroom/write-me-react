@@ -12,6 +12,7 @@ import {roomsObserver} from "../firebaseAPI/roomsObserver";
 import {roomsSlice} from "../store/RoomsReducers/RoomsSlice";
 import {getRoomData} from "../store/RoomReducers/RoomActionCreators";
 import {RouteNames} from "../router";
+import SideMenu from "../components/SideMenu";
 
 const FeedPage = () => {
   const [infoVisible, setInfoVisible] = useState(false)
@@ -60,12 +61,11 @@ const FeedPage = () => {
 
   return (
     <main className={'feed'}>
-      {/*<h2>Создать комнату:</h2>*/}
-      {/*<CreateRoom createRoom={createRoomHandle}/>*/}
-      <RoomsSide rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
+      {userData && <SideMenu user={userData}/>}
+      <RoomsSide className={'feed__side'} currentRoom={roomData.room} rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
       {room
-        ? <Room infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>
-        : <div>Комната не выбрана</div>
+        ? <Room className={'feed__room'} infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>
+        : <div className={'feed__room'}>Комната не выбрана</div>
       }
       <br/>
     </main>

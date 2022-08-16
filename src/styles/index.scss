@@ -8,6 +8,8 @@
 @import 'navbar';
 @import 'sign';
 @import 'profile';
+@import 'rooms';
+@import 'menu';
 
 html, body{
   height: 100%;
@@ -57,30 +59,10 @@ main{
 
 .feed{
   display: flex;
-
-}
-
-.rooms-side{
-  background-color: #acafb6;
-}
-
-.side-menu{
-  z-index: 100;
-  position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, .75);
-  &__inner{
-    background-color: #517DA2;
-    width: 30%;
-    height: 100%;
-    margin-left: -1000%;
-    transition: 5s;
-  }
-  &__inner--active{
-    margin-left: 0;
+  &__room{
+    flex: 1 1 auto;
+    background-color: $backgroundCol;
+    color: white;
   }
 }
 

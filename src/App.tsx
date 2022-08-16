@@ -60,8 +60,6 @@ function App() {
       <div className='app'>
         {isUserLoading && <Loader/>}
         {errorFirebase && <div>{errorFirebase.message}</div>}
-        {menuVisible && userData && <SideMenu user={userData}/>}
-        <Navbar/>
         <AppRouter/>
       </div>
     </menuVisibleContext.Provider>

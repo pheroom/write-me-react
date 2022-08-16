@@ -22,9 +22,10 @@ interface RoomProps {
   uid: string
   infoVisible: boolean
   setInfoVisible: (status: boolean) => void
+  className: string
 }
 
-const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error, setInfoVisible, infoVisible}) => {
+const Room: FC<RoomProps> = ({className, uid, room, removeRoom, messages, isLoading, error, setInfoVisible, infoVisible}) => {
   const [text, setText] = useState('')
 
   const navigate = useNavigate()
@@ -71,7 +72,7 @@ const Room: FC<RoomProps> = ({uid, room, removeRoom, messages, isLoading, error,
   if(!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>
   if(isLoading) return <Loader/>
   return (
-    <div>
+    <div className={'current-room ' + className}>
       <div onClick={e => setInfoVisible(true)} style={{border: '2px solid orange'}}>
         {room.avatarURL ? <img src={room.avatarURL} alt={'room avatar'}/> : "Фотография не установлена"}
         <br/>

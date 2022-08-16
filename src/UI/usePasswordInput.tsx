@@ -25,16 +25,4 @@ export const usePasswordInput = (value: string, className?: string, boxClassName
   return {passwordInput, password}
 }
 
-//<Input
-//         type={visible ? 'text' : 'password'}
-//         error={password.isDirty && !password.inputValid}
-//         value={password.value}
-//         onChange={password.onChange}
-//         onBlur={password.onBlur}
-//         placeholder={'Пароль'}
-//         className={'password-input__elem ' + className}
-//       />
-//<img className={'password-input__view'} src={visible ? viewActive : viewDisabled} onClick={() => setVisible(prev => !prev)} alt={visible ? 'не показывать' : 'показывать'}/>
-
-
 
