@@ -10,7 +10,7 @@ const ProfilePane = ({user}: { user: IUser }) => {
            src={user.photoURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
            alt="avatar"/>
       <div className={'profile-pane__info'}>
-        <div className={'profile-pane__name'}>suzuya</div>
+        <div className={'profile-pane__name'}>{user.displayName}</div>
         <div className={'profile-pane__email'}>{user.email}</div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 .side-menu{
   &__header{
-    padding: 20px 22px 14px;
+    padding: 20px 22px 12px;
     border-bottom: 1px solid $separateCol;
   }
   &__footer{
@@ -8,13 +8,12 @@
     color: $minorFontCol;
   }
   &__footer-title{
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 500;
     margin-bottom: 3px;
   }
   &__footer-info{
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 13px;
   }
   &__footer-about{
     cursor: pointer;
@@ -39,7 +38,7 @@
     top: 0;
     bottom: 0;
     background-color: $themeCol;
-    width: 275px;
+    width: 273px;
     height: 100%;
     transform: translateX(-100%);
     transition: 0.25s;
@@ -56,7 +55,7 @@
 }
 
 .nav{
-  margin-top: 7px;
+  margin-top: 6px;
   &__img{
     height: 22px;
   }
@@ -64,7 +63,7 @@
     background-color: #232E3C;
   }
   &__link{
-    font-size: 14px;
+    font-size: 13px;
     padding: 8px 20px;
     cursor: pointer;
     width: 100%;

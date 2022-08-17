@@ -1,29 +1,24 @@
-.current-room{
-  background-color: $backgroundCol;
-  //width: 100%;
-  color: white;
-}
-
 .rooms-side{
   min-width: 250px;
   width: 350px;
   position: relative;
   border-right: 1px solid $separateCol;
   &__inner{
-    max-height: calc(100vh - 56px);
+    max-height: calc(100vh - 60px);
     overflow: hidden;
   }
   &__inner:hover{
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   &__inner::-webkit-scrollbar-track{
-    background-color: #2F3841;
+    background-color: rgba(#2F3841, .5);
   }
   &__inner::-webkit-scrollbar{
-    width: 5px;
+    width: 3px;
   }
   &__inner::-webkit-scrollbar-thumb{
     background-color: #696F74;
+    border-radius: 1px;
   }
   &__resize{
     position: absolute;
@@ -36,7 +31,7 @@
     cursor: e-resize
   }
   &__header{
-    padding: 8px 12px 8px 3px;
+    padding: 5px 12px 5px 3px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -71,14 +66,14 @@
     width: calc(100% - 50px);
   }
   &__name{
-    margin-bottom: 7px;
+    margin-bottom: 3px;
     color: white;
   }
   &__description{
     color: $minorFontCol;
   }
   &__description, &__name{
-    padding-right: 10px;
+    padding-right: 8px;
     font-size: 14px;
     max-width: 100%;
     overflow: hidden;

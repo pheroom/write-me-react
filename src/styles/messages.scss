@@ -1,0 +1,101 @@
+.messages{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  &__message--send{
+    align-self: flex-end;
+  }
+  &__down-box{
+    position: fixed;
+    right: 20px;
+    z-index: 20;
+    bottom: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1D2B3A;
+    border-radius: 50%;
+    width: 40px;
+    min-height: 40px;
+    cursor: pointer;
+    animation: downArrowAppearance 1s;
+  }
+  &__down-box:hover{
+    background-color: #243446;
+  }
+  &__down-img{
+    margin-top: 2px;
+    width: 30px;
+  }
+}
+
+@keyframes downArrowAppearance {
+  from {
+    transform: translateX(100px)
+  } to {
+        transform: translateY(0)
+    }
+}
+
+.message{
+  display: flex;
+  gap: 10px;
+  &__name{
+    color: $authorSmsCol;
+  }
+  &__main{
+    font-size: 14px;
+    position: relative;
+    padding: 8px 10px;
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 20px;
+    }
+    background-color: $messageCol;
+  }
+  &__main--receive{
+    border-radius: 5px 5px 5px 0;
+    &::before {
+      right: 100%;
+      background-color: $messageCol;
+    }
+    &::after {
+      right: 100%;
+      background-color: $backgroundCol;
+      border-bottom-right-radius: 10px;
+    }
+  }
+  &__main--send{
+    border-radius: 5px 5px 0 5px;
+    &::before {
+      left: 100%;
+      background-color: $messageCol;
+    }
+    &::after {
+      left: 100%;
+      background-color: $backgroundCol;
+      border-bottom-left-radius: 10px;
+    }
+  }
+  &__avatar--send{
+    order: 1;
+  }
+  &__avatar{
+    z-index: 1;
+    align-self: flex-end;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+  }
+}

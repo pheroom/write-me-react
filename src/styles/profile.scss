@@ -4,16 +4,15 @@
   justify-content: space-between;
   flex-direction: column;
   gap: 17px;
-  font-size: 14px;
+  font-size: 13px;
   &__name{
     color: #ffffff;
-    margin-bottom: 2px;
+    margin-bottom: 0px;
   }
   &__info, &__img{
     cursor: pointer;
   }
   &__email{
-    font-weight: 300;
     color: $minorFontCol;
   }
   &__info{
