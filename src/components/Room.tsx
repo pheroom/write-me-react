@@ -14,6 +14,7 @@ import {roomObserver} from "../firebaseAPI/roomObserver";
 import sendActIcon from '../assets/icons/send-active.png'
 import sendDisIcon from '../assets/icons/send-disabled.png'
 import {useObserverVisible} from "../hooks/useObserverVisible";
+import Modal from "../UI/Modal";
 
 interface RoomProps {
   room: IRoom
@@ -89,10 +90,10 @@ const Room: FC<RoomProps> = ({
 
   const [screenScrolled, setScreenScrolled] = useState(true)
 
-  function scrollToBottom(){
+  function scrollToBottom() {
     setScreenScrolled(false)
-    if(messagesRef.current){
-      messagesRef.current.scroll({ top: messagesRef.current.scrollHeight, behavior: 'smooth' })
+    if (messagesRef.current) {
+      messagesRef.current.scroll({top: messagesRef.current.scrollHeight, behavior: 'smooth'})
     }
   }
 
@@ -104,10 +105,10 @@ const Room: FC<RoomProps> = ({
   React.useLayoutEffect(() => {
     if (textareaRef.current && messagesRef.current && formRef.current) {
       textareaRef.current.style.height = "13px";
-      let newTextAreaHeight = Math.min(textareaRef.current.scrollHeight, 300-20)
+      let newTextAreaHeight = Math.min(textareaRef.current.scrollHeight, 300 - 20)
       textareaRef.current.style.height = `${newTextAreaHeight}px`;
       messagesRef.current.style.maxHeight = `${window.innerHeight - 54 - formRef.current.scrollHeight}px`
-      if(toBotBtnRef.current){
+      if (toBotBtnRef.current) {
         toBotBtnRef.current.style.bottom = `${formRef.current.scrollHeight + 20}px`
       }
     }
@@ -120,33 +121,18 @@ const Room: FC<RoomProps> = ({
         <h5 className={'current-room__title'}>{room.title}</h5>
         <div className={'current-room__count-participants'}>{Object.entries(room.participants).length} подписчиков</div>
       </div>
+      {infoVisible && <Modal title={'Channel Info'} closeModal={() => setInfoVisible(false)}/>}
       {error && <Error message={error}/>}
-      {infoVisible
-        ? <div>
-          {room.authorId}
-          <br/>
-          {(new Date(room.createdAt)).toString()}
-          <br/>
-          {room.isPrivate ? "Это приватная комната" : "Это публичная комната"}
-          <br/>
-          <button onClick={copyInviteLink}>copy invite link</button>
-          {room.participants[uid] === ParticipantStatuses.HOST
-            ? <Link to={RouteNames.EDIT_ROOM + '/' + room.roomId}>Редактировать комнату</Link>
-            : <button onClick={leaveRoom}>Отписаться</button>
-          }
-          <button onClick={e => setInfoVisible(false)}>Скрыть информацию</button>
-        </div>
-        : <>
-          <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled}  setScreenScrolled={setScreenScrolled} className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages} uid={uid}/>
-          <form ref={formRef} onSubmit={sendMessage} className={'current-room__form'}>
+      <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
+                className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages}
+                uid={uid}/>
+      <form ref={formRef} onSubmit={sendMessage} className={'current-room__form'}>
             <textarea rows={1} ref={textareaRef} className={'current-room__input'} value={text} onChange={changeHandle}
                       placeholder={'Напишите что-нибудь...'}/>
-            <button className={'current-room__send-btn'} type={'submit'} disabled={!text}>
-              <img className={'current-room__send-img'} src={text ? sendActIcon : sendDisIcon} alt="send"/>
-            </button>
-          </form>
-        </>
-      }
+        <button className={'current-room__send-btn'} type={'submit'} disabled={!text}>
+          <img className={'current-room__send-img'} src={text ? sendActIcon : sendDisIcon} alt="send"/>
+        </button>
+      </form>
     </div>
   );
 };
@@ -161,3 +147,31 @@ export default Room;
 //               </div>
 //             )}
 //           </div>
+
+
+//{infoVisible
+//         ? <div>
+//           {room.authorId}
+//           <br/>
+//           {(new Date(room.createdAt)).toString()}
+//           <br/>
+//           {room.isPrivate ? "Это приватная комната" : "Это публичная комната"}
+//           <br/>
+//           <button onClick={copyInviteLink}>copy invite link</button>
+//           {room.participants[uid] === ParticipantStatuses.HOST
+//             ? <Link to={RouteNames.EDIT_ROOM + '/' + room.roomId}>Редактировать комнату</Link>
+//             : <button onClick={leaveRoom}>Отписаться</button>
+//           }
+//           <button onClick={e => setInfoVisible(false)}>Скрыть информацию</button>
+//         </div>
+//         : <>
+//           <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled}  setScreenScrolled={setScreenScrolled} className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages} uid={uid}/>
+//           <form ref={formRef} onSubmit={sendMessage} className={'current-room__form'}>
+//             <textarea rows={1} ref={textareaRef} className={'current-room__input'} value={text} onChange={changeHandle}
+//                       placeholder={'Напишите что-нибудь...'}/>
+//             <button className={'current-room__send-btn'} type={'submit'} disabled={!text}>
+//               <img className={'current-room__send-img'} src={text ? sendActIcon : sendDisIcon} alt="send"/>
+//             </button>
+//           </form>
+//         </>
+//       }

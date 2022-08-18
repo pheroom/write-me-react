@@ -22,6 +22,15 @@ body{
   font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
   overflow-x: hidden;
+  & *::selection {
+    background: #2E70A5; /* Safari */
+  }
+  & *::-moz-selection {
+    background: #2E70A5; /* Firefox */
+  }
+  //& *{
+  //  user-select: none;
+  //}
 }
 
 h1{

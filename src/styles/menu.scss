@@ -22,7 +22,7 @@
     border-bottom: 1px solid $minorFontCol;
   }
   &__bg--active{
-    z-index: 10000;
+    z-index: 1000;
     background-color: rgba(0, 0, 0, .47);
     position: absolute;
     right: 0;
@@ -31,7 +31,7 @@
     bottom: 0;
   }
   &__inner{
-    z-index: 10000;
+    z-index: 1000;
     position: fixed;
     right: 0;
     left: 0;
