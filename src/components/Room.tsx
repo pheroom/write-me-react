@@ -14,7 +14,8 @@ import {roomObserver} from "../firebaseAPI/roomObserver";
 import sendActIcon from '../assets/icons/send-active.png'
 import sendDisIcon from '../assets/icons/send-disabled.png'
 import {useObserverVisible} from "../hooks/useObserverVisible";
-import Modal from "../UI/Modal";
+import Modal from "../UI/Modal/Modal";
+import RoomInfoModal from "./ModalApplied/RoomInfoModal";
 
 interface RoomProps {
   room: IRoom
@@ -72,7 +73,7 @@ const Room: FC<RoomProps> = ({
     e.preventDefault()
     dispatch(addMessage({text, authorId: uid, roomId: room.roomId}))
     setText('')
-    scrollToBottom()
+    // scrollToBottom()
   }
 
   function leaveRoom() {
@@ -121,7 +122,7 @@ const Room: FC<RoomProps> = ({
         <h5 className={'current-room__title'}>{room.title}</h5>
         <div className={'current-room__count-participants'}>{Object.entries(room.participants).length} подписчиков</div>
       </div>
-      {infoVisible && <Modal title={'Channel Info'} closeModal={() => setInfoVisible(false)}/>}
+      {infoVisible && <RoomInfoModal leaveRoom={leaveRoom} room={room} closeModal={() => setInfoVisible(false)}/>}
       {error && <Error message={error}/>}
       <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
                 className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages}

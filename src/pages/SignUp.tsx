@@ -7,7 +7,7 @@ import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import {useEmailInput} from "../UI/useEmailInput";
 import Loader from "../UI/Loader";
-import ButtonMedium from "../UI/ButtonMedium";
+import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
 import Error from "../UI/Error";
 import {userSlice} from "../store/UserReducers/UserSlice";
 

@@ -13,14 +13,21 @@ interface MessageProps{
   setEventsVisible: (message: IMessage) => void
   className: string
   isMyMessage: boolean
+  scrollToBottom: () => void
 }
 
-const Message: FC<MessageProps> = ({setEventsVisible, message, className, isMyMessage}) => {
+const Message: FC<MessageProps> = ({scrollToBottom, setEventsVisible, message, className, isMyMessage}) => {
   const [user, setUser] = useState<null | IUser>(null)
 
   useEffect(()=>{
     UsersService.getUser(message.authorId).then(user => setUser(user))
   }, [message.authorId])
+
+  useEffect(()=>{
+    if(user){
+      scrollToBottom()
+    }
+  }, [user])
 
   if(!user) return <RegularLoader/>
   return (

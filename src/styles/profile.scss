@@ -1,4 +1,4 @@
-.profile-pane{
+.profile-preview-large{
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -23,6 +23,39 @@
   }
   &__img{
     height: 50px;
+    width: 50px;
     border-radius: 50%;
+  }
+}
+
+.profile-preview-small{
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  font-size: 13px;
+  &__img{
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+  }
+  &__info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    max-width: 50%;
+  }
+  &__email, &__name{
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__name{
+    color: $majorFontCol;
+    margin-bottom: 2px;
+  }
+  &__email{
+    color: $minorFontCol;
   }
 }

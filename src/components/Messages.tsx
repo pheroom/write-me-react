@@ -71,7 +71,7 @@ const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toB
       </div>}
       {messages
         ? messages.map(message =>
-          <Message key={message.messageId} message={message} setEventsVisible={setEventsVisibleHandle} isMyMessage={message.authorId === uid} className={message.authorId === uid ? 'messages__message--send' : 'messages__message--receive'}/>
+          <Message scrollToBottom={scrollToBottom} key={message.messageId} message={message} setEventsVisible={setEventsVisibleHandle} isMyMessage={message.authorId === uid} className={message.authorId === uid ? 'messages__message--send' : 'messages__message--receive'}/>
         )
         : <div>Сообщений пока нет</div>
       }

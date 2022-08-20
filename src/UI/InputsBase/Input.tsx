@@ -2,14 +2,13 @@ import React, {FC, InputHTMLAttributes} from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement>{
   className?: string
-  error?: boolean
 }
 
-const Input: FC<InputProps> = ({className, error, ...args}) => {
+const Input: FC<InputProps> = ({className, ...args}) => {
   return (
     <input
       type="text"
-      className={'input ' + (error ? ' input--error ' : '') + (className ? className : '')}
+      className={'input ' + (className || '')}
       {...args}
     />
   );

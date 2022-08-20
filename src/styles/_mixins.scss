@@ -1,2 +1,8 @@
-
-
+@mixin selection-col($color) {
+  & *::selection {
+    background: $color;
+  }
+  & *::-moz-selection {
+    background: $color;
+  }
+}

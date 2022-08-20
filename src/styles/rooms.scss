@@ -4,21 +4,12 @@
   position: relative;
   border-right: 1px solid $separateCol;
   &__inner{
-    max-height: calc(100vh - 60px);
     overflow: hidden;
-  }
-  &__inner:hover{
-    overflow-y: auto;
-  }
-  &__inner::-webkit-scrollbar-track{
-    background-color: rgba(#2F3841, .5);
-  }
-  &__inner::-webkit-scrollbar{
-    width: 3px;
-  }
-  &__inner::-webkit-scrollbar-thumb{
-    background-color: #696F74;
-    border-radius: 1px;
+    max-height: calc(100vh - 60px);
+    &:hover{
+      overflow-y: auto;
+    }
+    @extend %scroll-light;
   }
   &__resize{
     position: absolute;
@@ -37,7 +28,8 @@
     gap: 5px;
   }
   &__menu-btn{
-    flex-shrink: 0;
+    padding: 11px;
+    height: 44px;
   }
   &__search{
     flex: 1 1 auto;
@@ -73,7 +65,6 @@
     color: $minorFontCol;
   }
   &__description, &__name{
-    padding-right: 8px;
     font-size: 14px;
     max-width: 100%;
     overflow: hidden;

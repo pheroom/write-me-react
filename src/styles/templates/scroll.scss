@@ -1,0 +1,28 @@
+%scroll-medium {
+  &::-webkit-scrollbar-track{
+    background-color: rgba(#2F3841, .5);
+  }
+  &::-webkit-scrollbar{
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: rgba(#696F74, .5);
+    &:hover{
+      background-color: #696F74;
+    }
+    border-radius: 10px;
+  }
+}
+
+%scroll-light {
+  &::-webkit-scrollbar-track{
+    background-color: rgba(#2F3841, .5);
+  }
+  &::-webkit-scrollbar{
+    width: 3px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: #696F74;
+    border-radius: 1px;
+  }
+}

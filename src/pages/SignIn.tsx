@@ -6,7 +6,7 @@ import {userSignIn} from "../store/UserReducers/UserActionCreators";
 import {useLoginInput} from "../UI/useLoginInput";
 import {usePasswordInput} from "../UI/usePasswordInput";
 import Loader from "../UI/Loader";
-import ButtonMedium from "../UI/ButtonMedium";
+import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
 import {userSlice} from "../store/UserReducers/UserSlice";
 import Error from "../UI/Error";
 

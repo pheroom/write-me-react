@@ -5,6 +5,9 @@
 @import '_mixins';
 
 @import 'UI';
+@import 'UI/index';
+@import 'templates/index';
+
 @import 'navbar';
 @import 'sign';
 @import 'profile';
@@ -22,34 +25,10 @@ body{
   font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
   overflow-x: hidden;
-  & *::selection {
-    background: #2E70A5; /* Safari */
+  @include selection-col(#2E70A5);
+  & *{
+    user-select: none;
   }
-  & *::-moz-selection {
-    background: #2E70A5; /* Firefox */
-  }
-  //& *{
-  //  user-select: none;
-  //}
-}
-
-h1{
-  font-size: 50px;
-}
-
-h2{
-  font-size: 30px;
-}
-
-h3{
-  font-size: 24px;
-}
-
-h4{
-  font-size: 20px;
-}
-h6{
-  font-size: 16px;
 }
 
 .container{

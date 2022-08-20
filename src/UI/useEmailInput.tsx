@@ -1,14 +1,14 @@
 import {useInput} from "../hooks/useInput";
 import React from "react";
 import {emailRule} from "../utils/validationRules";
-import Input from "./Input";
+import InputUnderlined from "./InputsBase/InputUnderlined";
 import LabelError from "./LabelError";
 
 export const useEmailInput = (value: string, className?: string, boxClassName?: string) => {
   const email = useInput(value, emailRule)
 
   const emailInput = <div className={boxClassName}>
-    <Input
+    <InputUnderlined
       value={email.value}
       error={email.isDirty && !email.inputValid}
       onChange={email.onChange}

@@ -3,9 +3,12 @@ import {Link} from "react-router-dom";
 import {IRoom} from "../models/IRoom";
 import Loader from "../UI/Loader";
 import Error from "../UI/Error";
-import BurgerMenu from "../UI/BurgerMenu";
+import ava from "../assets/ava.jpg";
 import {menuVisibleContext} from "../App";
 import InputFillPrimary from "../UI/InputFillPrimary";
+import ButtonHoverImg from "../UI/ButtonsBase/ButtonHoverImg";
+import burgerDisIcon from "../assets/icons/burger-disabled.png";
+import burgerActIcon from "../assets/icons/burger-active.png";
 
 interface RoomsSideProps {
   rooms: IRoom[] | null
@@ -58,7 +61,7 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
         onDrag={resize}
       />
       <div className={'rooms-side__header'}>
-        <BurgerMenu className={'rooms-side__menu-btn'} status={status} change={change}/>
+        <ButtonHoverImg className={'rooms-side__menu-btn'} imgDisabled={burgerDisIcon} imgActive={burgerActIcon} onClick={change}/>
         <InputFillPrimary classNameBox={'rooms-side__search'} placeholder={'Search'} value={text} onChange={e => setText(e.target.value)} resetValue={resetText}/>
       </div>
       <div className="rooms-side__inner">
@@ -67,7 +70,7 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
             <Link className={'room-link ' + (currentRoom?.roomId === room.roomId ? 'room-link--active' : '')}
                   to={room.roomId} key={room.roomId}>
               <img className={'room-link__img'}
-                   src={room.avatarURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
+                   src={room.avatarURL || ava}
                    alt="avatar"/>
               <div className="room-link__info">
                 <h3 className={'room-link__name'}>{room.title}</h3>

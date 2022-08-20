@@ -1,14 +1,14 @@
 import {useInput} from "../hooks/useInput";
 import {loginRule} from "../utils/validationRules";
 import React from "react";
-import Input from "./Input";
+import InputUnderlined from "./InputsBase/InputUnderlined";
 import LabelError from "./LabelError";
 
 export const useLoginInput = (value: string, className?: string, boxClassName?: string) => {
   const login = useInput(value, loginRule)
 
   const loginInput = <div className={boxClassName}>
-    <Input
+    <InputUnderlined
       error={login.isDirty && !login.inputValid}
       value={login.value}
       onChange={login.onChange}

@@ -5,8 +5,8 @@ import {RouteNames} from "../router";
 import {useAppDispatch} from "../store";
 import {signOut} from "../store/UserReducers/UserActionCreators";
 import {useSelectorUser} from "../hooks/redux";
-import ButtonLineRegular from "../UI/ButtonLineRegular";
-import ProfilePane from "./ProfilePane";
+import ButtonLineRegular from "../UI/ButtonsBase/ButtonLineRegular";
+import ProfilePreviewLarge from "./ProfilePreviewLarge";
 
 const Navbar = () => {
 
@@ -24,7 +24,7 @@ const Navbar = () => {
           userData
             ? <div className={'navbar__inner'}>
               <Link to={RouteNames.FEED}><Logo/></Link>
-              <ProfilePane user={userData}/>
+              <ProfilePreviewLarge user={userData}/>
               {/*<Link to={RouteNames.EDIT_PROFILE}>Редактировать профиль</Link>*/}
               {/*<h3>{userData.displayName}</h3>*/}
               <ButtonLineRegular onClick={logout}>Выйти</ButtonLineRegular>
