@@ -1,5 +1,6 @@
 import React, {createRef, useEffect, useState} from 'react';
 import Img from "../UI/Img";
+import img from "../UI/Img";
 
 const EditImage = () => {
   const [photo, setPhoto] = useState<undefined | null | File>(undefined)
@@ -18,49 +19,50 @@ const EditImage = () => {
   }, [controllerRef])
 
   useEffect(()=>{
-    if(photo){
-      crop(photo, 1).then((canvas: HTMLCanvasElement) => {
+    moveControllerHandle(0, 0)
+  }, [photo])
+
+  function moveControllerHandle(x: number, y: number, side?: number){
+    if(photo && innerRef.current){
+      crop(photo, innerRef.current, x, y, side).then((canvas: HTMLCanvasElement) => {
         if(controllerPhotoRef.current?.firstChild){
           controllerPhotoRef.current?.removeChild(controllerPhotoRef.current?.firstChild)
         }
         controllerPhotoRef.current?.appendChild(canvas)
       });
     }
-  }, [photo])
+  }
 
+  // function getPhoto(){
+  //   const el = document.getElementById('canvas') as HTMLCanvasElement
+  //   if(controllerPhotoRef.current){
+  //     controllerPhotoRef.current.innerHTML = `<img src=${el.toDataURL('image/png')} alt='img'/>`
+  //   }
+  // }
 
-
-  function crop(img: File, aspectRatio: number): Promise<HTMLCanvasElement> {
+  function crop(img: File, container: HTMLDivElement, x: number, y: number, side?: number): Promise<HTMLCanvasElement> {
 
     return new Promise(resolve => {
 
       const inputImage = new Image();
 
       inputImage.onload = () => {
-        // const inputWidth = inputImage.naturalWidth;
-        // const inputHeight = inputImage.naturalHeight;
-        //
-        // const inputImageAspectRatio = inputWidth / inputHeight;
-        //
-        // let outputWidth = inputWidth;
-        // let outputHeight = inputHeight;
-        // if (inputImageAspectRatio > aspectRatio) {
-        //   outputWidth = inputHeight * aspectRatio;
-        // } else if (inputImageAspectRatio < aspectRatio) {
-        //   outputHeight = inputWidth / aspectRatio;
-        // }
-        //
-        // const outputX = (outputWidth - inputWidth) * .5;
-        // const outputY = (outputHeight - inputHeight) * .5;
-        //
-        // const outputImage = document.createElement('canvas');
-        //
-        // outputImage.width = outputWidth;
-        // outputImage.height = outputHeight;
-        //
-        // const ctx = outputImage.getContext('2d');
-        // ctx?.drawImage(inputImage, outputX, outputY);
-        // resolve(outputImage);
+        const innerCoords = container.getBoundingClientRect()
+
+        const initWidth = innerCoords.width;
+        const initHeight = innerCoords.height;
+
+        const outputImage = document.createElement('canvas');
+
+        outputImage.dataset.resize = 'controller'
+        outputImage.id = 'canvas'
+
+        outputImage.width = side || initWidth;
+        outputImage.height =  side || initHeight;
+
+        const ctx = outputImage.getContext('2d');
+        ctx?.drawImage(inputImage, x, y);
+        resolve(outputImage);
       };
 
       inputImage.src = URL.createObjectURL(img)
@@ -92,15 +94,23 @@ const EditImage = () => {
 
         if(pageX < elCoords.left || pageY < elCoords.top){
           newSide = Math.max(elCoords.width + elCoords.left - pageX, elCoords.width + elCoords.top - pageY)
-          newTop = pageY - innerCoords.top
-          newLeft = pageX - innerCoords.left
+          if(newSide <= innerCoords.width || newSide <= innerCoords.height){
+            newTop = pageY - innerCoords.top
+            newLeft = pageX - innerCoords.left
+          }else{
+            return
+          }
         } else {
           newSide = Math.min(elCoords.width + elCoords.left - pageX, elCoords.width + elCoords.top - pageY)
-          newTop = pageY - innerCoords.top
-          newLeft = pageX - innerCoords.left
+          if(newSide >= 30){
+            newTop = pageY - innerCoords.top
+            newLeft = pageX - innerCoords.left
+          }else{
+            return
+          }
         }
 
-        newSide = Math.min(Math.max(newSide, 50), innerCoords.height)
+        newSide = Math.min(Math.max(newSide, 30), innerCoords.height)
         newTop = Math.min(Math.max(newTop, 0), innerCoords.height - newSide)
         newLeft = Math.min(Math.max(newLeft, 0), innerCoords.width - newSide)
 
@@ -108,6 +118,7 @@ const EditImage = () => {
         controllerRef.current.style.height = newSide + 'px';
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
+        moveControllerHandle(-newLeft, -newTop, newSide)
       }
     }
 
@@ -150,6 +161,8 @@ const EditImage = () => {
 
         newLeft = newLeft < 0 ? 0 : ( newLeft + widthEl > widthInner ? widthInner - widthEl : newLeft )
         newTop = newTop < 0 ? 0 : ( newTop + heightEl > heightInner ? heightInner - heightEl : newTop )
+
+        moveControllerHandle(-newLeft, -newTop, widthEl)
 
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
