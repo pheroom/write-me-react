@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import RegularLoader from "../UI/RegularLoader";
 import messages from "./Messages";
+import {getUserByUid} from "../utils/getUserByUid";
 
 interface MessageProps{
   message: IMessage
@@ -20,7 +21,7 @@ const Message: FC<MessageProps> = ({scrollToBottom, setEventsVisible, message, c
   const [user, setUser] = useState<null | IUser>(null)
 
   useEffect(()=>{
-    UsersService.getUser(message.authorId).then(user => setUser(user))
+    getUserByUid(message.authorId, setUser)
   }, [message.authorId])
 
   useEffect(()=>{

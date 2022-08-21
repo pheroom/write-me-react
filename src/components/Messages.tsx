@@ -5,6 +5,7 @@ import {useAppDispatch} from "../store";
 import {removeMessage} from "../store/RoomReducers/RoomActionCreators";
 import arrowIcon from '../assets/icons/arrow-down.png'
 import {useObserverVisible} from "../hooks/useObserverVisible";
+import EditImage from "./EditImage";
 
 interface MessagesProps {
   messages: IMessage[] | null
@@ -75,6 +76,7 @@ const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toB
         )
         : <div>Сообщений пока нет</div>
       }
+      <EditImage/>
       <div className={'messages__down-box'} ref={toBotBtnRef} onClick={scrollToBottom} style={!screenScrolled ? {display: 'none'} : {}}>
         <img className={'messages__down-img'} src={arrowIcon} alt="down"/>
       </div>

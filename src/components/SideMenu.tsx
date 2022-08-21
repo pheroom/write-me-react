@@ -1,7 +1,7 @@
 import React, {FC, useContext} from 'react';
 import {menuVisibleContext} from "../App";
 import {IUser} from "../models/IUser";
-import ProfilePreviewLarge from "./ProfilePreviewLarge";
+import ProfilePreviewMedium from "./ProfilePreviewMedium";
 import groupIcon from '../assets/icons/group.png'
 import profileIcon from '../assets/icons/profile.png'
 
@@ -17,7 +17,7 @@ const SideMenu: FC<SideMenuProps> = ({user}) => {
       <div className={status ? 'side-menu__bg--active' : ''} onClick={e => change()}></div>
       <div className={"side-menu__inner " + (status ? 'side-menu__inner--active' : '')} >
         <div className={'side-menu__header'}>
-          <ProfilePreviewLarge user={user}/>
+          <ProfilePreviewMedium user={user}/>
         </div>
         <div className={'side-menu__nav nav'}>
           <div className={'nav__link'}>

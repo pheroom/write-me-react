@@ -8,7 +8,9 @@ const BlockWithIcon: FC<BlockWithIconProps> = ({children, icon, ...args}) => {
   return (
   <div className="modal__block-with-icon" {...args}>
     <img src={icon} alt="invite" className="modal__block-icon"/>
-    {children}
+    <div>
+      {children}
+    </div>
   </div>
   );
 };

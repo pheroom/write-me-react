@@ -18,6 +18,7 @@ import Modal from "../../UI/Modal/Modal";
 import MainModal from "../../UI/Modal/MainModal";
 import {IRoom} from "../../models/IRoom";
 import MembersListModal from "./MembersListModal";
+import BlockIndentModal from "../../UI/Modal/BlockIndentModal";
 
 interface RoomInfoModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -51,29 +52,33 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, room, leaveRoom}) =>
             </ActionsHeaderModal>
           </HeaderModal>
           <MainModal>
-            <RoomPreviewBrief/>
+            <BlockIndentModal>
+              <RoomPreviewBrief/>
+            </BlockIndentModal>
             <SeparateModal/>
             <BlockWithIcon icon={infoIcon}>
+              <div className={'modal__invite'}>
+                <ButtonCopy className="modal__invite-btn" copyText={window.location.href}>t.me/gpkdota21</ButtonCopy>
+                <LabelLight>Link</LabelLight>
+              </div>
               <div>
-                <div className={'modal__invite'}>
-                  <ButtonCopy className="modal__invite-btn" copyText={window.location.href}>t.me/gpkdota21</ButtonCopy>
-                  <LabelLight>Link</LabelLight>
-                </div>
-                <div>
-                  <PUser className="modal__description-text">
-                    всем привет)Он бета-тестер и зная всё об этой игре, быстро завоевал популярность у игроков
-                  </PUser>
-                  <LabelLight>Description</LabelLight>
-                </div>
+                <PUser className="modal__description-text">
+                  всем привет)Он бета-тестер и зная всё об этой игре, быстро завоевал популярность у игроков
+                </PUser>
+                <LabelLight>Description</LabelLight>
               </div>
             </BlockWithIcon>
             <SeparateModal/>
             <div className="modal__room-members">
-              <ButtonWideModal icon={groupLineIcon} text={'1 subscribers'} onClick={() => setMembersListVisible(true)}/>
+              <ButtonWideModal icon={groupLineIcon} onClick={() => setMembersListVisible(true)}>
+                {`${Object.keys(room.participants).length} members`}
+              </ButtonWideModal>
             </div>
             <SeparateModal/>
             <div className="modal__room-action">
-              <ButtonWideModal icon={exitIcon} text={'Leave channel'} onClick={leaveRoomHandle}/>
+              <ButtonWideModal icon={exitIcon} onClick={leaveRoomHandle}>
+                Leave channel
+              </ButtonWideModal>
             </div>
           </MainModal>
         </Modal>

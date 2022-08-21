@@ -7,5 +7,6 @@ export function getUserByFirebaseObject(user: IFirebaseUser | FirebaseUser): IUs
   let {displayName, email, emailVerified, isAnonymous, photoURL, uid, metadata: {createdAt}, phoneNumber} = user as IFirebaseUser
   photoURL = photoURL || null
   phoneNumber = phoneNumber || null
-  return {displayName, email, emailVerified, isAnonymous, photoURL, uid, createdAt, phoneNumber}
+  let descriptions = null
+  return {displayName, email, emailVerified, isAnonymous, photoURL, uid, createdAt, phoneNumber, descriptions}
 }

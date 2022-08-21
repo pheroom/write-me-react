@@ -7,4 +7,5 @@ export interface IUser {
   isAnonymous: boolean
   createdAt: number
   phoneNumber: string | null
+  descriptions: string | null
 }

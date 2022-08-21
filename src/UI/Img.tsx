@@ -7,7 +7,7 @@ interface ImgProps extends ImgHTMLAttributes<HTMLImageElement>{
 const Img: FC<ImgProps> = ({...args}) => {
   return (
     <img
-      onClick={e => alert('image open')}
+      onClick={e => console.log('image open')}
       onDragStart={e => e.preventDefault()}
       {...args}
     />
