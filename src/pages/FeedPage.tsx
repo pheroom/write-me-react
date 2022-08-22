@@ -61,7 +61,7 @@ const FeedPage = () => {
 
   return (
     <main className={'feed'}>
-      {userData && <SideMenu user={userData}/>}
+      {userData && <SideMenu user={userData} createRoom={createRoomHandle}/>}
       <RoomsSide className={'feed__side'} currentRoom={roomData.room} rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
       {room
         ? <Room className={'feed__room'} infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>

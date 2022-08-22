@@ -1,29 +1,21 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useLayoutEffect} from 'react';
 import Img from "../UI/Img";
-import img from "../UI/Img";
 
-const EditImage = () => {
-  const [photo, setPhoto] = useState<undefined | null | File>(undefined)
+const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: string) => void, cancel: () => void}) => {
   const controllerRef = createRef<HTMLDivElement>()
   const controllerPhotoRef = createRef<HTMLDivElement>()
   const innerRef = createRef<HTMLDivElement>()
-
-  function photoHandle(e: React.ChangeEvent<HTMLInputElement>){
-    if(e.target.files && e.target.files[0]){
-      setPhoto(e.target.files[0])
-    }
-  }
 
   useEffect(()=>{
     controllerRef.current?.addEventListener('mousedown', initResize)
   }, [controllerRef])
 
-  useEffect(()=>{
-    moveControllerHandle(0, 0)
+  useLayoutEffect(()=>{
+    // moveControllerHandle(0, 0)
   }, [photo])
 
-  function moveControllerHandle(x: number, y: number, side?: number){
-    if(photo && innerRef.current){
+  function moveControllerHandle(x: number, y: number, side: number){
+    if(innerRef.current){
       crop(photo, innerRef.current, x, y, side).then((canvas: HTMLCanvasElement) => {
         if(controllerPhotoRef.current?.firstChild){
           controllerPhotoRef.current?.removeChild(controllerPhotoRef.current?.firstChild)
@@ -33,14 +25,23 @@ const EditImage = () => {
     }
   }
 
-  // function getPhoto(){
-  //   const el = document.getElementById('canvas') as HTMLCanvasElement
-  //   if(controllerPhotoRef.current){
-  //     controllerPhotoRef.current.innerHTML = `<img src=${el.toDataURL('image/png')} alt='img'/>`
-  //   }
-  // }
+  function getPhoto(){
+    if(innerRef.current && controllerRef.current){
+      const innerCoords = innerRef.current.getBoundingClientRect()
+      const controllerCoords = controllerRef.current.getBoundingClientRect()
 
-  function crop(img: File, container: HTMLDivElement, x: number, y: number, side?: number): Promise<HTMLCanvasElement> {
+      let x = controllerCoords.left-innerCoords.left
+      let y = controllerCoords.top-innerCoords.top
+
+      crop(photo, innerRef.current, x, y, controllerCoords.height)
+        .then((el: HTMLCanvasElement) => {
+            const imgSrc = el.toDataURL('image/png')
+            photoDone(imgSrc)
+        })
+    }
+  }
+
+  function crop(img: File, container: HTMLDivElement, x: number, y: number, side: number): Promise<HTMLCanvasElement> {
 
     return new Promise(resolve => {
 
@@ -48,23 +49,16 @@ const EditImage = () => {
 
       inputImage.onload = () => {
         const innerCoords = container.getBoundingClientRect()
-
-        const initWidth = innerCoords.width;
-        const initHeight = innerCoords.height;
-
+        const ratio = inputImage.naturalHeight/innerCoords.height
         const outputImage = document.createElement('canvas');
-
-        outputImage.dataset.resize = 'controller'
-        outputImage.id = 'canvas'
-
-        outputImage.width = side || initWidth;
-        outputImage.height =  side || initHeight;
-
+        x*=ratio
+        y*=ratio
+        outputImage.width = side;
+        outputImage.height =  side;
         const ctx = outputImage.getContext('2d');
-        ctx?.drawImage(inputImage, x, y);
+        ctx?.drawImage(inputImage, x, y, side*ratio, side*ratio, 0, 0, side, side);
         resolve(outputImage);
       };
-
       inputImage.src = URL.createObjectURL(img)
     }
     );
@@ -118,7 +112,7 @@ const EditImage = () => {
         controllerRef.current.style.height = newSide + 'px';
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
-        moveControllerHandle(-newLeft, -newTop, newSide)
+        // moveControllerHandle(-newLeft, -newTop, newSide)
       }
     }
 
@@ -162,7 +156,7 @@ const EditImage = () => {
         newLeft = newLeft < 0 ? 0 : ( newLeft + widthEl > widthInner ? widthInner - widthEl : newLeft )
         newTop = newTop < 0 ? 0 : ( newTop + heightEl > heightInner ? heightInner - heightEl : newTop )
 
-        moveControllerHandle(-newLeft, -newTop, widthEl)
+        // moveControllerHandle(-newLeft, -newTop, widthEl)
 
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
@@ -185,17 +179,19 @@ const EditImage = () => {
 
   return (
     <div className={'edit-photo'}>
-      <input type="file" onChange={photoHandle}/>
-      {photo && <div className="edit-photo__inner" ref={innerRef}>
+      <div className="edit-photo__inner" ref={innerRef}>
         <Img className={'edit-photo__photo'} src={URL.createObjectURL(photo)}/>
-        <div ref={controllerRef} className='edit-photo__controller' data-resize={'controller'}>
-          <div ref={controllerPhotoRef} className="edit-photo__controller-photo" data-resize={'controller'}></div>
-          <span className="edit-photo__groove edit-photo__groove-q" data-resize={'groove-q'}></span>
-          <span className="edit-photo__groove edit-photo__groove-w" data-resize={'groove-w'}></span>
-          <span className="edit-photo__groove edit-photo__groove-e" data-resize={'groove-e'}></span>
-          <span className="edit-photo__groove edit-photo__groove-r" data-resize={'groove-r'}></span>
-        </div>
-      </div>}
+          <div ref={controllerRef} className='edit-photo__controller' data-resize={'controller'}>
+            <span className="edit-photo__groove edit-photo__groove-q" data-resize={'groove-q'}></span>
+            <span className="edit-photo__groove edit-photo__groove-w" data-resize={'groove-w'}></span>
+            <span className="edit-photo__groove edit-photo__groove-e" data-resize={'groove-e'}></span>
+            <span className="edit-photo__groove edit-photo__groove-r" data-resize={'groove-r'}></span>
+          </div>
+      </div>
+      <div className={'button-bar'}>
+        <button className={'button-bar__button'} onClick={cancel}>Cancel</button>
+        <button className={'button-bar__button button-bar__button--active'} onClick={getPhoto}>Done</button>
+      </div>
     </div>
   );
 };
