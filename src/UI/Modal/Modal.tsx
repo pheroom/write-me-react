@@ -2,13 +2,22 @@ import React, {FC, HTMLAttributes} from 'react';
 
 interface ModalProps extends HTMLAttributes<HTMLDivElement>{
   closeModal: () => void
+  widthFromContent?: boolean
+  positionCenter?: boolean
 }
 
-const Modal: FC<ModalProps> = ({closeModal, children}) => {
+const Modal: FC<ModalProps> = ({closeModal, children, positionCenter, widthFromContent, className, ...args}) => {
 
   return (
     <div className={'modal'} onMouseDown={closeModal}>
-      <div className="modal__inner" onMouseDown={e => e.stopPropagation()}>
+      <div
+        className={
+        "modal__inner " +
+          (widthFromContent ? 'modal__inner--width-from-content ' : '') +
+          (positionCenter ? 'modal__inner--position-center ' : '') +
+          (className || '')}
+        onMouseDown={e => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>

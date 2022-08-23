@@ -17,6 +17,13 @@
     width: 390px;
     border-radius: 8px;
     overflow: hidden;
+    &--width-from-content{
+      width: auto;
+    }
+    &--position-center{
+      margin-top: 0;
+      align-self: center;
+    }
   }
   &__separate{
     width: 100%;

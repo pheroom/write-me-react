@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../store";
 import {IUser} from "../models/IUser";
-import {useLoginInput} from "../UI/useLoginInput";
+import {useLoginInput} from "../UI/InputsApplied/useLoginInput";
 import {changePassword, updateUser} from "../store/UserReducers/UserActionCreators";
-import {useEmailInput} from "../UI/useEmailInput";
+import {useEmailInput} from "../UI/InputsApplied/useEmailInput";
 import {IUserUpdates} from "../models/IUserUpdates";
 import Loader from "../UI/Loader";
-import {usePasswordInput} from "../UI/usePasswordInput";
+import {usePasswordInput} from "../UI/InputsApplied/usePasswordInput";
 
 const EditProfile = () => {
   const [photo, setPhoto] = useState<undefined | null | File>(undefined)

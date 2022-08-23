@@ -1,36 +1,51 @@
-import React, {FC, HTMLAttributes} from 'react';
+import React, {FC, HTMLAttributes, useState} from 'react';
 import Modal from "../../UI/Modal/Modal";
 import ImageInput from "../../UI/InputsBase/ImageInput";
 import InputUnderlined from "../../UI/InputsBase/InputUnderlined";
-import {IRoom} from "../../models/IRoom";
-import {useNameInput} from "../../UI/useNameInput";
-import {useCheckbox} from "../../UI/useCheckbox";
-import {createRoom} from "../../store/RoomsReducers/RoomsActionCreators";
-import {useAppDispatch} from "../../store";
+import Button from "../../UI/ButtonsBase/Button";
+import Checkbox from "../../UI/InputsBase/Checkbox";
 
 interface CreateRoomModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
-  createRoom: (title: string, isPrivate: boolean) => void
+  createRoom: (title: string, isPrivate: boolean, photoUrl: string | null) => void
 }
 
 const CreateRoomModal: FC<CreateRoomModalProps> = ({closeModal, createRoom, }) => {
-  const {nameInput, name} = useNameInput('')
-  const {checkbox, checkboxInput} = useCheckbox(false)
+  const [name, setName] = useState('')
+  const [isPrivate, setIsPrivate] = useState(false)
+  const [photoUrl, setPhotoUrl] = useState<null | string>(null)
 
-  function createRoomHandle(e: React.FormEvent<HTMLFormElement>){
-    e.preventDefault()
-    createRoom(name.value, checkbox.value)
-    name.setValue('')
-    checkbox.setStatus(false)
-    closeModal()
+  function createRoomHandle(){
+    if(name){
+      createRoom(name, isPrivate, photoUrl)
+      setName('')
+      setIsPrivate(false)
+      closeModal()
+    }
   }
 
   return (
-    <Modal closeModal={closeModal}>
+    <Modal closeModal={closeModal} className="create-room" widthFromContent positionCenter>
       <div className="create-room__form">
-        <ImageInput size={'large'}/>
-        {nameInput}
-        {checkboxInput}
+          <ImageInput size={'large'} photoUrl={photoUrl} setPhotoUrl={setPhotoUrl}/>
+          <div className="create-room__inputs">
+            <div className="create-room__name-box">
+              <p className={'create-room__name-label'}>Room name</p>
+              <InputUnderlined value={name} onChange={e => setName(e.target.value)} placeholder={'Room name'} className={'create-room__name-input'}/>
+            </div>
+            <div className="create-room__private">
+              <p className={'create-room__private-label'}>Create a private room</p>
+              <Checkbox checked={isPrivate} onChange={() => setIsPrivate(prev => !prev)}/>
+            </div>
+          </div>
+      </div>
+      <div className="create-room__actions">
+        <Button onClick={closeModal}>
+          Cancel
+        </Button>
+        <Button onClick={createRoomHandle}>
+          Create
+        </Button>
       </div>
     </Modal>
   );

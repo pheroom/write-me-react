@@ -8,7 +8,7 @@ import CreateRoomModal from "./ModalApplied/CreateRoomModal";
 
 interface SideMenuProps {
   user: IUser
-  createRoom: (title: string, isPrivate: boolean) => void
+  createRoom: (title: string, isPrivate: boolean, photoUrl: string | null) => void
 }
 
 const SideMenu: FC<SideMenuProps> = ({user, createRoom}) => {

@@ -1,8 +1,8 @@
-import {useInput} from "../hooks/useInput";
+import {useInput} from "../../hooks/useInput";
 import React, {useState} from "react";
-import {passwordRule} from "../utils/validationRules";
-import LabelError from "./LabelError";
-import PasswordInput from "./PasswordInput";
+import {passwordRule} from "../../utils/validationRules";
+import LabelError from "../LabelError";
+import PasswordInput from "../PasswordInput";
 
 export const usePasswordInput = (value: string, className?: string, boxClassName?: string) => {
   const password = useInput(value, passwordRule)

@@ -104,7 +104,7 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
           }
         }
 
-        newSide = Math.min(Math.max(newSide, 30), innerCoords.height)
+        newSide = Math.min(Math.max(newSide, 30), Math.min(innerCoords.height, innerCoords.width))
         newTop = Math.min(Math.max(newTop, 0), innerCoords.height - newSide)
         newLeft = Math.min(Math.max(newLeft, 0), innerCoords.width - newSide)
 
@@ -112,7 +112,6 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
         controllerRef.current.style.height = newSide + 'px';
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
-        // moveControllerHandle(-newLeft, -newTop, newSide)
       }
     }
 

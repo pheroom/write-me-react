@@ -5,7 +5,7 @@ import uniqid from 'uniqid';
 import {IMessage} from "../models/IMessage";
 
 export default class RoomsService {
-  static async addRoom(authorId: string, title: string, isPrivate: boolean) {
+  static async addRoom(authorId: string, title: string, isPrivate: boolean, photoUrl: string | null) {
     const roomId = uniqid()
     await set(ref(getDatabase(), 'roomsInfo/' + roomId), {
       roomId,

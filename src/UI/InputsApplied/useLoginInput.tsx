@@ -1,8 +1,8 @@
-import {useInput} from "../hooks/useInput";
-import {loginRule} from "../utils/validationRules";
+import {useInput} from "../../hooks/useInput";
+import {loginRule} from "../../utils/validationRules";
 import React from "react";
-import InputUnderlined from "./InputsBase/InputUnderlined";
-import LabelError from "./LabelError";
+import InputUnderlined from "../InputsBase/InputUnderlined";
+import LabelError from "../LabelError";
 
 export const useLoginInput = (value: string, className?: string, boxClassName?: string) => {
   const login = useInput(value, loginRule)

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {useNameInput} from "../UI/useNameInput";
-import {useCheckbox} from "../UI/useCheckbox";
+import {useNameInput} from "../UI/InputsApplied/useNameInput";
+import {useCheckbox} from "../UI/InputsApplied/useCheckbox";
 
 interface CreateRoomProps{
   createRoom: (title: string, isPrivate: boolean) => void

@@ -1,8 +1,8 @@
-import {useInput} from "../hooks/useInput";
+import {useInput} from "../../hooks/useInput";
 import React from "react";
-import {emailRule} from "../utils/validationRules";
-import InputUnderlined from "./InputsBase/InputUnderlined";
-import LabelError from "./LabelError";
+import {emailRule} from "../../utils/validationRules";
+import InputUnderlined from "../InputsBase/InputUnderlined";
+import LabelError from "../LabelError";
 
 export const useEmailInput = (value: string, className?: string, boxClassName?: string) => {
   const email = useInput(value, emailRule)

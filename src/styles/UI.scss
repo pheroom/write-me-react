@@ -1,8 +1,10 @@
 .input-underlined{
   all: unset;
   min-width: 200px;
-  border-bottom: 1px solid $disabledCol;
+  border-bottom: 1px solid $minorFontCol;
   padding: 6px 0;
+  font-size: 13px;
+  color: $majorFontCol;
   &:focus{
     border-bottom: 2px solid $activeFontCol;
     padding: 6px 0 5px 0;
@@ -107,6 +109,20 @@
     position: absolute;
     right: 0px;
     height: 25px;
+  }
+}
+
+.button{
+  background: transparent;
+  border: none;
+  //color: $activeFontCol;
+  padding: 8px 15px;
+  color: #6AB2F2;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover{
+    background-color: rgba(black, .3);
   }
 }
 
@@ -409,5 +425,58 @@
     &:hover{
       background-color: rgba(black, .4);
     }
+  }
+}
+
+
+.create-room{
+  padding: 10px 10px 10px 25px;
+  &__form{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 25px 14px 25px 0;
+    gap: 25px;
+  }
+  &__name-input{
+    width: 240px;
+  }
+  &__name-box{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  &__inputs{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+  }
+  &__private{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  &__actions{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+}
+
+.checkbox{
+  cursor: pointer;
+  max-height: 17px;
+  max-width: 17px;
+  & img{
+    height: 17px;
+    width: 17px;
+  }
+  &__input{
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
   }
 }

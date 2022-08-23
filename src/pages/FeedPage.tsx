@@ -50,8 +50,8 @@ const FeedPage = () => {
     dispatch(setRooms(newRooms))
   }
 
-  function createRoomHandle(title: string, isPrivate: boolean){
-    dispatch(createRoom({title, isPrivate, authorId: user.uid}))
+  function createRoomHandle(title: string, isPrivate: boolean, photoUrl: string | null){
+    dispatch(createRoom({title, isPrivate, authorId: user.uid, photoUrl}))
   }
 
   function removeRoomHandle(roomId: string){
