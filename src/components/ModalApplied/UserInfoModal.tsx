@@ -41,8 +41,7 @@ const UserInfoModal: FC<UserInfoModalProps> = ({closeModal, userId, back}) => {
         {back && <ButtonBackIcon alt={'back'} onClick={back} indent/>}
         <TitleModal smallIndent={!!back}>User Info</TitleModal>
         <ActionsHeaderModal>
-          <ButtonCrossIcon className={'modal__close-btn'}
-                           indent
+          <ButtonCrossIcon indent
                            alt={'close'}
                            onClick={closeModal}/>
         </ActionsHeaderModal>

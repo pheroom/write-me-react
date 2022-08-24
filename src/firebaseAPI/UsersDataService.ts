@@ -5,6 +5,7 @@ import {IUserUpdates} from "../models/IUserUpdates";
 import {getUserByFirebaseObject} from "../utils/getUserByFirebaseObject";
 import NamesService from "./NamesService";
 import StorageService from "./StorageService";
+import {getFileImgFromUrl} from "../utils/getFileImgFromUrl";
 
 export default class UsersDataService {
   static async firstUpdateLogin(user: FirebaseUser, newLogin: string){
@@ -20,7 +21,8 @@ export default class UsersDataService {
     }
     let upd: IUserUpdates = {...updates}
     if(updates.photo){
-      let photoURL = await StorageService.addAvatar(user.uid, updates.photo)
+      const photoFile = typeof updates.photo === 'string' ? await getFileImgFromUrl(updates.photo) : updates.photo
+      const photoURL = photoFile ? await StorageService.addAvatar(user.uid, photoFile) : photoFile
       upd = {...upd, photoURL}
     }
     if(updates.displayName){

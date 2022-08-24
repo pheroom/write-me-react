@@ -20,7 +20,7 @@ const EditProfile = () => {
   const {passwordInput, password} = usePasswordInput('')
   const {passwordInput: newPassInput, password: newPass} = usePasswordInput('')
 
-  async function saveChanges(e: React.FormEvent<HTMLFormElement>){
+  function saveChanges(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
     const updates: IUserUpdates = {}
     if(login.value !== user.displayName){

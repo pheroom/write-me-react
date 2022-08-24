@@ -8,7 +8,7 @@ interface TitleModalProps extends HTMLAttributes<HTMLHeadingElement>{
 
 const TitleModal: FC<TitleModalProps> = ({children, smallIndent, className, ...args}) => {
   return (
-    <h3 className={"modal__title " + (smallIndent && 'modal__title--small-indent ' + (className || ''))} {...args}>{children}</h3>
+    <h3 className={"modal__title " + (smallIndent ? 'modal__title--small-indent ' : '') + (className || '')} {...args}>{children}</h3>
   );
 };
 

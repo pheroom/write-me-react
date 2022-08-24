@@ -1,5 +1,5 @@
 export interface IUserUpdates {
-  photo?: File | null
+  photo?: File | string | null
   displayName?: string
   email?: string
   photoURL?: string | null

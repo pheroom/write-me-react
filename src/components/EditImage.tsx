@@ -155,8 +155,6 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
         newLeft = newLeft < 0 ? 0 : ( newLeft + widthEl > widthInner ? widthInner - widthEl : newLeft )
         newTop = newTop < 0 ? 0 : ( newTop + heightEl > heightInner ? heightInner - heightEl : newTop )
 
-        // moveControllerHandle(-newLeft, -newTop, widthEl)
-
         controllerRef.current.style.left = newLeft + 'px';
         controllerRef.current.style.top = newTop + 'px';
       }

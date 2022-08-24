@@ -39,8 +39,7 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, room, back}) =
           {back && <ButtonBackIcon alt={'back'} onClick={back} indent/>}
           <TitleModal smallIndent={!!back}>Members</TitleModal>
           <ActionsHeaderModal>
-            <ButtonCrossIcon className={'modal__close-btn'}
-                             indent
+            <ButtonCrossIcon indent
                              alt={'close'}
                              onClick={closeModal}/>
           </ActionsHeaderModal>

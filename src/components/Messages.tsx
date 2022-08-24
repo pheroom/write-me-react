@@ -22,20 +22,11 @@ const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toB
   const [eventsVisible, setEventsVisible] = useState(false)
   const [currentMessage, setCurrentMessage] = useState<null | IMessage>(null)
 
-  // const [screenScrolled, setScreenScrolled] = useState(true)
-
   const anchorRef = createRef<HTMLDivElement>()
 
   const dispatch = useAppDispatch()
 
   useObserverVisible(anchorRef, setScreenScrolled)
-
-  // function scrollToBottom(){
-  //   setScreenScrolled(false)
-  //   if(messagesRef.current){
-  //     messagesRef.current.scroll({ top: messagesRef.current.scrollHeight, behavior: 'smooth' })
-  //   }
-  // }
 
   function setEventsVisibleHandle(message?: IMessage){
     if(message){

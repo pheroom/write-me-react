@@ -3,10 +3,14 @@ import {ParticipantStatuses} from "../models/IRoom";
 // @ts-ignore
 import uniqid from 'uniqid';
 import {IMessage} from "../models/IMessage";
+import StorageService from "./StorageService";
+import {getFileImgFromUrl} from "../utils/getFileImgFromUrl";
 
 export default class RoomsService {
   static async addRoom(authorId: string, title: string, isPrivate: boolean, photoUrl: string | null) {
     const roomId = uniqid()
+    const photoFile = typeof photoUrl === 'string' ? await getFileImgFromUrl(photoUrl) : photoUrl
+    const photoServerUrl = photoFile ? await StorageService.addRoomAvatar(roomId, photoFile) : photoFile
     await set(ref(getDatabase(), 'roomsInfo/' + roomId), {
       roomId,
       authorId,
@@ -14,7 +18,7 @@ export default class RoomsService {
       title,
       createdAt: serverTimestamp(),
       isPrivate,
-      avatarURL: null,
+      avatarURL: photoServerUrl || null,
       isDialog: false,
       description: '',
       applications: [],

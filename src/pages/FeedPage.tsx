@@ -13,9 +13,16 @@ import {roomsSlice} from "../store/RoomsReducers/RoomsSlice";
 import {getRoomData} from "../store/RoomReducers/RoomActionCreators";
 import {RouteNames} from "../router";
 import SideMenu from "../components/SideMenu";
+import CreateRoomModal from "../components/ModalApplied/CreateRoomModal";
+import EditProfileModal from "../components/ModalApplied/EditProfileModal";
+import Loader from "../UI/Loader";
+import {signOut, updateUser} from "../store/UserReducers/UserActionCreators";
+import {IUserUpdates} from "../models/IUserUpdates";
 
 const FeedPage = () => {
   const [infoVisible, setInfoVisible] = useState(false)
+  const [createRoomVisible, setCreateRoomVisible] = useState(false)
+  const [editProfileVisible, setEditProfileVisible] = useState(false)
 
   const {roomId} = useParams()
 
@@ -59,16 +66,28 @@ const FeedPage = () => {
     navigate(RouteNames.FEED)
   }
 
+  function logout() {
+    dispatch(signOut())
+  }
+
+  function updateProfile(updates: IUserUpdates){
+    dispatch(updateUser(updates))
+  }
+
   return (
-    <main className={'feed'}>
-      {userData && <SideMenu user={userData} createRoom={createRoomHandle}/>}
-      <RoomsSide className={'feed__side'} currentRoom={roomData.room} rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
-      {room
-        ? <Room className={'feed__room'} infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>
-        : <div className={'feed__room'}>Комната не выбрана</div>
-      }
-      <br/>
-    </main>
+    userData
+     ? <main className={'feed'}>
+        {<SideMenu setCreateRoomVisible={setCreateRoomVisible} setEditProfileVisible={setEditProfileVisible} user={userData} createRoom={createRoomHandle}/>}
+        {createRoomVisible && <CreateRoomModal createRoom={createRoomHandle} closeModal={() => setCreateRoomVisible(false)}/>}
+        {editProfileVisible && <EditProfileModal logout={logout} updateProfile={updateProfile} user={userData} closeModal={() => setEditProfileVisible(false)}/>}
+        <RoomsSide className={'feed__side'} currentRoom={roomData.room} rooms={roomsData} error={roomsError} isLoading={isRoomsLoading}/>
+        {room
+          ? <Room className={'feed__room'} infoVisible={infoVisible} setInfoVisible={setInfoVisible} uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading} error={roomError}/>
+          : <div className={'feed__room'}>Комната не выбрана</div>
+        }
+        <br/>
+      </main>
+      : <Loader/>
   );
 };
 

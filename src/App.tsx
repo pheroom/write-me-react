@@ -37,11 +37,7 @@ export const menuVisibleContext = React.createContext({status: false, change: ()
 
 function App() {
   const [menuVisible, setMenuVisible] = useState(false)
-  const menuVisibleContextState = {status: menuVisible, change: () => {
-      setTimeout(() => {
-        setMenuVisible(prev => !prev)
-      }, 0.25)
-    }}
+  const menuVisibleContextState = {status: menuVisible, change: () => setMenuVisible(prev => !prev)}
 
   const dispatch = useAppDispatch()
   const {userData, userError, isUserLoading} = useSelectorUser()

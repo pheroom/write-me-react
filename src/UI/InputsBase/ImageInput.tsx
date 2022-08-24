@@ -1,4 +1,4 @@
-import React, {createRef, FC, HTMLAttributes, useState} from 'react';
+import React, {FC, HTMLAttributes, useState} from 'react';
 import Img from "../Img";
 import photoIcon from '../../assets/icons/photo-camera.png'
 import EditImage from "../../components/EditImage";
