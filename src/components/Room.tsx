@@ -123,7 +123,7 @@ const Room: FC<RoomProps> = ({
         <div className={'current-room__count-participants'}>{Object.entries(room.participants).length} подписчиков</div>
       </div>
       {infoVisible && <RoomInfoModal leaveRoom={leaveRoom} room={room} closeModal={() => setInfoVisible(false)}/>}
-      {error && <Error message={error}/>}
+      {error && <Error>{error}</Error>}
       <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
                 className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages}
                 uid={uid}/>

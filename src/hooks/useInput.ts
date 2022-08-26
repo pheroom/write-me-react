@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import {isEmail} from "../utils/isEmail";
 import {isOnlyLettersNumbersUnderscores} from "../utils/isOnlyLettersNumbersUnderscores";
 
-interface validations {
+export interface IValidations {
+  isFree?: boolean
   isEmpty?: boolean
   minLength?: number
   maxLength?: number
@@ -10,14 +11,14 @@ interface validations {
   isNotLettersNumUnder?: boolean
 }
 
-const useValidation = (value: string, validations: validations) => {
-  const [isEmpty, setIsEmpty] = useState(true)
+const useValidation = (value: string, validations: IValidations) => {
+  const [isEmpty, setIsEmpty] = useState(!validations.isEmpty)
   const [isMinLength, setIsMinLength] = useState(false)
   const [isMaxLength, setIsMaxLength] = useState(false)
   const [isNotEmail, setIsNotEmail] = useState(false)
   const [isNotLettersNumUnder, setIsNotLettersNumUnder] = useState(false)
 
-  const [inputValid, setInputValid] = useState(false)
+  const [inputValid, setInputValid] = useState(!!validations.isFree)
 
   useEffect(() => {
     for (const validation in validations) {
@@ -44,10 +45,12 @@ const useValidation = (value: string, validations: validations) => {
   }, [value])
 
   useEffect(() => {
-    if (isEmpty || isMinLength || isNotEmail || isMaxLength || isNotLettersNumUnder) {
-      setInputValid(false)
-    } else {
-      setInputValid(true)
+    if(!validations.isFree){
+      if (isEmpty || isMinLength || isNotEmail || isMaxLength || isNotLettersNumUnder) {
+        setInputValid(false)
+      } else {
+        setInputValid(true)
+      }
     }
   }, [isEmpty, isMinLength, isNotEmail, isMaxLength, isNotLettersNumUnder])
 
@@ -56,7 +59,7 @@ const useValidation = (value: string, validations: validations) => {
   }
 }
 
-export const useInput = (initialValue: string, validations: object) => {
+export const useInput = (initialValue: string, validations: IValidations) => {
   const [value, setValue] = useState(initialValue)
   const [isDirty, setIsDirty] = useState(false)
 

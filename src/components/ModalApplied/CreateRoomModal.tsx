@@ -4,6 +4,7 @@ import ImageInput from "../../UI/InputsBase/ImageInput";
 import InputUnderlined from "../../UI/InputsBase/InputUnderlined";
 import Button from "../../UI/ButtonsBase/Button";
 import Checkbox from "../../UI/InputsBase/Checkbox";
+import FooterButtonsModal from "../../UI/Modal/FooterButtonsModal";
 
 interface CreateRoomModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -39,14 +40,14 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({closeModal, createRoom, }) =
             </div>
           </div>
       </div>
-      <div className="create-room__actions">
+      <FooterButtonsModal>
         <Button onClick={closeModal}>
           Cancel
         </Button>
         <Button onClick={createRoomHandle}>
           Create
         </Button>
-      </div>
+      </FooterButtonsModal>
     </Modal>
   );
 };

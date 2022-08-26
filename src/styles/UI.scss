@@ -138,10 +138,21 @@
   }
 }
 
+.input-labeled{
+  &__label{
+    &--error{
+      font-weight: 500;
+      color: #EC3942;
+    }
+  }
+  &__input{
+    width: 240px;
+  }
+}
+
 .button{
   background: transparent;
   border: none;
-  //color: $activeFontCol;
   padding: 8px 15px;
   color: #6AB2F2;
   font-size: 14px;
@@ -149,6 +160,9 @@
   cursor: pointer;
   &:hover{
     background-color: rgba(black, .3);
+  }
+  &:disabled{
+    color: $disabledCol;
   }
 }
 
@@ -207,8 +221,19 @@
   }
 }
 
-.temporary-error{
-  color: $errorCol;
+.temporary-error, .err{
+  z-index: 1000;
+  position: absolute;
+  margin: 0 auto;
+  top: 10px;
+  left: 0;
+  right: 0;
+  max-width: 350px;
+  text-align: center;
+  padding: 15px;
+  background-color: rgba(black, .5);
+  border-radius: 8px;
+  color: $majorFontCol;
 }
 
 .error{
@@ -247,6 +272,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  &--filled{
+    background-color: $backgroundCol;
+  }
   &__inner{
     border-radius: 17px;
     width: 81px;
@@ -464,9 +492,6 @@
     margin: 25px 14px 25px 0;
     gap: 25px;
   }
-  &__name-input{
-    width: 240px;
-  }
   &__name-box{
     display: flex;
     align-items: flex-start;
@@ -483,12 +508,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  &__actions{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 5px;
   }
 }
 
@@ -530,11 +549,28 @@
   }
   &__description{
     margin: 15px 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__description-save{
+    margin-top: 5px;
+    align-self: center;
+    margin-bottom: -8px;
   }
   &__actions{
     margin: 8px 0;
   }
   &__exit{
     margin: 8px 0 12px;
+  }
+}
+
+.update-field{
+  padding: 20px 23px 10px;
+  &__title{
+    margin-bottom: 10px;
+  }
+  &__other-input{
+    margin-top: 15px;
   }
 }

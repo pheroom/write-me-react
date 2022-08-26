@@ -1,9 +1,32 @@
-import React from 'react';
+import React, {FC, HTMLAttributes, useEffect, useRef} from 'react';
 
-const TemporaryError = ({...args}) => {
+interface TemporaryErrorProps extends HTMLAttributes<HTMLDivElement> {
+  resetError: () => void
+  time?: number
+  children: string
+}
+
+const TemporaryError: FC<TemporaryErrorProps> = ({resetError, children, time, className, ...args}) => {
+
+  const timer = useRef<null | ReturnType<typeof setTimeout>>(null)
+
+  useEffect(() => {
+    if (timer.current) {
+      clearInterval(timer.current)
+    }
+    timer.current = setTimeout(() => {
+      resetError()
+    }, time || 1000)
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current)
+      }
+    }
+  }, [])
+
   return (
-    <div {...args} className={'temporary-error ' + (args.className ? args.className : '')}>
-      {args.children}
+    <div className={'temporary-error ' + (className || '')} {...args}>
+      {children}
     </div>
   );
 };

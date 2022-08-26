@@ -21,7 +21,7 @@ const JoinToRoom: FC<JoinToRoomProps> = ({room, uid}) => {
     dispatch(addApplication({roomId: room.roomId, uid}))
   }
 
-  if(!room) return <Error message={'room don`t find'}/>
+  if(!room) return <Error>{'room don`t find'}</Error>
   return (
     <div>
       {room.isPrivate

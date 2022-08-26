@@ -15,6 +15,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import Loader from "./UI/Loader";
 import SideMenu from "./components/SideMenu";
 import {useSelectorUser} from "./hooks/redux";
+import {setUserById} from "./store/UserReducers/UserActionCreators";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCVlhvxUeJ_wISXgIiYmg48_o6js6NqpYo",
@@ -39,27 +40,32 @@ function App() {
   const [menuVisible, setMenuVisible] = useState(false)
   const menuVisibleContextState = {status: menuVisible, change: () => setMenuVisible(prev => !prev)}
 
+  const [isUserInit, setIsUserInit] = useState(false)
+
   const dispatch = useAppDispatch()
   const {userData, userError, isUserLoading} = useSelectorUser()
-  const {setUser} = userSlice.actions
 
   const [user, loading, errorFirebase] = useAuthState(getAuth())
 
   useEffect(() => {
     if (user) {
-      const firebaseObj = getUserByFirebaseObject(auth.currentUser as IFirebaseUser)
+      const firebaseObj = getUserByFirebaseObject(user as IFirebaseUser)
       if (JSON.stringify(userData) !== JSON.stringify(firebaseObj)) {
-        dispatch(setUser(firebaseObj))
+        setIsUserInit(true)
+        dispatch(setUserById(firebaseObj.uid))
       }
     }
-  }, [user, loading, userError])
+  }, [user])
 
-  if(loading) return <Loader/>
+  useEffect(() => {
+    isUserInit && setIsUserInit(false)
+  }, [userData])
+
+  if(loading || isUserInit) return <Loader filled/>
   return (
     <menuVisibleContext.Provider value={menuVisibleContextState}>
       <div className='app'>
         {isUserLoading && <Loader/>}
-        {errorFirebase && <div>{errorFirebase.message}</div>}
         <AppRouter/>
       </div>
     </menuVisibleContext.Provider>

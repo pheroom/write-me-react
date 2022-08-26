@@ -3,6 +3,8 @@ export interface IUserUpdates {
   displayName?: string
   email?: string
   photoURL?: string | null
+  descriptions?: string | null
+  phoneNumber?: string | null
 }
 
 

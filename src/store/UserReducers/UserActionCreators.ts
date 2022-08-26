@@ -4,6 +4,14 @@ import UsersDataService from "../../firebaseAPI/UsersDataService";
 import {getAuth, User} from "firebase/auth";
 import {IUserUpdates} from "../../models/IUserUpdates";
 import {isEmail} from "../../utils/isEmail";
+import UsersService from "../../firebaseAPI/UsersService";
+
+export const setUserById = createAsyncThunk(
+  'user/setUserById',
+  async (uid: string) => {
+    return UsersService.getUser(uid)
+  }
+)
 
 export const userSignIn = createAsyncThunk(
   'user/signIn',

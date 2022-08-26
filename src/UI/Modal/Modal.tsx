@@ -4,12 +4,13 @@ interface ModalProps extends HTMLAttributes<HTMLDivElement>{
   closeModal: () => void
   widthFromContent?: boolean
   positionCenter?: boolean
+  unfilled?: boolean
 }
 
-const Modal: FC<ModalProps> = ({closeModal, children, positionCenter, widthFromContent, className, ...args}) => {
+const Modal: FC<ModalProps> = ({closeModal, children, unfilled, positionCenter, widthFromContent, className, ...args}) => {
 
   return (
-    <div className={'modal'} onMouseDown={closeModal}>
+    <div className={'modal ' + (unfilled ? 'modal--unfilled' : '')} onMouseDown={closeModal}>
       <div
         className={
         "modal__inner " +

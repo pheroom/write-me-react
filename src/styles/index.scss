@@ -4,8 +4,8 @@
 @import '_variables';
 @import '_mixins';
 
-@import 'UI';
 @import 'UI/index';
+@import 'UI';
 @import 'templates/index';
 
 @import 'navbar';

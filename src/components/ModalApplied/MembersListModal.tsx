@@ -50,7 +50,7 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, room, back}) =
           <SeparateSightModal/>
           <ScrollBlockModal>
             {room.participants && Object.entries(room.participants).map(([pid, status]) =>
-              <HoverRowModal onClick={() => setCurrentUserInfo(pid)}>
+              <HoverRowModal key={pid} onClick={() => setCurrentUserInfo(pid)}>
                 <ProfilePreviewSmall
                   userData={pid}
                   status={(status === ParticipantStatuses.ADMIN && 'admin') || (status === ParticipantStatuses.HOST && 'owner') || ''}

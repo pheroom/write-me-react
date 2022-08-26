@@ -9,6 +9,7 @@ import Loader from "../UI/Loader";
 import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
 import {userSlice} from "../store/UserReducers/UserSlice";
 import Error from "../UI/Error";
+import TemporaryError from "../UI/TemporaryError";
 
 const SignIn = () => {
   const {loginInput, login} = useLoginInput('', 'sign-in__input', 'sign-in__input-box')
@@ -34,9 +35,6 @@ const SignIn = () => {
     {isLoading && <Loader/>}
     <div className="sign-in__inner">
       <h3 className={'sign-in__title'}>Вход</h3>
-      {error && <div className={'sign-in__error'}>
-        <Error message={error}/>
-      </div>}
       <form onSubmit={signIn} className={'sign-in__form'}>
         {loginInput}
         {passwordInput}

@@ -37,7 +37,7 @@ const SignUp = () => {
       <div className="sign-up__inner">
         <h3 className={'sign-up__title'}>Регистрация</h3>
         {error && <div className={'sign-in__error'}>
-          <Error message={error}/>
+          <Error>{error}</Error>
         </div>}
         <form onSubmit={signUp} className={'sign-up__form'}>
           {loginInput}

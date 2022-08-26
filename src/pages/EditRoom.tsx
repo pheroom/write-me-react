@@ -80,8 +80,8 @@ const EditRoom = () => {
     blockUserHandle(aid)
   }
 
-  if(!room || room.roomId !== roomId) return <Error message={'Комната не найдена'}/>
-  if(room.participants[userData?.uid as string] !== ParticipantStatuses.HOST) return <Error message={'Вы не можете редактировать это комнату'}/>
+  if(!room || room.roomId !== roomId) return <Error>Комната не найдена</Error>
+  if(room.participants[userData?.uid as string] !== ParticipantStatuses.HOST) return <Error>Вы не можете редактировать это комнату</Error>
   if(isRoomLoading) return <Loader/>
   return (
     <div>

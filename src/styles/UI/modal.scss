@@ -11,6 +11,9 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  &--unfilled{
+    background-color: transparent;
+  }
   &__inner{
     margin-top: 40px;
     background-color: $themeCol;
@@ -46,6 +49,9 @@
     margin-left: 20px;
     &--small-indent{
       margin-left: 10px;
+    }
+    &--unindent{
+      margin: 0;
     }
   }
   &__header-btns{
@@ -87,6 +93,7 @@
     padding: 7px 0;
   }
   &__wide-btn{
+    position: relative;
     cursor: pointer;
     width: 100%;
     border: none;
@@ -95,7 +102,8 @@
     font-size: 13px;
     display: flex;
     align-items: center;
-    padding: 10px 0 10px 25px;
+    justify-content: space-between;
+    padding: 10px 25px;
     &:hover{
       background-color: $hoverCol;
     }
@@ -111,15 +119,30 @@
     width: 18px;
     display: flex;
     align-items: center;
-    justify-content: center;
     margin-right: 28px;
   }
   &__wide-btn-icon{
     height: 100%;
     width: auto;
   }
+  &__wide-btn-text{
+    position: absolute;
+    left: 70px;
+  }
+  &__wide-btn-label{
+    color: $activeFontCol;
+  }
   &__block-indent{
     margin: 15px 20px;
+  }
+  &__footer-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    &--top-indent{
+      margin-top: 10px;
+    }
   }
 }
 

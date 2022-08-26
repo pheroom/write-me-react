@@ -52,7 +52,7 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
   if (isLoading) return <Loader/>
   return (
     <div id={'Resizable'} className={'rooms-side ' + className}>
-      {error && <Error message={error}/>}
+      {error && <Error>{error}</Error>}
       <div
         id='Draggable'
         className="rooms-side__resize"
