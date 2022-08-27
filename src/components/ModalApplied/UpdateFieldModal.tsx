@@ -30,6 +30,8 @@ const UpdateFieldModal: FC<UpdateFieldModalProps> = ({closeModal, title, rules, 
       updateFields(field.value, otherField.value)
     } else if(updateField){
       updateField(field.value)
+    } else {
+      console.log(field.value)
     }
   }
 

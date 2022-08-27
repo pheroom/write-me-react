@@ -1,7 +1,6 @@
 import React, {ButtonHTMLAttributes, FC} from 'react';
 
 interface ButtonCopyProps extends ButtonHTMLAttributes<HTMLButtonElement>{
-  children: string
   copyText: string
   className?: string
   onClick?: (e: React.MouseEvent) => void

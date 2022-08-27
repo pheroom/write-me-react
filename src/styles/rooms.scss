@@ -63,6 +63,9 @@
   }
   &__description{
     color: $minorFontCol;
+    &--active{
+      color: $majorFontCol;
+    }
   }
   &__description, &__name{
     font-size: 14px;

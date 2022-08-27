@@ -9,6 +9,7 @@ import InputFillPrimary from "../UI/InputFillPrimary";
 import ButtonHoverImg from "../UI/ButtonsBase/ButtonHoverImg";
 import burgerDisIcon from "../assets/icons/burger-disabled.png";
 import burgerActIcon from "../assets/icons/burger-active.png";
+import RegularLoader from "../UI/RegularLoader";
 
 interface RoomsSideProps {
   rooms: IRoom[] | null
@@ -48,10 +49,9 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
     setText('')
   }
 
-
-  if (isLoading) return <Loader/>
   return (
     <div id={'Resizable'} className={'rooms-side ' + className}>
+      {isLoading && <RegularLoader fullStretch/>}
       {error && <Error>{error}</Error>}
       <div
         id='Draggable'
@@ -70,196 +70,18 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
             <Link className={'room-link ' + (currentRoom?.roomId === room.roomId ? 'room-link--active' : '')}
                   to={room.roomId} key={room.roomId}>
               <img className={'room-link__img'}
-                   src={room.avatarURL || ava}
+                   src={room.photoURL || ava}
                    alt="avatar"/>
               <div className="room-link__info">
                 <h3 className={'room-link__name'}>{room.title}</h3>
-                <p className={'room-link__description'}>{room.description || 'нет описания'}</p>
+                <p className={'room-link__description ' + (currentRoom?.roomId === room.roomId ? 'room-link__description--active' : '')}>
+                  {room.descriptions || 'нет описания'}
+                </p>
               </div>
             </Link>
           )
           : <h4>Комнат пока нет</h4>
         }
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast textddddddddddddddddd ddddddddddddd ddddddddddddd dddddddddddddddddd boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffff ffffffffffffffffffffffffffffffffffff fffffffffffffffff fffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
-        <Link className={'room-link '}
-              to={'l6i0bcx3'}>
-          <img className={'room-link__img'}
-               src={'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}
-               alt="avatar"/>
-          <div className="room-link__info">
-            <h3 className={'room-link__name'}>fast text boy</h3>
-            <p className={'room-link__description'}>fffffffffffffffffffffffffffffffffffffffffffff</p>
-          </div>
-        </Link>
       </div>
     </div>
   );

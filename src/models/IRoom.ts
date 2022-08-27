@@ -5,9 +5,9 @@ export interface IRoom{
   title: string
   createdAt: number
   isPrivate: boolean
-  avatarURL: string | null
+  photoURL: string | null
   isDialog: boolean
-  description: string
+  descriptions: string
   applications: string[]
   blockedList: string[]
 }

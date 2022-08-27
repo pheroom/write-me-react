@@ -11,19 +11,17 @@ import SeparateSightModal from "../../UI/Modal/SeparateLightModal";
 import SearchWide from "../../UI/InputsApplied/SearchWide";
 import ScrollBlockModal from "../../UI/Modal/ScrollBlockModal";
 import ProfilePreviewSmall from "../ProfilePreviewSmall";
-import Img from "../../UI/Img";
-import PUser from "../../UI/Texts/PUser";
 import HoverRowModal from "../../UI/Modal/HoverRowModal";
 import UserInfoModal from "./UserInfoModal";
 
-interface MembersListModalProps extends HTMLAttributes<HTMLDivElement>{
+interface ApplicationsListModalProps extends HTMLAttributes<HTMLDivElement>{
   closeModal: () => void
   room: IRoom
   back?: () => void
   modal?: (uid: string) => void
 }
 
-const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, back}) => {
+const ApplicationsListModal: FC<ApplicationsListModalProps> = ({closeModal, modal, room, back}) => {
   const [currentUserInfo, setCurrentUserInfo] = useState<null | string>(null)
 
   const [searchText, setSearchText] = useState('')
@@ -38,7 +36,7 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, b
       : <Modal closeModal={closeModal}>
         <HeaderModal>
           {back && <ButtonBackIcon alt={'back'} onClick={back} indent/>}
-          <TitleModal smallIndent={!!back}>Members</TitleModal>
+          <TitleModal smallIndent={!!back}>Applications</TitleModal>
           <ActionsHeaderModal>
             <ButtonCrossIcon indent
                              alt={'close'}
@@ -50,18 +48,17 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, b
           <SearchWide value={searchText} onChange={e => setSearchText(e.target.value)} resetValue={resetValue}/>
           <SeparateSightModal/>
           <ScrollBlockModal>
-            {room.participants && Object.entries(room.participants).map(([pid, status]) =>
-              <HoverRowModal key={pid} onClick={() => {
+            {room.applications && Object.entries(room.applications).map(([aid, status]) =>
+              <HoverRowModal key={aid} onClick={() => {
                 if(modal){
-                  modal(pid)
+                  modal(aid)
                 }else {
-                  setCurrentUserInfo(pid)
+                  setCurrentUserInfo(aid)
                 }
               }
               }>
                 <ProfilePreviewSmall
-                  userData={pid}
-                  status={(status === ParticipantStatuses.ADMIN && 'admin') || (status === ParticipantStatuses.HOST && 'owner') || ''}
+                  userData={aid}
                 />
               </HoverRowModal>
             )}
@@ -71,4 +68,4 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, b
   );
 };
 
-export default MembersListModal;
+export default ApplicationsListModal;

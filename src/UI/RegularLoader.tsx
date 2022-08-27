@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {FC} from 'react';
 
-const Loader = () => {
+interface LoaderProps{
+  fullStretch?: boolean
+  fullWidth?: boolean
+}
+
+const Loader: FC<LoaderProps> = ({fullStretch, fullWidth}) => {
+  const loader = <div className={'loader-regular'}>
+    <div className="loader-regular__spinner"></div>
+  </div>
+
   return (
-    <div className={'loader-regular'}>
-      <div className="loader-regular__spinner"></div>
+    fullStretch || fullWidth
+      ? <div className={fullStretch ? 'full-stretch ' : fullWidth ? 'full-width ' : ''}>
+      {loader}
     </div>
+      : loader
   );
 };
 

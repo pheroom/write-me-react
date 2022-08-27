@@ -1,12 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import {IMessage} from "../models/IMessage";
-import UserLink from "./UserLink";
 import {IUser} from "../models/IUser";
-import UsersService from "../firebaseAPI/UsersService";
-import {Link} from "react-router-dom";
-import {RouteNames} from "../router";
 import RegularLoader from "../UI/RegularLoader";
-import messages from "./Messages";
 import {getUserByUid} from "../utils/getUserByUid";
 
 interface MessageProps{
@@ -30,7 +25,7 @@ const Message: FC<MessageProps> = ({scrollToBottom, setEventsVisible, message, c
     }
   }, [user])
 
-  if(!user) return <RegularLoader/>
+  if(!user) return <RegularLoader fullWidth/>
   return (
     <div className={'message ' + (className ? className : '')} onClick={e => setEventsVisible(message)}>
       <img className={'message__avatar ' + (isMyMessage ? 'message__avatar--send' : 'message__avatar--receive')} src={user.photoURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'} alt="ava"/>

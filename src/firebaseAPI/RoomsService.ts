@@ -1,10 +1,14 @@
 import {get, getDatabase, ref, remove, serverTimestamp, set, update} from "firebase/database";
-import {ParticipantStatuses} from "../models/IRoom";
+import {IRoom, ParticipantStatuses} from "../models/IRoom";
 // @ts-ignore
 import uniqid from 'uniqid';
 import {IMessage} from "../models/IMessage";
 import StorageService from "./StorageService";
 import {getFileImgFromUrl} from "../utils/getFileImgFromUrl";
+import {User as FirebaseUser} from "@firebase/auth";
+import {IUserUpdates} from "../models/IUserUpdates";
+import NamesService from "./NamesService";
+import {IRoomUpdates} from "../models/IRoomUpdates";
 
 export default class RoomsService {
   static async addRoom(authorId: string, title: string, isPrivate: boolean, photoUrl: string | null) {
@@ -38,6 +42,30 @@ export default class RoomsService {
       throw new Error('Вы не можете удалить комнату ' + room.title)
     await remove(ref(getDatabase(), 'roomsInfo/' + roomId))
     return roomId
+  }
+  static async updateRoom(user: FirebaseUser | null, room: IRoom, updates: IRoomUpdates){
+    if (!user || (room.participants[user.uid] !== ParticipantStatuses.HOST)) {
+      throw new Error('Вы не можете редактировать эту комнату')
+    }
+
+    let upd: IRoomUpdates = {}
+    if(updates.photo){
+      const photoFile = typeof updates.photo === 'string' ? await getFileImgFromUrl(updates.photo) : updates.photo
+      const photoURL = photoFile ? await StorageService.addRoomAvatar(room.roomId, photoFile) : photoFile
+      upd = {...upd, photoURL}
+    }
+    if(updates.title){
+      upd = {...upd, title: updates.title}
+    }
+    if(typeof updates.isPrivate === 'boolean'){
+      upd = {...upd, isPrivate: updates.isPrivate}
+    }
+    if(typeof updates.descriptions === 'string'){
+      upd = {...upd, descriptions: updates.descriptions}
+    }
+
+    await update(ref(getDatabase(), 'roomsInfo/' + room.roomId), upd)
+    return await RoomsService.getRoom(room.roomId)
   }
   static async blockUser(roomId: string, uid: string, blockedUid: string) {
     const room = await RoomsService.getRoom(roomId)

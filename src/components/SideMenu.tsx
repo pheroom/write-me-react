@@ -1,8 +1,8 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext} from 'react';
 import {menuVisibleContext} from "../App";
 import {IUser} from "../models/IUser";
 import ProfilePreviewMedium from "./ProfilePreviewMedium";
-import groupIcon from '../assets/icons/group.png'
+import groupIcon from '../assets/icons/group-blue.png'
 import profileIcon from '../assets/icons/profile-orange.png'
 
 interface SideMenuProps {

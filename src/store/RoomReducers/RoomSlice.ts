@@ -5,7 +5,7 @@ import {
   addApplication,
   addMessage,
   addParticipant, blockUser, getMessages, getRoomById, getRoomData, rejectApplication,
-  removeMessage, removeParticipant, unblockUser, updateParticipant,
+  removeMessage, removeParticipant, unblockUser, updateParticipant, updateRoom,
 } from "./RoomActionCreators";
 import {IMessage} from "../../models/IMessage";
 
@@ -30,6 +30,9 @@ export const roomSlice = createSlice({
     },
     setMessages(state, action){
       state.data.messages = action.payload
+    },
+    resetError(state){
+      state.error = ''
     }
   },
   extraReducers: {
@@ -42,6 +45,19 @@ export const roomSlice = createSlice({
       state.isLoading = true;
     },
     [getRoomById.rejected.type]: (state,  action) => {
+      state.isLoading = false;
+      console.log(action)
+      state.error = action.error.message
+    },
+    [updateRoom.fulfilled.type]: (state, action) => {
+      state.isLoading = false;
+      state.error = ''
+      state.data.room = action.payload;
+    },
+    [updateRoom.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [updateRoom.rejected.type]: (state,  action) => {
       state.isLoading = false;
       console.log(action)
       state.error = action.error.message

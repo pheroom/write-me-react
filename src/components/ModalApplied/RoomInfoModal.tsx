@@ -13,6 +13,7 @@ import LabelLight from "../../UI/LabelLight";
 import PUser from "../../UI/Texts/PUser";
 import ButtonWideModal from "../../UI/Modal/ButtonWideModal";
 import groupLineIcon from "../../assets/icons/group-line.png";
+import editIcon from "../../assets/icons/edit.png";
 import exitIcon from "../../assets/icons/exit.png";
 import Modal from "../../UI/Modal/Modal";
 import MainModal from "../../UI/Modal/MainModal";
@@ -24,9 +25,11 @@ interface RoomInfoModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
   room: IRoom
   leaveRoom: () => void
+  isOwner: boolean
+  editRoomLink: () => void
 }
 
-const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, room, leaveRoom}) => {
+const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLink, room, leaveRoom}) => {
   const [membersListVisible, setMembersListVisible] = useState(false)
 
   function leaveRoomHandle() {
@@ -40,48 +43,57 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, room, leaveRoom}) =>
       {membersListVisible
         ? <MembersListModal room={room} closeModal={closeModal} back={() => setMembersListVisible(false)}/>
         : <Modal closeModal={closeModal}>
-          <HeaderModal>
-            <TitleModal>Channel Info</TitleModal>
-            <ActionsHeaderModal>
-              <ButtonDotsIcon alt={'more'}
-                              indent
-                              onClick={e => console.log('dots')}/>
-              <ButtonCrossIcon alt={'close'}
-                               indent
-                               onClick={closeModal}/>
-            </ActionsHeaderModal>
-          </HeaderModal>
-          <MainModal>
-            <BlockIndentModal>
-              <RoomPreviewBrief/>
-            </BlockIndentModal>
-            <SeparateModal/>
-            <BlockWithIcon icon={infoIcon}>
-              <div className={'modal__invite'}>
-                <ButtonCopy className="modal__invite-btn" copyText={window.location.href}>t.me/gpkdota21</ButtonCopy>
-                <LabelLight>Link</LabelLight>
+            <HeaderModal>
+              <TitleModal>Channel Info</TitleModal>
+              <ActionsHeaderModal>
+                <ButtonDotsIcon alt={'more'}
+                                indent
+                                onClick={e => console.log('dots')}/>
+                <ButtonCrossIcon alt={'close'}
+                                 indent
+                                 onClick={closeModal}/>
+              </ActionsHeaderModal>
+            </HeaderModal>
+            <MainModal>
+              <BlockIndentModal>
+                <RoomPreviewBrief room={room}/>
+              </BlockIndentModal>
+              <SeparateModal/>
+              <BlockWithIcon icon={infoIcon}>
+                <div className={'modal__invite'}>
+                  <ButtonCopy className="modal__invite-btn"
+                              copyText={window.location.href}>write.me/{room.title}</ButtonCopy>
+                  <LabelLight>Link</LabelLight>
+                </div>
+                <div>
+                  {room.descriptions
+                    ? <PUser className="modal__description-text">
+                      {room.descriptions}
+                    </PUser>
+                    : <p>don`t set</p>
+                  }
+                  <LabelLight>Description</LabelLight>
+                </div>
+              </BlockWithIcon>
+              <SeparateModal/>
+              <div className="modal__room-members">
+                <ButtonWideModal icon={groupLineIcon} onClick={() => setMembersListVisible(true)}>
+                  {`${Object.keys(room.participants).length} members`}
+                </ButtonWideModal>
               </div>
-              <div>
-                <PUser className="modal__description-text">
-                  всем привет)Он бета-тестер и зная всё об этой игре, быстро завоевал популярность у игроков
-                </PUser>
-                <LabelLight>Description</LabelLight>
+              <SeparateModal/>
+              <div className="modal__room-action">
+                {isOwner
+                  ? <ButtonWideModal icon={editIcon} onClick={editRoomLink}>
+                    Edit room
+                  </ButtonWideModal>
+                  : <ButtonWideModal icon={exitIcon} onClick={leaveRoomHandle}>
+                    Leave channel
+                  </ButtonWideModal>
+                }
               </div>
-            </BlockWithIcon>
-            <SeparateModal/>
-            <div className="modal__room-members">
-              <ButtonWideModal icon={groupLineIcon} onClick={() => setMembersListVisible(true)}>
-                {`${Object.keys(room.participants).length} members`}
-              </ButtonWideModal>
-            </div>
-            <SeparateModal/>
-            <div className="modal__room-action">
-              <ButtonWideModal icon={exitIcon} onClick={leaveRoomHandle}>
-                Leave channel
-              </ButtonWideModal>
-            </div>
-          </MainModal>
-        </Modal>
+            </MainModal>
+          </Modal>
       }
     </>
   );

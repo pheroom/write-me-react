@@ -103,21 +103,21 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
         </ActionsHeaderModal>
       </HeaderModal>
       <MainModal>
-        <div className="edit-profile__profile-preview">
-          <div className="edit-profile__avatar-box">
-            <Img className="edit-profile__avatar"
+        <div className="edit__preview">
+          <div className="edit__avatar-box">
+            <Img className="edit__avatar"
                  src={user.photoURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}/>
-            <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit-profile__reset-avatar"/>
+            <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit__reset-avatar"/>
           </div>
           <TitleUser>{user.displayName}</TitleUser>
         </div>
-        <div className="edit-profile__description">
+        <div className="edit__descriptions">
           <InputCounter placeholder={'Bio'} maxCount={70} value={bio} onChange={setBioHandle}/>
           {bio !== user.descriptions
-            && <Button onClick={updateBio} className={'edit-profile__description-save'}>Save Bio</Button>}
+            && <Button onClick={updateBio} className={'edit__descriptions-save'}>Save Bio</Button>}
         </div>
         <SeparateModal/>
-        <div className="edit-profile__actions">
+        <div className="edit__actions">
           <ButtonWideModal onClick={() => setLoginVisible(true)} sideIcon={'22px'} icon={profileIcon}
                            label={user.displayName}>Name</ButtonWideModal>
           <ButtonWideModal onClick={() => setPhoneVisible(true)} sideIcon={'22px'} icon={phoneIcon}
@@ -128,7 +128,7 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
                            label={'******'}>Password</ButtonWideModal>
         </div>
         <SeparateModal/>
-        <div className="edit-profile__exit">
+        <div className="edit__exit">
           <ButtonWideModal onClick={logout} icon={exitIcon}>Log out</ButtonWideModal>
         </div>
       </MainModal>

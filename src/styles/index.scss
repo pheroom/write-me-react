@@ -50,10 +50,21 @@ main{
 
 .feed{
   display: flex;
-  &__room{
+  &__room, &__room-absent{
     flex: 1 1 auto;
     background-color: $backgroundCol;
     color: white;
+  }
+  &__room-absent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__room-absent-text{
+    border-radius: 15px;
+    padding: 3px 15px;
+    background-color: $notifyCol;
+    font-size: 14px;
   }
 }
 

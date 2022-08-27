@@ -1,12 +1,21 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import RoomsService from "../../firebaseAPI/RoomsService";
 import {IMessage} from "../../models/IMessage";
-import {ParticipantStatuses} from "../../models/IRoom";
+import {IRoom, ParticipantStatuses} from "../../models/IRoom";
+import {IRoomUpdates} from "../../models/IRoomUpdates";
+import {getAuth} from "firebase/auth";
 
 export const getRoomById = createAsyncThunk(
   'room/getRoomById',
   async (roomId: string) => {
     return await RoomsService.getRoom(roomId)
+  }
+)
+
+export const updateRoom = createAsyncThunk(
+  'room/updateRoom',
+  async ({room, updates}: {room: IRoom, updates: IRoomUpdates}) => {
+    return await RoomsService.updateRoom(getAuth().currentUser, room, updates)
   }
 )
 
