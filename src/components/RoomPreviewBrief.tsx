@@ -1,7 +1,8 @@
 import React, {FC} from 'react';
-import Img from "./Img";
-import TitleUser from "./Texts/TitleUser";
+import Img from "../UI/Img";
+import TitleUser from "../UI/Texts/TitleUser";
 import {IRoom} from "../models/IRoom";
+import roomIcon from '../assets/icons/group-base.png'
 
 interface RoomPreviewBriefProps{
   room: IRoom
@@ -14,7 +15,7 @@ const RoomPreviewBrief: FC<RoomPreviewBriefProps> = ({room}) => {
         <Img
           alt={'room-ava'}
           className="room-preview__img"
-          src={room.photoURL || "https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg"}
+          src={room.photoURL || roomIcon}
         />
       </div>
       <div className="room-preview__info">

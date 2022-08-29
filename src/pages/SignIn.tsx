@@ -5,11 +5,11 @@ import {useAppDispatch, useAppSelector} from "../store";
 import {userSignIn} from "../store/UserReducers/UserActionCreators";
 import {useLoginInput} from "../UI/InputsApplied/useLoginInput";
 import {usePasswordInput} from "../UI/InputsApplied/usePasswordInput";
-import Loader from "../UI/Loader";
+import Loader from "../UI/Loaders/Loader";
 import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
 import {userSlice} from "../store/UserReducers/UserSlice";
-import Error from "../UI/Error";
-import TemporaryError from "../UI/TemporaryError";
+import Error from "../UI/Errors/Error";
+import TemporaryError from "../UI/Errors/TemporaryError";
 
 const SignIn = () => {
   const {loginInput, login} = useLoginInput('', 'sign-in__input', 'sign-in__input-box')

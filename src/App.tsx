@@ -12,7 +12,7 @@ import {useAppDispatch, useAppSelector} from "./store";
 import {IFirebaseUser} from "./models/IFirebaseUser";
 import {getStorage} from "firebase/storage";
 import {useAuthState} from "react-firebase-hooks/auth";
-import Loader from "./UI/Loader";
+import Loader from "./UI/Loaders/Loader";
 import SideMenu from "./components/SideMenu";
 import {useSelectorUser} from "./hooks/redux";
 import {setUserById} from "./store/UserReducers/UserActionCreators";

@@ -1,15 +1,16 @@
 import React, {FC, useContext, useState} from 'react';
 import {Link} from "react-router-dom";
 import {IRoom} from "../models/IRoom";
-import Loader from "../UI/Loader";
-import Error from "../UI/Error";
+import Loader from "../UI/Loaders/Loader";
+import Error from "../UI/Errors/Error";
 import ava from "../assets/ava.jpg";
+import groupIcon from "../assets/icons/group-base.png";
 import {menuVisibleContext} from "../App";
 import InputFillPrimary from "../UI/InputFillPrimary";
 import ButtonHoverImg from "../UI/ButtonsBase/ButtonHoverImg";
 import burgerDisIcon from "../assets/icons/burger-disabled.png";
 import burgerActIcon from "../assets/icons/burger-active.png";
-import RegularLoader from "../UI/RegularLoader";
+import RegularLoader from "../UI/Loaders/RegularLoader";
 
 interface RoomsSideProps {
   rooms: IRoom[] | null
@@ -70,7 +71,7 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
             <Link className={'room-link ' + (currentRoom?.roomId === room.roomId ? 'room-link--active' : '')}
                   to={room.roomId} key={room.roomId}>
               <img className={'room-link__img'}
-                   src={room.photoURL || ava}
+                   src={room.photoURL || groupIcon}
                    alt="avatar"/>
               <div className="room-link__info">
                 <h3 className={'room-link__name'}>{room.title}</h3>

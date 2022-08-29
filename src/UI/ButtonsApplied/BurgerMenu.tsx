@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import burgerDisIcon from '../assets/icons/burger-disabled.png'
-import burgerActIcon from '../assets/icons/burger-active.png'
+import burgerDisIcon from '../../assets/icons/burger-disabled.png'
+import burgerActIcon from '../../assets/icons/burger-active.png'
 
 interface BurgerMenuProps{
   status: boolean

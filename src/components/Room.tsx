@@ -1,6 +1,6 @@
 import React, {createRef, FC, useEffect, useState} from 'react';
 import {IRoom, ParticipantStatuses} from "../models/IRoom";
-import Error from "../UI/Error";
+import Error from "../UI/Errors/Error";
 import {messagesObserver} from "../firebaseAPI/messagesObserver";
 import {IMessage} from "../models/IMessage";
 import {useAppDispatch} from "../store";
@@ -51,26 +51,7 @@ const Room: FC<RoomProps> = ({
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
-  // const {setMessages, setRoom} = roomSlice.actions
-  //
-  // useEffect(() => {
-  //   const unsubscribeMessages = messagesObserver(room.roomId, messages, messagesUpdateHandle)
-  //   const unsubscribeInfo = roomObserver(room.roomId, room, roomUpdateHandle)
-  //   return () => {
-  //     unsubscribeMessages()
-  //     unsubscribeInfo()
-  //   }
-  // }, [room.roomId])
-  //
-  // function messagesUpdateHandle(newMessages: IMessage[] | null) {
-  //   dispatch(setMessages(newMessages))
-  // }
-  //
-  // function roomUpdateHandle(newRoom: IRoom | null) {
-  //   dispatch(setRoom(newRoom))
-  // }
 
-  //todo
   function removeRoomHandle() {
     removeRoom(room.roomId)
   }
@@ -119,7 +100,6 @@ const Room: FC<RoomProps> = ({
 
   function updateRoomHandle(updates: IRoomUpdates) {
     dispatch(updateRoom({room, updates}))
-    console.log(updates)
   }
 
   if (!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>

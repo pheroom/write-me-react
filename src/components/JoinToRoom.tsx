@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {IRoom} from "../models/IRoom";
 import {useAppDispatch} from "../store";
 import {addApplication, addParticipant} from "../store/RoomReducers/RoomActionCreators";
-import Error from "../UI/Error";
+import Error from "../UI/Errors/Error";
 
 interface JoinToRoomProps {
   room: IRoom

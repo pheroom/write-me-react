@@ -4,7 +4,7 @@ import TitleModal from "../../UI/Modal/TitleModal";
 import ActionsHeaderModal from "../../UI/Modal/ActionsHeaderModal";
 import ButtonDotsIcon from "../../UI/ButtonsApplied/ButtonDotsIcon";
 import ButtonCrossIcon from "../../UI/ButtonsApplied/ButtonCrossIcon";
-import RoomPreviewBrief from "../../UI/RoomPreviewBrief";
+import RoomPreviewBrief from "../RoomPreviewBrief";
 import SeparateModal from "../../UI/Modal/SeparateModal";
 import BlockWithIcon from "../../UI/Modal/BlockWithIcon";
 import infoIcon from "../../assets/icons/info.png";
@@ -18,8 +18,10 @@ import exitIcon from "../../assets/icons/exit.png";
 import Modal from "../../UI/Modal/Modal";
 import MainModal from "../../UI/Modal/MainModal";
 import {IRoom} from "../../models/IRoom";
-import MembersListModal from "./MembersListModal";
 import BlockIndentModal from "../../UI/Modal/BlockIndentModal";
+import UsersListModal from "./UsersListModal";
+import {getLength} from "../../utils/getLength";
+import {getUsersForUsersList} from "../../utils/getUsersForUsersList";
 
 interface RoomInfoModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -38,10 +40,12 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLin
     }
   }
 
+  const membersCount = getLength(room.participants)
+
   return (
     <>
       {membersListVisible
-        ? <MembersListModal room={room} closeModal={closeModal} back={() => setMembersListVisible(false)}/>
+        ? <UsersListModal title={'Участники'} users={getUsersForUsersList(room.participants)} closeModal={closeModal} back={() => setMembersListVisible(false)}/>
         : <Modal closeModal={closeModal}>
             <HeaderModal>
               <TitleModal>Channel Info</TitleModal>
@@ -78,7 +82,7 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLin
               <SeparateModal/>
               <div className="modal__room-members">
                 <ButtonWideModal icon={groupLineIcon} onClick={() => setMembersListVisible(true)}>
-                  {`${Object.keys(room.participants).length} members`}
+                  {`${membersCount} ${!membersCount || membersCount > 4 ? "участников" : membersCount === 1 ? "участника" : "участник"}`}
                 </ButtonWideModal>
               </div>
               <SeparateModal/>

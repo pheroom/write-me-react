@@ -10,7 +10,7 @@ import ButtonBackIcon from "../../UI/ButtonsApplied/ButtonBackIcon";
 import SeparateSightModal from "../../UI/Modal/SeparateLightModal";
 import SearchWide from "../../UI/InputsApplied/SearchWide";
 import ScrollBlockModal from "../../UI/Modal/ScrollBlockModal";
-import ProfilePreviewSmall from "../ProfilePreviewSmall";
+import ProfilePreview from "../ProfilePreview";
 import Img from "../../UI/Img";
 import PUser from "../../UI/Texts/PUser";
 import HoverRowModal from "../../UI/Modal/HoverRowModal";
@@ -51,17 +51,10 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, b
           <SeparateSightModal/>
           <ScrollBlockModal>
             {room.participants && Object.entries(room.participants).map(([pid, status]) =>
-              <HoverRowModal key={pid} onClick={() => {
-                if(modal){
-                  modal(pid)
-                }else {
-                  setCurrentUserInfo(pid)
-                }
-              }
-              }>
-                <ProfilePreviewSmall
+              <HoverRowModal key={pid} onClick={() => modal ? modal(pid) : setCurrentUserInfo(pid)}>
+                <ProfilePreview
                   userData={pid}
-                  status={(status === ParticipantStatuses.ADMIN && 'admin') || (status === ParticipantStatuses.HOST && 'owner') || ''}
+                  status={(status === ParticipantStatuses.ADMIN && 'админ') || (status === ParticipantStatuses.HOST && 'владелец') || ''}
                 />
               </HoverRowModal>
             )}

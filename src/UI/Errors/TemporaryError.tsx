@@ -1,4 +1,5 @@
 import React, {FC, HTMLAttributes, useEffect, useRef} from 'react';
+import Error from "./Error";
 
 interface TemporaryErrorProps extends HTMLAttributes<HTMLDivElement> {
   resetError: () => void
@@ -25,9 +26,9 @@ const TemporaryError: FC<TemporaryErrorProps> = ({resetError, children, time, cl
   }, [])
 
   return (
-    <div className={'temporary-error ' + (className || '')} {...args}>
+    <Error className={className} {...args}>
       {children}
-    </div>
+    </Error>
   );
 };
 

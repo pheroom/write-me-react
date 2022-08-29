@@ -128,6 +128,18 @@
   &__wide-btn-text{
     position: absolute;
     left: 70px;
+    &--left{
+      right: auto;
+      left: 0;
+    }
+    &--right{
+      left: auto;
+      right: 0;
+    }
+    &--center{
+      left: 0;
+      right: 0;
+    }
   }
   &__wide-btn-label{
     color: $activeFontCol;

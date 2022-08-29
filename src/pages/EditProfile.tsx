@@ -5,7 +5,7 @@ import {useLoginInput} from "../UI/InputsApplied/useLoginInput";
 import {changePassword, updateUser} from "../store/UserReducers/UserActionCreators";
 import {useEmailInput} from "../UI/InputsApplied/useEmailInput";
 import {IUserUpdates} from "../models/IUserUpdates";
-import Loader from "../UI/Loader";
+import Loader from "../UI/Loaders/Loader";
 import {usePasswordInput} from "../UI/InputsApplied/usePasswordInput";
 
 const EditProfile = () => {

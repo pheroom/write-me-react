@@ -19,7 +19,7 @@ import phoneIcon from '../../assets/icons/phone.png'
 import emailIcon from '../../assets/icons/email.png'
 import passwordIcon from '../../assets/icons/password.png'
 import Button from "../../UI/ButtonsBase/Button";
-import TemporaryError from "../../UI/TemporaryError";
+import TemporaryError from "../../UI/Errors/TemporaryError";
 import UpdateFieldModal from "./UpdateFieldModal";
 import {emailRule, loginRule, passwordRule, phoneRule} from "../../utils/validationRules";
 
@@ -118,13 +118,13 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
         </div>
         <SeparateModal/>
         <div className="edit__actions">
-          <ButtonWideModal onClick={() => setLoginVisible(true)} sideIcon={'22px'} icon={profileIcon}
+          <ButtonWideModal onClick={() => setLoginVisible(true)} iconSide={'22px'} icon={profileIcon}
                            label={user.displayName}>Name</ButtonWideModal>
-          <ButtonWideModal onClick={() => setPhoneVisible(true)} sideIcon={'22px'} icon={phoneIcon}
+          <ButtonWideModal onClick={() => setPhoneVisible(true)} iconSide={'22px'} icon={phoneIcon}
                            label={user.phoneNumber || 'don`t set'}>Phone</ButtonWideModal>
-          <ButtonWideModal onClick={() => setEmailVisible(true)} sideIcon={'22px'} icon={emailIcon}
+          <ButtonWideModal onClick={() => setEmailVisible(true)} iconSide={'22px'} icon={emailIcon}
                            label={user.email}>Email</ButtonWideModal>
-          <ButtonWideModal onClick={() => setPasswordVisible(true)} sideIcon={'22px'} icon={passwordIcon}
+          <ButtonWideModal onClick={() => setPasswordVisible(true)} iconSide={'22px'} icon={passwordIcon}
                            label={'******'}>Password</ButtonWideModal>
         </div>
         <SeparateModal/>

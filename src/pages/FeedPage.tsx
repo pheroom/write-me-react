@@ -14,7 +14,7 @@ import {RouteNames} from "../router";
 import SideMenu from "../components/SideMenu";
 import CreateRoomModal from "../components/ModalApplied/CreateRoomModal";
 import EditProfileModal from "../components/ModalApplied/EditProfileModal";
-import Loader from "../UI/Loader";
+import Loader from "../UI/Loaders/Loader";
 import {changePassword, signOut, updateUser} from "../store/UserReducers/UserActionCreators";
 import {IUserUpdates} from "../models/IUserUpdates";
 import {userSlice} from "../store/UserReducers/UserSlice";
@@ -47,25 +47,14 @@ const FeedPage = () => {
   const {setMessages, setRoom} = roomSlice.actions
 
   useEffect(() => {
-    dispatch(getAllRooms())
     const unsubscribe = roomsObserver(roomsData, roomsUpdateHandle)
     return unsubscribe
   }, [])
 
-  // useEffect(() => {
-  //   setInfoRoomVisible(false)
-  //   setEditRoomVisible(false)
-  //   if (roomId) {
-  //     dispatch(getRoomData(roomId))
-  //   } else {
-  //     dispatch(getRoomData(null))
-  //   }
-  // }, [roomId])
-
   useEffect(() => {
-      setInfoRoomVisible(false)
-      setEditRoomVisible(false)
-    if(roomId){
+    setInfoRoomVisible(false)
+    setEditRoomVisible(false)
+    if (roomId) {
       const unsubscribeMessages = messagesObserver(roomId, messages, messagesUpdateHandle)
       const unsubscribeInfo = roomObserver(roomId, room, roomUpdateHandle)
       return () => {
@@ -83,11 +72,11 @@ const FeedPage = () => {
     dispatch(setRoom(newRoom))
   }
 
-  function resetUserError(){
+  function resetUserError() {
     dispatch(resetErrorUser())
   }
 
-  function resetRoomError(){
+  function resetRoomError() {
     dispatch(resetErrorRoom())
   }
 
@@ -112,32 +101,38 @@ const FeedPage = () => {
     dispatch(updateUser(updates))
   }
 
-  function changePasswordHandle(updates: {lastPas: string, newPas: string}) {
+  function changePasswordHandle(updates: { lastPas: string, newPas: string }) {
     dispatch(changePassword({password: updates.lastPas, newPassword: updates.newPas, email: user.email}))
   }
 
-  function showEditRoom(status: boolean){
+  function showEditRoom(status: boolean) {
     setInfoRoomVisible(false)
-    if(room && (room.participants[user.uid] === ParticipantStatuses.HOST)){
+    if (room && (room.participants[user.uid] === ParticipantStatuses.HOST)) {
       setEditRoomVisible(status)
     }
   }
 
   return (
     <main className={'feed'}>
-      {!userData && <Loader/>}
-      {userData && <SideMenu setCreateRoomVisible={setCreateRoomVisible} setEditProfileVisible={setEditProfileVisible}
-                             user={userData} createRoom={createRoomHandle}/>}
+      {userData
+        ? <SideMenu setCreateRoomVisible={setCreateRoomVisible} setEditProfileVisible={setEditProfileVisible}
+                             user={userData} createRoom={createRoomHandle}/>
+        : <Loader/>
+      }
+
       {createRoomVisible &&
         <CreateRoomModal createRoom={createRoomHandle} closeModal={() => setCreateRoomVisible(false)}/>}
       {editProfileVisible &&
-        <EditProfileModal changePassword={changePasswordHandle} resetError={resetUserError} error={userError} logout={logout} updateProfile={updateProfile} user={user}
+        <EditProfileModal changePassword={changePasswordHandle} resetError={resetUserError} error={userError}
+                          logout={logout} updateProfile={updateProfile} user={user}
                           closeModal={() => setEditProfileVisible(false)}/>}
 
-      <RoomsSide className={'feed__side'} currentRoom={roomData.room} rooms={roomsData} error={roomsError}
+      <RoomsSide className={'feed__side'} currentRoom={room} rooms={roomsData} error={roomsError}
                  isLoading={isRoomsLoading}/>
       {room
-        ? <Room editVisible={editRoomVisible} setEditVisible={showEditRoom} resetError={resetRoomError} className={'feed__room'} infoVisible={infoRoomVisible} setInfoVisible={setInfoRoomVisible} uid={user.uid}
+        ? <Room editVisible={editRoomVisible} setEditVisible={showEditRoom} resetError={resetRoomError}
+                className={'feed__room'} infoVisible={infoRoomVisible} setInfoVisible={setInfoRoomVisible}
+                uid={user.uid}
                 room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading}
                 error={roomError}/>
         : <div className={'feed__room-absent'}>

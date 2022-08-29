@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {IUser} from "../models/IUser";
 import UsersService from "../firebaseAPI/UsersService";
-import Loader from "../UI/Loader";
+import Loader from "../UI/Loaders/Loader";
 
 const UserPage = () => {
   const [user, setUser] = useState<null | IUser>(null)

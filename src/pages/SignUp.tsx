@@ -6,9 +6,9 @@ import {userSignUp} from "../store/UserReducers/UserActionCreators";
 import {useLoginInput} from "../UI/InputsApplied/useLoginInput";
 import {usePasswordInput} from "../UI/InputsApplied/usePasswordInput";
 import {useEmailInput} from "../UI/InputsApplied/useEmailInput";
-import Loader from "../UI/Loader";
+import Loader from "../UI/Loaders/Loader";
 import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
-import Error from "../UI/Error";
+import Error from "../UI/Errors/Error";
 import {userSlice} from "../store/UserReducers/UserSlice";
 
 const SignUp = () => {

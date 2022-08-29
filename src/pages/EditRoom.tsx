@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useSelectorRoom, useSelectorUser} from "../hooks/redux";
-import Loader from "../UI/Loader";
-import Error from "../UI/Error";
+import Loader from "../UI/Loaders/Loader";
+import Error from "../UI/Errors/Error";
 import UserLink from "../components/UserLink";
 import {IRoom, ParticipantStatuses} from "../models/IRoom";
 import {useAppDispatch} from "../store";

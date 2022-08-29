@@ -13,18 +13,27 @@ import SeparateModal from "../../UI/Modal/SeparateModal";
 import ButtonWideModal from "../../UI/Modal/ButtonWideModal";
 import profileIcon from '../../assets/icons/profile-blue.png'
 import Button from "../../UI/ButtonsBase/Button";
-import TemporaryError from "../../UI/TemporaryError";
+import TemporaryError from "../../UI/Errors/TemporaryError";
 import UpdateFieldModal from "./UpdateFieldModal";
 import {loginRule} from "../../utils/validationRules";
 import {IRoomUpdates} from "../../models/IRoomUpdates";
-import {IRoom} from "../../models/IRoom";
+import {IRoom, ParticipantStatuses} from "../../models/IRoom";
 import Checkbox from "../../UI/InputsBase/Checkbox";
 import basketIcon from "../../assets/icons/basket.png";
 import groupIcon from "../../assets/icons/group-purple.png";
 import addIcon from "../../assets/icons/user-add.png";
-import Error from "../../UI/Error";
-import MembersListModal from "./MembersListModal";
-import ApplicationsListModal from "./ApplicationsListModal";
+import blockIcon from "../../assets/icons/block.png";
+import Error from "../../UI/Errors/Error";
+import roomIcon from '../../assets/icons/group-base.png'
+import UsersListModal from "./UsersListModal";
+import {getLength} from "../../utils/getLength";
+import {getUsersForUsersList} from "../../utils/getUsersForUsersList";
+import {
+  acceptApplication,
+  blockUser, rejectApplication,
+  unblockUser,
+  updateParticipant
+} from "../../store/RoomReducers/RoomActionCreators";
 
 interface EditProfileModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -39,6 +48,7 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
   const [titleVisible, setTitleVisible] = useState(false)
   const [membersVisible, setMembersVisible] = useState(false)
   const [applicationsVisible, setApplicationsVisible] = useState(false)
+  const [blockedVisible, setBlockedVisible] = useState(false)
 
   const [bio, setBio] = useState(room.descriptions || '')
 
@@ -74,16 +84,30 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
 
   const modal = () => {
     if (membersVisible) {
-      return <MembersListModal room={room} closeModal={closeModal} modal={id => console.log(id)} back={() => setMembersVisible(false)}/>
+      return <UsersListModal popupButtons={[
+        {needShowProfile: true},
+        {text: 'Сделать администратором', onClick: (id: string) => console.log('admin ' + id), confirmText: 'Вы действительно хотите сделать администратором этого пользователя?'},
+        {text: 'Заблокировать', onClick: (id: string) => console.log('block ' + id), confirmText: 'Вы действительно хотите заблокировать этого пользователя?'},
+        {text: 'Удалить', onClick: (id: string) => console.log('delete ' + id), confirmText: 'Вы действительно хотите удалить этого пользователя?'},
+      ]} users={getUsersForUsersList(room.participants)} title={'Участники'} closeModal={closeModal} back={() => setMembersVisible(false)}/>
     }
     if (applicationsVisible) {
-      return <ApplicationsListModal room={room} closeModal={closeModal} modal={id => console.log(id)} back={() => setApplicationsVisible(false)}/>
+      return <UsersListModal popupButtons={[
+        {needShowProfile: true},
+        {text: 'Добавить', onClick: (id: string) => console.log('add ' + id)},
+      ]}  users={getUsersForUsersList(room.applications)} title={'Applications'} closeModal={closeModal} back={() => setApplicationsVisible(false)}/>
+    }
+    if(blockedVisible){
+      return <UsersListModal popupButtons={[
+        {needShowProfile: true},
+        {text: 'Разблокировать', onClick: (id: string) => console.log('unblock ' + id), confirmText: 'Вы действительно хотите разблокировать этого пользователя?'},
+      ]}  users={getUsersForUsersList(room.blockedList)} title={'Blocked'} closeModal={closeModal} back={() => setBlockedVisible(false)}/>
     }
     return <Error>Nested modal was used incorrectly</Error>
   }
 
   return (
-    membersVisible || applicationsVisible
+    membersVisible || applicationsVisible || blockedVisible
       ? modal()
       : <Modal closeModal={closeModal}>
         {titleVisible &&
@@ -102,7 +126,7 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
           <div className="edit__preview">
             <div className="edit__avatar-box">
               <Img className="edit__avatar"
-                   src={room.photoURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}/>
+                   src={room.photoURL || roomIcon}/>
               <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit__reset-avatar"/>
             </div>
             <TitleUser>{room.title}</TitleUser>
@@ -119,13 +143,15 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
           </div>
           <SeparateModal/>
           <div className="edit__actions">
-            <ButtonWideModal onClick={() => setTitleVisible(true)} sideIcon={'22px'} icon={profileIcon}
+            <ButtonWideModal onClick={() => setTitleVisible(true)} iconSide={'22px'} icon={profileIcon}
                              label={room.title}>Title</ButtonWideModal>
-            <ButtonWideModal onClick={() => setMembersVisible(true)} sideIcon={'22px'}
-                             icon={groupIcon} label={`${room.participants && Object.keys(room.participants).length}`}>Members</ButtonWideModal>
+            <ButtonWideModal onClick={() => setMembersVisible(true)} iconSide={'22px'}
+                             icon={groupIcon} label={`${getLength(room.participants)}`}>Members</ButtonWideModal>
+            <ButtonWideModal onClick={() => setBlockedVisible(true)} iconSide={'22px'}
+                             icon={blockIcon} label={`${getLength(room.blockedList)}`}>Blocked users</ButtonWideModal>
             {room.isPrivate &&
-              <ButtonWideModal onClick={() => setApplicationsVisible(true)} sideIcon={'22px'}
-                               icon={addIcon} label={`${room.applications && Object.keys(room.applications).length}`}>Applications</ButtonWideModal>}
+              <ButtonWideModal onClick={() => setApplicationsVisible(true)} iconSide={'22px'}
+                               icon={addIcon} label={`${getLength(room.applications)}`}>Applications</ButtonWideModal>}
           </div>
           <SeparateModal/>
           <div className="edit__exit">
