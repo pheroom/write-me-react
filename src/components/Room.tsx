@@ -16,6 +16,7 @@ import sendDisIcon from '../assets/icons/send-disabled.png'
 import RoomInfoModal from "./ModalApplied/RoomInfoModal";
 import EditRoomModal from "./ModalApplied/EditRoomModal";
 import {IRoomUpdates} from "../models/IRoomUpdates";
+import UserInfoModal from "./ModalApplied/UserInfoModal";
 
 interface RoomProps {
   room: IRoom
@@ -30,9 +31,10 @@ interface RoomProps {
   setEditVisible: (status: boolean) => void
   className: string
   resetError: () => void
+  showProfile: (id: string) => void
 }
 
-const Room: FC<RoomProps> = ({
+const Room = React.forwardRef(({
                                className,
                                uid,
                                room,
@@ -44,13 +46,16 @@ const Room: FC<RoomProps> = ({
                                setEditVisible,
                                error,
                                setInfoVisible,
-                               infoVisible
-                             }) => {
+                               infoVisible,
+                               showProfile
+                             }: RoomProps, ref: React.ForwardedRef<HTMLDivElement>) => {
   const [text, setText] = useState('')
 
   const navigate = useNavigate()
 
   const dispatch = useAppDispatch()
+
+  const [screenScrolled, setScreenScrolled] = useState(true)
 
   function removeRoomHandle() {
     removeRoom(room.roomId)
@@ -71,8 +76,6 @@ const Room: FC<RoomProps> = ({
   function changeHandle(e: React.ChangeEvent<HTMLTextAreaElement>) {
     setText(e.target.value)
   }
-
-  const [screenScrolled, setScreenScrolled] = useState(true)
 
   function scrollToBottom() {
     setScreenScrolled(false)
@@ -104,7 +107,7 @@ const Room: FC<RoomProps> = ({
 
   if (!room.participants[uid]) return <JoinToRoom room={room} uid={uid}/>
   return (
-    <div className={'current-room ' + className}>
+    <div className={'current-room ' + className} ref={ref}>
 
       {infoVisible && <RoomInfoModal editRoomLink={() => setEditVisible(true)}
                                      isOwner={room.participants[uid] === ParticipantStatuses.HOST} leaveRoom={leaveRoom}
@@ -118,7 +121,7 @@ const Room: FC<RoomProps> = ({
         <div className={'current-room__count-participants'}>{Object.entries(room.participants).length} подписчиков</div>
       </div>
       {error && <Error>{error}</Error>}
-      <Messages scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
+      <Messages showProfile={showProfile} scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
                 className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages}
                 uid={uid}/>
       <form ref={formRef} onSubmit={sendMessage} className={'current-room__form'}>
@@ -130,6 +133,6 @@ const Room: FC<RoomProps> = ({
       </form>
     </div>
   );
-};
+})
 
 export default Room;

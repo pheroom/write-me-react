@@ -6,12 +6,13 @@ import Img from "../UI/Img";
 import userIcon from '../assets/icons/user-base.png'
 
 interface ProfilePreviewProps{
+  onClick?: (e: React.MouseEvent) => void
   userData: IUser | string
   status?: string
   size?: 'large' | 'medium' | 'small'
 }
 
-const ProfilePreview: FC<ProfilePreviewProps> = ({userData, size = 'small', status}) => {
+const ProfilePreview: FC<ProfilePreviewProps> = ({userData, onClick, size = 'small', status}) => {
   const [user, setUser] = useState<IUser | null>(null)
 
   useEffect(() => {
@@ -30,10 +31,10 @@ const ProfilePreview: FC<ProfilePreviewProps> = ({userData, size = 'small', stat
         {size === 'small' && status && <p className={className + '__label'}>{status}</p>}
         <Img className={className + '__img'}
              src={user.photoURL || userIcon}
-             alt="avatar"/>
+             alt="avatar" onClick={onClick}/>
         <div className={className + '__info'}>
-          <p className={className + '__name'}>{user.displayName}</p>
-          <p className={className + '__email'}>{user.email}</p>
+          <p className={className + '__name'} onClick={onClick}>{user.displayName}</p>
+          <p className={className + '__email'} onClick={onClick}>{user.email}</p>
         </div>
       </div>
       : <RegularLoader/>

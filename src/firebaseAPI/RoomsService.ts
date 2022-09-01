@@ -6,8 +6,6 @@ import {IMessage} from "../models/IMessage";
 import StorageService from "./StorageService";
 import {getFileImgFromUrl} from "../utils/getFileImgFromUrl";
 import {User as FirebaseUser} from "@firebase/auth";
-import {IUserUpdates} from "../models/IUserUpdates";
-import NamesService from "./NamesService";
 import {IRoomUpdates} from "../models/IRoomUpdates";
 
 export default class RoomsService {

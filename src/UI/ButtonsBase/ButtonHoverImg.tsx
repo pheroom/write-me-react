@@ -1,4 +1,5 @@
 import React, {ButtonHTMLAttributes, FC} from 'react';
+import Img from "../Img";
 
 interface ButtonHoverImgProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   imgDisabled: string
@@ -10,8 +11,8 @@ interface ButtonHoverImgProps extends ButtonHTMLAttributes<HTMLButtonElement>{
 const ButtonHoverImg: FC<ButtonHoverImgProps> = ({imgDisabled, imgActive, alt, className, ...args}) => {
   return (
     <button className={"btn-hover-img " + (className ? className : '')} {...args}>
-      <img className={'btn-hover-img__img--disabled'} src={imgDisabled} alt={alt || ''}/>
-      <img className={'btn-hover-img__img--active'} src={imgActive} alt={alt || ''}/>
+      <Img className={'btn-hover-img__img--disabled'} src={imgDisabled} alt={alt || ''}/>
+      <Img className={'btn-hover-img__img--active'} src={imgActive} alt={alt || ''}/>
     </button>
   );
 };

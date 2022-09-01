@@ -12,9 +12,9 @@ import PUser from "../../UI/Texts/PUser";
 import Modal from "../../UI/Modal/Modal";
 import {IUser} from "../../models/IUser";
 import ButtonBackIcon from "../../UI/ButtonsApplied/ButtonBackIcon";
-import ProfilePreviewLarge from "../ProfilePreviewLarge";
 import {getUserByUid} from "../../utils/getUserByUid";
 import BlockIndentModal from "../../UI/Modal/BlockIndentModal";
+import ProfilePreview from "../ProfilePreview";
 
 interface UserInfoModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -33,7 +33,7 @@ const UserInfoModal: FC<UserInfoModalProps> = ({closeModal, userId, back}) => {
     <Modal closeModal={closeModal}>
       <HeaderModal>
         {back && <ButtonBackIcon alt={'back'} onClick={back} indent/>}
-        <TitleModal smallIndent={!!back}>User Info</TitleModal>
+        <TitleModal smallIndent={!!back}>Информация</TitleModal>
         <ActionsHeaderModal>
           <ButtonCrossIcon indent
                            alt={'close'}
@@ -43,7 +43,7 @@ const UserInfoModal: FC<UserInfoModalProps> = ({closeModal, userId, back}) => {
       <MainModal>
         {currentUser && <>
           <BlockIndentModal>
-            <ProfilePreviewLarge user={currentUser}/>
+            <ProfilePreview size={'large'} userData={currentUser}/>
           </BlockIndentModal>
           <SeparateModal/>
           <BlockWithIcon icon={infoIcon}>

@@ -1,11 +1,10 @@
-import React, {createRef, FC, useEffect, useRef, useState} from 'react';
+import React, {createRef, FC, useState} from 'react';
 import {IMessage} from "../models/IMessage";
 import Message from "./Message";
 import {useAppDispatch} from "../store";
 import {removeMessage} from "../store/RoomReducers/RoomActionCreators";
 import arrowIcon from '../assets/icons/arrow-down.png'
 import {useObserverVisible} from "../hooks/useObserverVisible";
-import EditImage from "./EditImage";
 import Popup from "./ModalApplied/Popup";
 
 interface MessagesProps {
@@ -17,9 +16,10 @@ interface MessagesProps {
   screenScrolled: boolean
   setScreenScrolled: (status: boolean) => void
   scrollToBottom: () => void
+  showProfile: (id: string) => void
 }
 
-const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toBotBtnRef, scrollToBottom, setScreenScrolled, screenScrolled}) => {
+const Messages: FC<MessagesProps> = ({showProfile, messages, uid, className, messagesRef, toBotBtnRef, scrollToBottom, setScreenScrolled, screenScrolled}) => {
   const [currentMessage, setCurrentMessage] = useState<null | IMessage>(null)
 
   const anchorRef = createRef<HTMLDivElement>()
@@ -36,7 +36,7 @@ const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toB
     }
   }
 
-  function removeHandle(){
+  function removeHandle(data: IMessage){
     if(currentMessage && window.confirm('Вы действительно хотите удалить сообщение: ' + currentMessage.text)){
       dispatch(removeMessage({message: currentMessage, uid}))
     }
@@ -51,13 +51,15 @@ const Messages: FC<MessagesProps> = ({messages, uid, className, messagesRef, toB
 
   return (
     <div className={'messages ' + (className ? className : '')} ref={messagesRef}>
+
       {currentMessage && <Popup buttons={[
         {text: 'Скопировать', onClick: copyMessage, needFadeAfter: true},
-        {text: 'Удалить', onClick: (data) => console.log(data), needFadeAfter: true, confirmText: 'Вы действительно хотите удалить это сообщение?'},
+        {text: 'Удалить', onClick: (data) => removeHandle(data), needFadeAfter: true},
       ]} data={currentMessage} closeModal={() => setCurrentMessage(null)}/>}
+
       {messages
         ? messages.map(message =>
-          <Message scrollToBottom={scrollToBottom} key={message.messageId} message={message} setEventsVisible={setEventsVisibleHandle} isMyMessage={message.authorId === uid} className={message.authorId === uid ? 'messages__message--send' : 'messages__message--receive'}/>
+          <Message showProfile={showProfile} scrollToBottom={scrollToBottom} key={message.messageId} message={message} setEventsVisible={setEventsVisibleHandle} isMyMessage={message.authorId === uid} className={message.authorId === uid ? 'messages__message--send' : 'messages__message--receive'}/>
         )
         : <div>Сообщений пока нет</div>
       }

@@ -1,8 +1,10 @@
 @mixin selection-col($color) {
   & *::selection {
+    color: $majorFontCol;
     background: $color;
   }
   & *::-moz-selection {
+    color: $majorFontCol;
     background: $color;
   }
 }

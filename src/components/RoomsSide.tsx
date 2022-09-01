@@ -1,4 +1,14 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {
+  createRef,
+  FC,
+  ForwardedRef,
+  RefObject,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
 import {Link} from "react-router-dom";
 import {IRoom} from "../models/IRoom";
 import Loader from "../UI/Loaders/Loader";
@@ -20,29 +30,52 @@ interface RoomsSideProps {
   className: string
 }
 
-const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, className}) => {
+const RoomsSide = React.forwardRef(({rooms, isLoading, error, currentRoom, className}: RoomsSideProps, ref: ForwardedRef<HTMLDivElement>) => {
   const {status, change} = useContext(menuVisibleContext)
 
   const [initialPos, setInitialPos] = useState<null | number>(null);
   const [initialSize, setInitialSize] = useState<null | number>(null);
 
-  const initial = (e: React.DragEvent<HTMLDivElement>) => {
-    let resizable = document.getElementById('Resizable');
-    setInitialPos(e.clientX);
-    if (resizable) {
-      setInitialSize(resizable.offsetWidth);
-    }
-  }
+  // const resizeRef = createRef<HTMLDivElement>()
+  // const mainRef = createRef<HTMLDivElement>()
 
-  const resize = (e: React.DragEvent<HTMLDivElement>) => {
-    if (initialPos && initialSize) {
-      let resizable = document.getElementById('Resizable') as HTMLElement;
-      const newWidth = initialSize + e.clientX - initialPos
-      if(newWidth > 250){
-        resizable.style.width = `${newWidth}px`;
-      }
-    }
-  }
+  // useLayoutEffect(()=>{
+  //   resizeRef.current?.addEventListener('mousedown', init)
+  // }, [resizeRef])
+
+  // function init(){
+  //   document.addEventListener('mousemove', resize)
+  //   document.addEventListener('mouseup', function (){
+  //     document.removeEventListener('mousemove', resize)
+  //   })
+  // }
+
+  // function resize(e: MouseEvent){
+  //   if(mainRef.current){
+  //     let width = e.clientX
+  //     console.log(width)
+  //     mainRef.current.style.width = width + 'px'
+  //   }
+  //   // document.addEventListener('mousedown', )
+  // }
+
+  // const initial = (e: React.DragEvent<HTMLDivElement>) => {
+  //   let resizable = document.getElementById('Resizable');
+  //   setInitialPos(e.clientX);
+  //   if (resizable) {
+  //     setInitialSize(resizable.offsetWidth);
+  //   }
+  // }
+  //
+  // const resize = (e: React.DragEvent<HTMLDivElement>) => {
+  //   if (initialPos && initialSize) {
+  //     let resizable = document.getElementById('Resizable') as HTMLElement;
+  //     const newWidth = initialSize + e.clientX - initialPos
+  //     if(newWidth > 250){
+  //       resizable.style.width = `${newWidth}px`;
+  //     }
+  //   }
+  // }
 
   const [text, setText] = useState('')
 
@@ -51,16 +84,17 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
   }
 
   return (
-    <div id={'Resizable'} className={'rooms-side ' + className}>
+    <div id={'Resizable'} ref={ref} className={'rooms-side ' + className}>
       {isLoading && <RegularLoader fullStretch/>}
       {error && <Error>{error}</Error>}
-      <div
-        id='Draggable'
-        className="rooms-side__resize"
-        draggable
-        onDragStart={initial}
-        onDrag={resize}
-      />
+      {/*<div*/}
+      {/*  id='Draggable'*/}
+      {/*  className="rooms-side__resize"*/}
+      {/*  ref={resizeRef}*/}
+      {/*  // draggable*/}
+      {/*  // onDragStart={initial}*/}
+      {/*  // onDrag={resize}*/}
+      {/*/>*/}
       <div className={'rooms-side__header'}>
         <ButtonHoverImg className={'rooms-side__menu-btn'} imgDisabled={burgerDisIcon} imgActive={burgerActIcon} onClick={change}/>
         <InputFillPrimary classNameBox={'rooms-side__search'} placeholder={'Search'} value={text} onChange={e => setText(e.target.value)} resetValue={resetText}/>
@@ -86,6 +120,6 @@ const RoomsSide: FC<RoomsSideProps> = ({rooms, isLoading, error, currentRoom, cl
       </div>
     </div>
   );
-};
+})
 
 export default RoomsSide;

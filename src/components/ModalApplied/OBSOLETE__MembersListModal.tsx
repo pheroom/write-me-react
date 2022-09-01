@@ -23,7 +23,7 @@ interface MembersListModalProps extends HTMLAttributes<HTMLDivElement>{
   modal?: (uid: string) => void
 }
 
-const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, back}) => {
+const OBSOLETE__MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, back}) => {
   const [currentUserInfo, setCurrentUserInfo] = useState<null | string>(null)
 
   const [searchText, setSearchText] = useState('')
@@ -64,4 +64,4 @@ const MembersListModal: FC<MembersListModalProps> = ({closeModal, modal, room, b
   );
 };
 
-export default MembersListModal;
+export default OBSOLETE__MembersListModal;

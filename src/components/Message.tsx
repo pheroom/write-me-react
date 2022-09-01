@@ -5,6 +5,8 @@ import RegularLoader from "../UI/Loaders/RegularLoader";
 import {getUserByUid} from "../utils/getUserByUid";
 import userIcon from '../assets/icons/user-base.png'
 import Img from "../UI/Img";
+import PUser from "../UI/Texts/PUser";
+import {getDate, getTime} from "../utils/getDate";
 
 interface MessageProps{
   message: IMessage
@@ -12,9 +14,10 @@ interface MessageProps{
   className: string
   isMyMessage: boolean
   scrollToBottom: () => void
+  showProfile: (id: string) => void
 }
 
-const Message: FC<MessageProps> = ({scrollToBottom, setEventsVisible, message, className, isMyMessage}) => {
+const Message: FC<MessageProps> = ({scrollToBottom, showProfile, setEventsVisible, message, className, isMyMessage}) => {
   const [user, setUser] = useState<null | IUser>(null)
 
   useEffect(()=>{
@@ -27,16 +30,31 @@ const Message: FC<MessageProps> = ({scrollToBottom, setEventsVisible, message, c
     }
   }, [user])
 
+  function showProfileHandle(e: React.MouseEvent){
+    e.stopPropagation()
+    showProfile(message.authorId)
+  }
+
+  function textClick(e: React.MouseEvent){
+    e.stopPropagation()
+  }
+
   if(!user) return <RegularLoader fullWidth/>
   return (
-    <div className={'message ' + (className ? className : '')} onClick={e => setEventsVisible(message)}>
+    <div className={'message ' + (isMyMessage ? 'message--send ' : 'message--receive ') + (className || '')}>
       <Img
         className={'message__avatar ' + (isMyMessage ? 'message__avatar--send' : 'message__avatar--receive')}
-        src={user.photoURL || userIcon} alt="ava"
+        src={user.photoURL || userIcon} alt="ava" onClick={showProfileHandle}
       />
-      <div className={'message__main ' + (isMyMessage ? 'message__main--send' : 'message__main--receive')}>
-        {!isMyMessage && <div className="message__name">{user.displayName}</div>}
-        <div className="message__text">{message.text}</div>
+      <div onClick={e => setEventsVisible(message)} className={'message__main ' + (isMyMessage ? 'message__main--send' : 'message__main--receive')}>
+        <div className="message__content">
+          {!isMyMessage && <p onClick={showProfileHandle} className="message__name">{user.displayName}</p>}
+          <PUser onClick={textClick} className="message__text">{message.text}</PUser>
+        </div>
+        <div className="message__date">
+          <p className="message__date-time">{getTime(message.createdAt)}</p>
+          <p className="message__date-date">{getDate(message.createdAt)}</p>
+        </div>
       </div>
     </div>
   );
