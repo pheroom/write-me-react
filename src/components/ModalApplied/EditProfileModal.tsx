@@ -18,6 +18,7 @@ import profileIcon from '../../assets/icons/profile-blue.png'
 import phoneIcon from '../../assets/icons/phone.png'
 import emailIcon from '../../assets/icons/email.png'
 import passwordIcon from '../../assets/icons/password.png'
+import userAva from '../../assets/icons/user-base.png'
 import Button from "../../UI/ButtonsBase/Button";
 import TemporaryError from "../../UI/Errors/TemporaryError";
 import UpdateFieldModal from "./UpdateFieldModal";
@@ -79,23 +80,22 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
   return (
     <Modal closeModal={closeModal}>
 
-      {/*{loginVisible && <UpdateLoginModal updateName={updateName} closeModal={() => setLoginVisible(false)}/>}*/}
       {loginVisible &&
-        <UpdateFieldModal rules={loginRule} closeModal={() => setLoginVisible(false)} title={'Edit your name'}
-                          label={'New name'} updateField={updateName}/>}
+        <UpdateFieldModal rules={loginRule} closeModal={() => setLoginVisible(false)} title={'Редактирование имени'}
+                          label={'Новое имя'} updateField={updateName}/>}
       {emailVisible &&
-        <UpdateFieldModal rules={emailRule} closeModal={() => setEmailVisible(false)} title={'Edit your email'}
-                          label={'New email'} updateField={updateEmail}/>}
+        <UpdateFieldModal rules={emailRule} closeModal={() => setEmailVisible(false)} title={'Редактирование почты'}
+                          label={'Новая почта'} updateField={updateEmail}/>}
       {phoneVisible &&
-        <UpdateFieldModal rules={phoneRule} closeModal={() => setPhoneVisible(false)} title={'Edit your phone'}
-                          label={'New phone'} updateField={updatePhone}/>}
+        <UpdateFieldModal rules={phoneRule} closeModal={() => setPhoneVisible(false)} title={'Редактирование телефона'}
+                          label={'Новый телефон'} updateField={updatePhone}/>}
       {passwordVisible &&
-        <UpdateFieldModal rules={passwordRule} closeModal={() => setPasswordVisible(false)} title={'Edit your password'}
-                          label={'Last password'} otherLabel={'New password'} updateFields={updatePassword}/>}
+        <UpdateFieldModal rules={passwordRule} closeModal={() => setPasswordVisible(false)} title={'Изменение пароля'}
+                          label={'Старый пароль'} otherLabel={'Новый пароль'} updateFields={updatePassword}/>}
 
       {error && <TemporaryError time={3000} resetError={resetError}>{error}</TemporaryError>}
       <HeaderModal>
-        <TitleModal>Edit Profile</TitleModal>
+        <TitleModal>Информация</TitleModal>
         <ActionsHeaderModal>
           <ButtonCrossIcon indent
                            alt={'close'}
@@ -106,30 +106,30 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
         <div className="edit__preview">
           <div className="edit__avatar-box">
             <Img className="edit__avatar"
-                 src={user.photoURL || 'https://cdn.ananasposter.ru/image/cache/catalog/poster/mult/95/2266-1000x830.jpg'}/>
+                 src={user.photoURL || userAva}/>
             <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit__reset-avatar"/>
           </div>
           <TitleUser>{user.displayName}</TitleUser>
         </div>
         <div className="edit__descriptions">
-          <InputCounter placeholder={'Bio'} maxCount={70} value={bio} onChange={setBioHandle}/>
+          <InputCounter placeholder={'О себе'} maxCount={70} value={bio} onChange={setBioHandle}/>
           {bio !== user.descriptions
-            && <Button onClick={updateBio} className={'edit__descriptions-save'}>Save Bio</Button>}
+            && <Button onClick={updateBio} className={'edit__descriptions-save'}>Сохранить</Button>}
         </div>
         <SeparateModal/>
         <div className="edit__actions">
           <ButtonWideModal onClick={() => setLoginVisible(true)} iconSide={'22px'} icon={profileIcon}
-                           label={user.displayName}>Name</ButtonWideModal>
+                           label={user.displayName}>Имя</ButtonWideModal>
           <ButtonWideModal onClick={() => setPhoneVisible(true)} iconSide={'22px'} icon={phoneIcon}
-                           label={user.phoneNumber || 'don`t set'}>Phone</ButtonWideModal>
+                           label={user.phoneNumber || 'не задан'}>Телефон</ButtonWideModal>
           <ButtonWideModal onClick={() => setEmailVisible(true)} iconSide={'22px'} icon={emailIcon}
-                           label={user.email}>Email</ButtonWideModal>
+                           label={user.email}>Почта</ButtonWideModal>
           <ButtonWideModal onClick={() => setPasswordVisible(true)} iconSide={'22px'} icon={passwordIcon}
-                           label={'******'}>Password</ButtonWideModal>
+                           label={'******'}>Пароль</ButtonWideModal>
         </div>
         <SeparateModal/>
         <div className="edit__exit">
-          <ButtonWideModal onClick={logout} icon={exitIcon}>Log out</ButtonWideModal>
+          <ButtonWideModal onClick={logout} icon={exitIcon}>Выйти</ButtonWideModal>
         </div>
       </MainModal>
     </Modal>

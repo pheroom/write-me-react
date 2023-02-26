@@ -3,18 +3,18 @@ import {Link} from "react-router-dom";
 import {RouteNames} from "../router";
 import {useAppDispatch, useAppSelector} from "../store";
 import {userSignUp} from "../store/UserReducers/UserActionCreators";
-import {useLoginInput} from "../UI/InputsApplied/useLoginInput";
-import {usePasswordInput} from "../UI/InputsApplied/usePasswordInput";
-import {useEmailInput} from "../UI/InputsApplied/useEmailInput";
 import Loader from "../UI/Loaders/Loader";
-import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
 import Error from "../UI/Errors/Error";
 import {userSlice} from "../store/UserReducers/UserSlice";
+import {useInput} from "../hooks/useInput";
+import {emailRule, loginRule, passwordRule} from "../utils/validationRules";
+import InputLabeled from "../UI/InputsBase/InputLabeled";
+import Button from "../UI/ButtonsBase/Button";
 
 const SignUp = () => {
-  const {loginInput, login} = useLoginInput('', 'sign-up__input', 'sign-up__input-box')
-  const {emailInput, email} = useEmailInput('', 'sign-up__input', 'sign-up__input-box')
-  const {passwordInput, password} = usePasswordInput('', 'sign-up__input', 'sign-up__input-box')
+  const login = useInput('', loginRule)
+  const email = useInput('', emailRule)
+  const password = useInput('', passwordRule)
 
   const dispatch = useAppDispatch()
   const {resetError} = userSlice.actions
@@ -40,14 +40,38 @@ const SignUp = () => {
           <Error>{error}</Error>
         </div>}
         <form onSubmit={signUp} className={'sign-up__form'}>
-          {loginInput}
-          {emailInput}
-          {passwordInput}
-          <ButtonMedium className={'sign-up__button'} disabled={!login.inputValid || !email.inputValid || !password.inputValid} type={'submit'}>
-            Зарегистрироваться
-          </ButtonMedium>
+          <InputLabeled
+            autoFocus
+            boxClassName={'sign-up__input-box'}
+            label={'Имя пользователя'}
+            value={login.value}
+            error={login.isDirty && !login.inputValid}
+            onChange={login.onChange}
+            onBlur={login.onBlur}
+          />
+          <InputLabeled
+            boxClassName={'sign-in__input-box'}
+            label={'Почта'}
+            value={email.value}
+            error={email.isDirty && !email.inputValid}
+            onChange={email.onChange}
+            onBlur={email.onBlur}
+          />
+          <InputLabeled
+            boxClassName={'sign-up__input-box'}
+            label={'Пароль'}
+            value={password.value}
+            error={password.isDirty && !password.inputValid}
+            onChange={password.onChange}
+            onBlur={password.onBlur}
+          />
+          <div className="sign-in__actions">
+            <Button className={'sign-in__button'} disabled={!login.inputValid || !password.inputValid} type={'submit'}>
+              Создать
+            </Button>
+            <Link className={'sign-up__link'} to={RouteNames.SIGNIN}>Войти в аккаунт</Link>
+          </div>
         </form>
-        <Link className={'sign-up__link'} to={RouteNames.SIGNIN}>Войти в аккаунт</Link>
       </div>
     </main>
   );

@@ -1,11 +1,11 @@
 import {useInput} from "../../hooks/useInput";
 import React from "react";
-import {nameRule} from "../../utils/validationRules";
+import {roomNameRule} from "../../utils/validationRules";
 import InputUnderlined from "../InputsBase/InputUnderlined";
 import LabelError from "../LabelError";
 
 export const useNameInput = (value: string, ...args: any[]) => {
-  const name = useInput(value, nameRule)
+  const name = useInput(value, roomNameRule)
 
   const nameInput = <div>
     {(name.isDirty && name.isEmpty) && <LabelError>is empty</LabelError>}

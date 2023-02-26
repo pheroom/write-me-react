@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import './styles/index.scss'
-import Navbar from "./components/Navbar";
 import AppRouter from "./components/AppRouter";
 import {initializeApp} from "firebase/app";
 import {getAnalytics} from "firebase/analytics";
@@ -16,17 +15,8 @@ import Loader from "./UI/Loaders/Loader";
 import SideMenu from "./components/SideMenu";
 import {useSelectorUser} from "./hooks/redux";
 import {setUserById} from "./store/UserReducers/UserActionCreators";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCVlhvxUeJ_wISXgIiYmg48_o6js6NqpYo",
-  authDomain: "writeme-37420.firebaseapp.com",
-  projectId: "writeme-37420",
-  storageBucket: "writeme-37420.appspot.com",
-  messagingSenderId: "729409574095",
-  appId: "1:729409574095:web:bd613bdfd52d8d5736d3ba",
-  measurementId: "G-GZF0R8J1DP",
-  databaseURL: 'https://writeme-37420-default-rtdb.europe-west1.firebasedatabase.app/',
-};
+import {firebaseConfig} from "./firebaseConfig";
+import {useNavigate} from "react-router-dom";
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -37,6 +27,10 @@ const storage = getStorage(app)
 export const menuVisibleContext = React.createContext({status: false, change: () => console.warn('menuVisibleContext.change не реализован')})
 
 function App() {
+  let [curPath, setCurPath] = useState(window.location.href)
+
+  const navigate = useNavigate()
+
   const [menuVisible, setMenuVisible] = useState(false)
   const menuVisibleContextState = {status: menuVisible, change: () => setMenuVisible(prev => !prev)}
 
@@ -53,6 +47,7 @@ function App() {
       if (JSON.stringify(userData) !== JSON.stringify(firebaseObj)) {
         setIsUserInit(true)
         dispatch(setUserById(firebaseObj.uid))
+        navigate(curPath.slice(curPath.indexOf('#')+1))
       }
     }
   }, [user])

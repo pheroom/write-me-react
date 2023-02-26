@@ -22,6 +22,7 @@ import BlockIndentModal from "../../UI/Modal/BlockIndentModal";
 import UsersListModal from "./UsersListModal";
 import {getLength} from "../../utils/getLength";
 import {getUsersForUsersList} from "../../utils/getUsersForUsersList";
+import {getMembersLabel} from "../../utils/getMembersLabel";
 
 interface RoomInfoModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -74,7 +75,7 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLin
                 ? <PUser className="modal__description-text">
                   {room.descriptions}
                 </PUser>
-                : <p>Не задано</p>
+                : <i>Не задано</i>
               }
               <LabelLight>Описание</LabelLight>
             </div>
@@ -82,17 +83,17 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLin
           <SeparateModal/>
           <div className="modal__room-members">
             <ButtonWideModal icon={groupLineIcon} onClick={() => setMembersListVisible(true)}>
-              {`${membersCount} ${!membersCount || membersCount > 4 ? "участников" : membersCount === 1 ? "участника" : "участник"}`}
+              {`${membersCount} ${getMembersLabel(membersCount)}`}
             </ButtonWideModal>
           </div>
           <SeparateModal/>
           <div className="modal__room-action">
             {isOwner
               ? <ButtonWideModal icon={editIcon} onClick={editRoomLink}>
-                Edit room
+                Редактировать группу
               </ButtonWideModal>
               : <ButtonWideModal icon={exitIcon} onClick={leaveRoomHandle}>
-                Leave channel
+                Покинуть группу
               </ButtonWideModal>
             }
           </div>

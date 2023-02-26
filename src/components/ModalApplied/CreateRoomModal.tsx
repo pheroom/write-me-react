@@ -5,6 +5,9 @@ import InputUnderlined from "../../UI/InputsBase/InputUnderlined";
 import Button from "../../UI/ButtonsBase/Button";
 import Checkbox from "../../UI/InputsBase/Checkbox";
 import FooterButtonsModal from "../../UI/Modal/FooterButtonsModal";
+import InputLabeled from "../../UI/InputsBase/InputLabeled";
+import {useInput} from "../../hooks/useInput";
+import {roomNameRule} from "../../utils/validationRules";
 
 interface CreateRoomModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -12,15 +15,14 @@ interface CreateRoomModalProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const CreateRoomModal: FC<CreateRoomModalProps> = ({closeModal, createRoom, }) => {
-  const [name, setName] = useState('')
+  // const [name, setName] = useState('')
+  const name = useInput('', roomNameRule)
   const [isPrivate, setIsPrivate] = useState(false)
   const [photoUrl, setPhotoUrl] = useState<null | string>(null)
 
   function createRoomHandle(){
-    if(name){
-      createRoom(name, isPrivate, photoUrl)
-      setName('')
-      setIsPrivate(false)
+    if(name.value){
+      createRoom(name.value, isPrivate, photoUrl)
       closeModal()
     }
   }
@@ -31,21 +33,28 @@ const CreateRoomModal: FC<CreateRoomModalProps> = ({closeModal, createRoom, }) =
           <ImageInput size={'large'} photoUrl={photoUrl} setPhotoUrl={setPhotoUrl}/>
           <div className="create-room__inputs">
             <div className="create-room__name-box">
-              <p className={'create-room__name-label'}>Room name</p>
-              <InputUnderlined value={name} onChange={e => setName(e.target.value)} placeholder={'Room name'} className={'create-room__name-input'}/>
+              <InputLabeled
+                autoFocus
+                value={name.value}
+                onChange={name.onChange}
+                onBlur={name.onBlur}
+                error={name.isDirty && !name.inputValid}
+                label={'Название группы'}
+                className={'create-room__name-input'}
+              />
             </div>
             <div className="create-room__private">
-              <p className={'create-room__private-label'}>Create a private room</p>
+              <p className={'create-room__private-label'}>Приватная группа</p>
               <Checkbox checked={isPrivate} onChange={() => setIsPrivate(prev => !prev)}/>
             </div>
           </div>
       </div>
       <FooterButtonsModal>
         <Button onClick={closeModal}>
-          Cancel
+          Отмена
         </Button>
-        <Button onClick={createRoomHandle}>
-          Create
+        <Button disabled={!name.inputValid} onClick={createRoomHandle}>
+          Создать
         </Button>
       </FooterButtonsModal>
     </Modal>

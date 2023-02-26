@@ -1,0 +1,178 @@
+.input-underlined{
+  all: unset;
+  min-width: 200px;
+  border-bottom: 1px solid $minorFontCol;
+  padding: 6px 0;
+  font-size: 13px;
+  color: $majorFontCol;
+  &:focus{
+    border-bottom: 2px solid $activeFontCol;
+    padding: 6px 0 5px 0;
+  }
+  &--error{
+    border-bottom: 2px solid $errorCol;
+    padding: 6px 0 5px 0;
+  }
+}
+
+.input{
+  all: unset;
+  width: 100%;
+  margin-right: 10px;
+  color: $majorFontCol;
+  font-size: 13px;
+  &::placeholder{
+    color: $placeholderCol;
+    transition: .2s;
+  }
+  &:focus::placeholder{
+    color: $placeholderActiveCol;
+  }
+}
+
+.input-fill-primary{
+  padding: 8px 10px 8px 14px;
+  background-color: #242F3D;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__img{
+    height: 13px;
+  }
+  &__img--disabled{
+    display: none;
+  }
+  &__elem{
+    all: unset;
+    width: 100%;
+    margin-right: 10px;
+    color: $majorFontCol;
+    font-size: 13px;
+  }
+  &__elem::placeholder{
+    color: $placeholderCol;
+    transition: .2s;
+  }
+  &__elem:focus::placeholder{
+    color: $placeholderActiveCol;
+  }
+}
+
+.input-counter{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  &__elem{
+    all: unset;
+    flex: 1 auto;
+    font-size: 13px;
+    color: $majorFontCol;
+    &::placeholder{
+      color: $placeholderCol;
+      transition: .2s;
+    }
+    &:focus::placeholder{
+      color: $placeholderActiveCol;
+    }
+  }
+  &__count{
+    margin-left: 10px;
+    color: $minorFontCol;
+    &--error{
+      color: $errorCol;
+    }
+  }
+}
+
+.input-labeled{
+  &__label{
+    &--error{
+      color: #EC3942;
+    }
+    &--focus{
+      color: $activeFontCol;
+    }
+  }
+  &__input{
+    width: 100%;
+  }
+}
+
+.image-input{
+  background-color: #2F6EA5;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  &--large{
+    height: 70px;
+    width: 70px;
+  }
+  &--medium{
+    height: 50px;
+    width: 50px;
+  }
+  &--small{
+    height: 35px;
+    width: 35px;
+  }
+  &:hover{
+    background-color: #3b7cb7;
+  }
+  &__icon{
+    position: absolute;
+    height: 38%;
+  }
+  &__img-done{
+    height: 100%;
+    width: auto;
+  }
+  &__input{
+    display: none;
+  }
+}
+
+.checkbox{
+  cursor: pointer;
+  max-height: 17px;
+  max-width: 17px;
+  & img{
+    height: 17px;
+    width: 17px;
+  }
+  &__input{
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+}
+
+.password-input{
+  display: flex;
+  align-items: center;
+  position: relative;
+  &__elem{
+    width: 100%;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid $disabledCol;
+    padding: 6px 30px 6px 0;
+  }
+  &__elem--error{
+    border-bottom: 2px solid $errorCol;
+    padding: 6px 30px 5px 0;
+  }
+  &__elem:focus{
+    border-bottom: 2px solid $activeCol;
+    padding: 6px 30px 5px 0;
+  }
+  &__view{
+    position: absolute;
+    right: 0px;
+    height: 25px;
+  }
+}

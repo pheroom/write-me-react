@@ -22,7 +22,7 @@ export const emailRule = {
   maxLength: 36,
 }
 
-export const nameRule = {
+export const roomNameRule = {
   isEmpty: false,
   minLength: 1,
   maxLength: 20,

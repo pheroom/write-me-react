@@ -1,19 +1,11 @@
 import React, {
-  createRef,
-  FC,
   ForwardedRef,
-  RefObject,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
+  useContext, useEffect,
   useState
 } from 'react';
 import {Link} from "react-router-dom";
 import {IRoom} from "../models/IRoom";
-import Loader from "../UI/Loaders/Loader";
 import Error from "../UI/Errors/Error";
-import ava from "../assets/ava.jpg";
 import groupIcon from "../assets/icons/group-base.png";
 import {menuVisibleContext} from "../App";
 import InputFillPrimary from "../UI/InputFillPrimary";
@@ -31,77 +23,38 @@ interface RoomsSideProps {
 }
 
 const RoomsSide = React.forwardRef(({rooms, isLoading, error, currentRoom, className}: RoomsSideProps, ref: ForwardedRef<HTMLDivElement>) => {
-  const {status, change} = useContext(menuVisibleContext)
+  const {change} = useContext(menuVisibleContext)
 
-  const [initialPos, setInitialPos] = useState<null | number>(null);
-  const [initialSize, setInitialSize] = useState<null | number>(null);
+  const [sortedRooms, setSortedRooms] = useState(rooms)
 
-  // const resizeRef = createRef<HTMLDivElement>()
-  // const mainRef = createRef<HTMLDivElement>()
-
-  // useLayoutEffect(()=>{
-  //   resizeRef.current?.addEventListener('mousedown', init)
-  // }, [resizeRef])
-
-  // function init(){
-  //   document.addEventListener('mousemove', resize)
-  //   document.addEventListener('mouseup', function (){
-  //     document.removeEventListener('mousemove', resize)
-  //   })
-  // }
-
-  // function resize(e: MouseEvent){
-  //   if(mainRef.current){
-  //     let width = e.clientX
-  //     console.log(width)
-  //     mainRef.current.style.width = width + 'px'
-  //   }
-  //   // document.addEventListener('mousedown', )
-  // }
-
-  // const initial = (e: React.DragEvent<HTMLDivElement>) => {
-  //   let resizable = document.getElementById('Resizable');
-  //   setInitialPos(e.clientX);
-  //   if (resizable) {
-  //     setInitialSize(resizable.offsetWidth);
-  //   }
-  // }
-  //
-  // const resize = (e: React.DragEvent<HTMLDivElement>) => {
-  //   if (initialPos && initialSize) {
-  //     let resizable = document.getElementById('Resizable') as HTMLElement;
-  //     const newWidth = initialSize + e.clientX - initialPos
-  //     if(newWidth > 250){
-  //       resizable.style.width = `${newWidth}px`;
-  //     }
-  //   }
-  // }
+  useEffect(() => {
+    setSortedRooms(rooms)
+  }, [rooms])
 
   const [text, setText] = useState('')
 
+  function setTextHandle(e: React.ChangeEvent<HTMLInputElement>){
+    const newText = e.target.value
+    setText(newText)
+    rooms && setSortedRooms(newText ? rooms.filter(room => room.title.includes(newText)) : rooms)
+  }
+
   function resetText(){
     setText('')
+    setSortedRooms(rooms)
   }
 
   return (
     <div id={'Resizable'} ref={ref} className={'rooms-side ' + className}>
       {isLoading && <RegularLoader fullStretch/>}
       {error && <Error>{error}</Error>}
-      {/*<div*/}
-      {/*  id='Draggable'*/}
-      {/*  className="rooms-side__resize"*/}
-      {/*  ref={resizeRef}*/}
-      {/*  // draggable*/}
-      {/*  // onDragStart={initial}*/}
-      {/*  // onDrag={resize}*/}
-      {/*/>*/}
       <div className={'rooms-side__header'}>
         <ButtonHoverImg className={'rooms-side__menu-btn'} imgDisabled={burgerDisIcon} imgActive={burgerActIcon} onClick={change}/>
-        <InputFillPrimary classNameBox={'rooms-side__search'} placeholder={'Search'} value={text} onChange={e => setText(e.target.value)} resetValue={resetText}/>
+        <InputFillPrimary classNameBox={'rooms-side__search'} placeholder={'Search'} value={text} onChange={setTextHandle} resetValue={resetText}/>
       </div>
       <div className="rooms-side__inner">
-        {rooms
-          ? rooms.map(room =>
+        {sortedRooms
+          ? sortedRooms.map(room =>
             <Link className={'room-link ' + (currentRoom?.roomId === room.roomId ? 'room-link--active' : '')}
                   to={room.roomId} key={room.roomId}>
               <img className={'room-link__img'}
@@ -110,12 +63,14 @@ const RoomsSide = React.forwardRef(({rooms, isLoading, error, currentRoom, class
               <div className="room-link__info">
                 <h3 className={'room-link__name'}>{room.title}</h3>
                 <p className={'room-link__description ' + (currentRoom?.roomId === room.roomId ? 'room-link__description--active' : '')}>
-                  {room.descriptions || 'нет описания'}
+                  {room.descriptions || <i>описание не задано</i>}
                 </p>
               </div>
             </Link>
           )
-          : <h4>Комнат пока нет</h4>
+          : <div className={'rooms-side__absent'}>
+            <p className={'rooms-side__absent-text'}>Нет доступных групп...</p>
+          </div>
         }
       </div>
     </div>

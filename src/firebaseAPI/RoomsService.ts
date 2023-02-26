@@ -31,21 +31,20 @@ export default class RoomsService {
   static async getRoom(roomId: string) {
     const response = await get(ref(getDatabase(), 'roomsInfo/' + roomId))
     if(!response.exists())
-      throw new Error('Комната не найдена')
+      throw new Error('Группа не найдена')
     return response.val()
   }
   static async deleteRoom(roomId: string, uid: string) {
     const room = await RoomsService.getRoom(roomId)
     if(room && room.participants[uid] !== ParticipantStatuses.HOST)
-      throw new Error('Вы не можете удалить комнату ' + room.title)
+      throw new Error('Вы не можете удалить группу ' + room.title)
     await remove(ref(getDatabase(), 'roomsInfo/' + roomId))
     return roomId
   }
   static async updateRoom(user: FirebaseUser | null, room: IRoom, updates: IRoomUpdates){
     if (!user || (room.participants[user.uid] !== ParticipantStatuses.HOST)) {
-      throw new Error('Вы не можете редактировать эту комнату')
+      throw new Error('Вы не можете редактировать эту группу')
     }
-
     let upd: IRoomUpdates = {}
     if(updates.photo){
       const photoFile = typeof updates.photo === 'string' ? await getFileImgFromUrl(updates.photo) : updates.photo
@@ -68,7 +67,9 @@ export default class RoomsService {
   static async blockUser(roomId: string, uid: string, blockedUid: string) {
     const room = await RoomsService.getRoom(roomId)
     if(room && room.participants[uid] !== ParticipantStatuses.HOST)
-      throw new Error('Вы не можете блокировать кого-то в этой комнате')
+      throw new Error('Вы не можете блокировать кого-то в этой группе')
+    if(room && room.participants[blockedUid] === ParticipantStatuses.HOST)
+      throw new Error('Нельзя заблокировать создателя группы')
     delete room.participants[blockedUid]
     const newParticipants = {...room.participants}
     const newBlockedList = room.blockedList ? [...room.blockedList, blockedUid] : [blockedUid]
@@ -83,24 +84,28 @@ export default class RoomsService {
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {blockedList: newBlockedList})
     return newBlockedList
   }
-  static async addParticipant(roomId: string, uid: string) {
+  static async addParticipant(roomId: string, pid: string) {
     const room = await RoomsService.getRoom(roomId)
-    const newParticipants = {...room.participants, [uid]: ParticipantStatuses.COMMON}
+    const newParticipants = {...room.participants, [pid]: ParticipantStatuses.COMMON}
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
     return newParticipants
   }
-  static async removeParticipant(roomId: string, uid: string) {
+  static async removeParticipant(roomId: string, pid: string) {
     const room = await RoomsService.getRoom(roomId)
-    if(room.participants[uid] === ParticipantStatuses.HOST)
+    if(room.participants[pid] === ParticipantStatuses.HOST)
       throw new Error('Вы не можете покинуть эту группу')
-    delete room.participants[uid]
+    delete room.participants[pid]
     const newParticipants = {...room.participants}
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
     return newParticipants
   }
-  static async updateParticipant(roomId: string, uid: string, newStatus: ParticipantStatuses) {
+  static async updateParticipant(roomId: string, uid: string, pid: string, newStatus: ParticipantStatuses) {
     const room = await RoomsService.getRoom(roomId)
-    const newParticipants = {...room.participants, [uid]: newStatus}
+    if(room.participants[uid] !== ParticipantStatuses.HOST)
+      throw new Error('У ваc нет прав на это действие')
+    if(room.participants[pid] === ParticipantStatuses.HOST)
+      throw new Error('Вы не можете обновлять свой статус')
+    const newParticipants = {...room.participants, [pid]: newStatus}
     await update(ref(getDatabase(), 'roomsInfo/' + roomId), {participants: newParticipants})
     return newParticipants
   }

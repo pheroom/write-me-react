@@ -176,11 +176,10 @@ const FeedPage = () => {
         ? <Room ref={roomRef} showProfile={(id) => setUserInfoVisible(id)} editVisible={editRoomVisible}
                 setEditVisible={showEditRoom} resetError={resetRoomError}
                 className={'feed__room'} infoVisible={infoRoomVisible} setInfoVisible={setInfoRoomVisible}
-                uid={user.uid}
-                room={room} messages={messages} removeRoom={removeRoomHandle} isLoading={isRoomLoading}
-                error={roomError}/>
-        : <div ref={roomRef} className={'feed__room-absent'}>
-          <p className={'feed__room-absent-text'}>Комната не выбрана</p>
+                uid={user.uid} room={room} messages={messages} removeRoom={removeRoomHandle}
+                isLoading={isRoomLoading} error={roomError}/>
+        : <div ref={roomRef} className={'feed__room-absent feed__room'}>
+          <p className={'feed__room-text'}>Выберите, кому хотели бы написать</p>
         </div>
       }
     </main>

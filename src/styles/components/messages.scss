@@ -78,6 +78,7 @@
     color: $placeholderCol;
   }
   &__main{
+    max-width: 45vw;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -124,5 +125,8 @@
       background-color: $backgroundCol;
       border-bottom-left-radius: 10px;
     }
+  }
+  &__text{
+    white-space: pre-wrap;
   }
 }

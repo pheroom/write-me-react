@@ -3,6 +3,7 @@
   width: 350px;
   position: relative;
   border-right: 1px solid $separateCol;
+  background-color: $themeCol;
   &__inner{
     overflow: hidden;
     max-height: calc(100vh - 60px);
@@ -35,7 +36,18 @@
     flex: 1 1 auto;
     max-width: 100%;
   }
-  background-color: $themeCol;
+  &__absent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__absent-text{
+    margin-top: 25px;
+    border-radius: 15px;
+    padding: 3px 15px;
+    background-color: $notifyCol;
+    font-size: 14px;
+  }
 }
 
 .room-link{
@@ -73,5 +85,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+.search{
+  display: flex;
+  align-items: center;
+  &__icon{
+    height: 16px;
+    margin: 13px 13px 13px 19px;
+  }
+  &__clear{
+    margin-right: 23px;
+    height: 13px;
+    &--disabled{
+      display: none;
+    }
   }
 }

@@ -1,0 +1,28 @@
+.label-error{
+  max-width: 100%;
+  color: $errorCol;
+}
+
+.error{
+  z-index: 1000;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  top: 10px;
+  left: 0;
+  right: 0;
+  max-width: 350px;
+  text-align: center;
+  padding: 15px;
+  background-color: rgba(black, .5);
+  border-radius: 8px;
+  color: $majorFontCol;
+  &__close{
+    cursor: pointer;
+    padding-top: 2px;
+    margin-left: 13px;
+    height: 15px;
+  }
+}

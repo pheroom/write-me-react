@@ -39,7 +39,8 @@ const Message: FC<MessageProps> = ({scrollToBottom, showProfile, setEventsVisibl
     e.stopPropagation()
   }
 
-  if(!user) return <RegularLoader fullWidth/>
+  // if(!user) return <RegularLoader fullWidth/>
+  if(!user) return <div></div>
   return (
     <div className={'message ' + (isMyMessage ? 'message--send ' : 'message--receive ') + (className || '')}>
       <Img

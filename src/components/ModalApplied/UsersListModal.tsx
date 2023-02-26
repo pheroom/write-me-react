@@ -11,6 +11,7 @@ import ProfilePreview from "../ProfilePreview";
 import HoverRowModal from "../../UI/Modal/HoverRowModal";
 import UserInfoModal from "./UserInfoModal";
 import Popup from "./Popup";
+import {IPopupButton} from "../../models/IPopupButton";
 
 // function getUsersByUids(users: { uid: string, status?: string }[]) {
 //   const resUsers = new Array(users.length)
@@ -28,10 +29,10 @@ import Popup from "./Popup";
 interface UsersListModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
   back?: () => void
-  popupButtons?: {text?: string, onClick?: (data: string) => void, needShowProfile?: boolean, confirmText?: string}[]
+  // popupButtons?: {text?: string, onClick?: (data: string) => void, needShowProfile?: boolean, confirmText?: string, dontFadeAfter?: boolean}[]
+  popupButtons?: IPopupButton[]
   title: string
   users: { uid: string, status?: string }[]
-
 }
 
 const UsersListModal: FC<UsersListModalProps> = ({closeModal, title, popupButtons, users, back}) => {

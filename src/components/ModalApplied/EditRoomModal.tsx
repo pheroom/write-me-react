@@ -28,12 +28,6 @@ import roomIcon from '../../assets/icons/group-base.png'
 import UsersListModal from "./UsersListModal";
 import {getLength} from "../../utils/getLength";
 import {getUsersForUsersList} from "../../utils/getUsersForUsersList";
-import {
-  acceptApplication,
-  blockUser, rejectApplication,
-  unblockUser,
-  updateParticipant
-} from "../../store/RoomReducers/RoomActionCreators";
 
 interface EditProfileModalProps extends HTMLAttributes<HTMLDivElement> {
   closeModal: () => void
@@ -42,9 +36,17 @@ interface EditProfileModalProps extends HTMLAttributes<HTMLDivElement> {
   error?: string
   resetError: () => void
   removeRoom: () => void
+  removeAdminStatus: (uid: string) => void
+  addAdminStatus: (uid: string) => void
+  blockUser: (uid: string) => void
+  unblockUser: (uid: string) => void
+  acceptApplication: (uid: string) => void
+  rejectApplication: (uid: string) => void
+  rejectAndBlockApplication: (uid: string) => void
+  removeUser: (uid: string) => void
 }
 
-const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetError, removeRoom, room, updateRoom}) => {
+const EditProfileModal: FC<EditProfileModalProps> = ({removeUser, removeAdminStatus, addAdminStatus, blockUser, unblockUser, acceptApplication, rejectApplication, rejectAndBlockApplication, closeModal, error, resetError, removeRoom, room, updateRoom}) => {
   const [titleVisible, setTitleVisible] = useState(false)
   const [membersVisible, setMembersVisible] = useState(false)
   const [applicationsVisible, setApplicationsVisible] = useState(false)
@@ -85,23 +87,25 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
   const modal = () => {
     if (membersVisible) {
       return <UsersListModal popupButtons={[
-        {needShowProfile: true},
-        {text: 'Сделать администратором', onClick: (id: string) => console.log('admin ' + id), confirmText: 'Вы действительно хотите сделать администратором этого пользователя?'},
-        {text: 'Заблокировать', onClick: (id: string) => console.log('block ' + id), confirmText: 'Вы действительно хотите заблокировать этого пользователя?'},
-        {text: 'Удалить', onClick: (id: string) => console.log('delete ' + id), confirmText: 'Вы действительно хотите удалить этого пользователя?'},
+        {needShowProfile: true, dontFadeAfter: true},
+        {text: 'Назначить администратором', onClick: addAdminStatus, confirmText: 'Вы действительно хотите назначить администратором этого пользователя?'},
+        {text: 'Заблокировать', onClick: blockUser, confirmText: 'Вы действительно хотите заблокировать этого пользователя?'},
+        {text: 'Исключить', onClick: removeUser, confirmText: 'Вы действительно хотите исключить этого пользователя?'},
       ]} users={getUsersForUsersList(room.participants)} title={'Участники'} closeModal={closeModal} back={() => setMembersVisible(false)}/>
     }
     if (applicationsVisible) {
       return <UsersListModal popupButtons={[
-        {needShowProfile: true},
-        {text: 'Добавить', onClick: (id: string) => console.log('add ' + id)},
-      ]}  users={getUsersForUsersList(room.applications)} title={'Applications'} closeModal={closeModal} back={() => setApplicationsVisible(false)}/>
+        {text: 'Заблокировать', onClick: rejectAndBlockApplication},
+        {needShowProfile: true, dontFadeAfter: true},
+        {text: 'Добавить', onClick: acceptApplication},
+        {text: 'Отклонить', onClick: rejectApplication},
+      ]}  users={getUsersForUsersList(room.applications)} title={'Заявки'} closeModal={closeModal} back={() => setApplicationsVisible(false)}/>
     }
     if(blockedVisible){
       return <UsersListModal popupButtons={[
-        {needShowProfile: true},
-        {text: 'Разблокировать', onClick: (id: string) => console.log('unblock ' + id), confirmText: 'Вы действительно хотите разблокировать этого пользователя?'},
-      ]}  users={getUsersForUsersList(room.blockedList)} title={'Blocked'} closeModal={closeModal} back={() => setBlockedVisible(false)}/>
+        {needShowProfile: true, dontFadeAfter: true},
+        {text: 'Разблокировать', onClick: unblockUser, confirmText: 'Вы действительно хотите разблокировать этого пользователя?'},
+      ]}  users={getUsersForUsersList(room.blockedList)} title={'Чёрный список'} closeModal={closeModal} back={() => setBlockedVisible(false)}/>
     }
     return <Error>Nested modal was used incorrectly</Error>
   }
@@ -111,11 +115,11 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
       ? modal()
       : <Modal closeModal={closeModal}>
         {titleVisible &&
-          <UpdateFieldModal rules={loginRule} closeModal={() => setTitleVisible(false)} title={'Edit room`s title'}
-                            label={'New name'} updateField={updateName}/>}
+          <UpdateFieldModal rules={loginRule} closeModal={() => setTitleVisible(false)} title={'Изменить название группы'}
+                            label={'Новое название'} updateField={updateName}/>}
         {error && <TemporaryError time={3000} resetError={resetError}>{error}</TemporaryError>}
         <HeaderModal>
-          <TitleModal>Edit Room</TitleModal>
+          <TitleModal>Редактирование группы</TitleModal>
           <ActionsHeaderModal>
             <ButtonCrossIcon indent
                              alt={'close'}
@@ -134,28 +138,28 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, error, resetEr
           <div className="edit__descriptions">
             <InputCounter placeholder={'Bio'} maxCount={70} value={bio} onChange={setBioHandle}/>
             {bio !== room.descriptions
-              && <Button onClick={updateBio} className={'edit__descriptions-save'}>Save Bio</Button>}
+              && <Button onClick={updateBio} className={'edit__descriptions-save'}>Обновить описание</Button>}
           </div>
           <SeparateModal/>
           <div className="edit-room__private">
-            <p>Room is private:</p>
+            <p>Приватная группа:</p>
             <Checkbox checked={room.isPrivate} onChange={setIsPrivateHandle}/>
           </div>
           <SeparateModal/>
           <div className="edit__actions">
             <ButtonWideModal onClick={() => setTitleVisible(true)} iconSide={'22px'} icon={profileIcon}
-                             label={room.title}>Title</ButtonWideModal>
+                             label={room.title}>Название</ButtonWideModal>
             <ButtonWideModal onClick={() => setMembersVisible(true)} iconSide={'22px'}
-                             icon={groupIcon} label={`${getLength(room.participants)}`}>Members</ButtonWideModal>
+                             icon={groupIcon} label={`${getLength(room.participants)}`}>Участники</ButtonWideModal>
             <ButtonWideModal onClick={() => setBlockedVisible(true)} iconSide={'22px'}
-                             icon={blockIcon} label={`${getLength(room.blockedList)}`}>Blocked users</ButtonWideModal>
+                             icon={blockIcon} label={`${getLength(room.blockedList)}`}>Чёрный список</ButtonWideModal>
             {room.isPrivate &&
               <ButtonWideModal onClick={() => setApplicationsVisible(true)} iconSide={'22px'}
-                               icon={addIcon} label={`${getLength(room.applications)}`}>Applications</ButtonWideModal>}
+                               icon={addIcon} label={`${getLength(room.applications)}`}>Заявки на вступление</ButtonWideModal>}
           </div>
           <SeparateModal/>
           <div className="edit__exit">
-            <ButtonWideModal onClick={removeRoomHandle} icon={basketIcon}>Remove room</ButtonWideModal>
+            <ButtonWideModal onClick={removeRoomHandle} icon={basketIcon}>Удалить группу</ButtonWideModal>
           </div>
         </MainModal>
       </Modal>

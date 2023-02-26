@@ -53,15 +53,17 @@ const Messages: FC<MessagesProps> = ({showProfile, messages, uid, className, mes
     <div className={'messages ' + (className ? className : '')} ref={messagesRef}>
 
       {currentMessage && <Popup buttons={[
-        {text: 'Скопировать', onClick: copyMessage, needFadeAfter: true},
-        {text: 'Удалить', onClick: (data) => removeHandle(data), needFadeAfter: true},
+        {text: 'Скопировать', onClick: copyMessage},
+        {text: 'Удалить', onClick: (data) => removeHandle(data)},
       ]} data={currentMessage} closeModal={() => setCurrentMessage(null)}/>}
 
       {messages
         ? messages.map(message =>
           <Message showProfile={showProfile} scrollToBottom={scrollToBottom} key={message.messageId} message={message} setEventsVisible={setEventsVisibleHandle} isMyMessage={message.authorId === uid} className={message.authorId === uid ? 'messages__message--send' : 'messages__message--receive'}/>
         )
-        : <div>Сообщений пока нет</div>
+        : <div className={'feed__room feed__room-absent'}>
+          <p className={'feed__room-text'}>Сообщений пока нет...</p>
+        </div>
       }
       <div className={'messages__down-box'} ref={toBotBtnRef} onClick={scrollToBottom} style={!screenScrolled ? {display: 'none'} : {}}>
         <img className={'messages__down-img'} src={arrowIcon} alt="down"/>

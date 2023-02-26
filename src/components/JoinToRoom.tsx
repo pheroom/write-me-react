@@ -3,13 +3,15 @@ import {IRoom} from "../models/IRoom";
 import {useAppDispatch} from "../store";
 import {addApplication, addParticipant} from "../store/RoomReducers/RoomActionCreators";
 import Error from "../UI/Errors/Error";
+import ButtonMedium from "../UI/ButtonsBase/ButtonMedium";
+import Button from "../UI/ButtonsBase/Button";
 
 interface JoinToRoomProps {
   room: IRoom
   uid: string
 }
 
-const JoinToRoom: FC<JoinToRoomProps> = ({room, uid}) => {
+const JoinToRoom = React.forwardRef(({room, uid}: JoinToRoomProps, ref: React.ForwardedRef<HTMLDivElement>) => {
 
   const dispatch = useAppDispatch()
 
@@ -18,28 +20,32 @@ const JoinToRoom: FC<JoinToRoomProps> = ({room, uid}) => {
   }
 
   function submitApplication(){
-    dispatch(addApplication({roomId: room.roomId, uid}))
+    dispatch(addApplication({roomId: room.roomId, aid: uid}))
   }
 
   if(!room) return <Error>{'room don`t find'}</Error>
   return (
-    <div>
+    <div ref={ref} className={'feed__room jointo'}>
       {room.isPrivate
-        ? <div>
-          <h3>{room.title}</h3>
-          <h4>Вы хотите вступить в приватную группу</h4>
+        ? <div className={'jointo__main'}>
+
+          <div className="jointo__title">
+            <p>Вы хотите вступить в приватную группу:</p><p className={'jointo__room-title'}>{room.title}</p>
+          </div>
           {room.applications && room.applications.includes(uid)
-            ? <div>вы уже подали заявку</div>
-            : <button onClick={submitApplication}>Подать заявку</button>
+            ? <Button disabled={true} onClick={() => console.log(': )')}>Заявка подана!</Button>
+            : <Button onClick={submitApplication}>Подать заявку</Button>
           }
         </div>
-        : <div>
-          <h3>{room.title}</h3>
-          <button onClick={joinHandle}>Присоедениться</button>
+        : <div className={'jointo__main'}>
+          <div className="jointo__title">
+            <p>Вы хотите вступить в группу:</p><p className={'jointo__room-title'}>{room.title}</p>
+          </div>
+          <Button onClick={joinHandle}>Присоединиться</Button>
         </div>
       }
     </div>
   );
-};
+})
 
 export default JoinToRoom;

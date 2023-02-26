@@ -11,8 +11,6 @@ import SeparateSightModal from "../../UI/Modal/SeparateLightModal";
 import SearchWide from "../../UI/InputsApplied/SearchWide";
 import ScrollBlockModal from "../../UI/Modal/ScrollBlockModal";
 import ProfilePreview from "../ProfilePreview";
-import Img from "../../UI/Img";
-import PUser from "../../UI/Texts/PUser";
 import HoverRowModal from "../../UI/Modal/HoverRowModal";
 import UserInfoModal from "./UserInfoModal";
 

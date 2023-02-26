@@ -60,10 +60,10 @@ const UpdateFieldModal: FC<UpdateFieldModalProps> = ({closeModal, title, rules, 
         />}
         <FooterButtonsModal topIndent>
           <Button type={'button'} onClick={closeModal}>
-            Cancel
+            Отмена
           </Button>
           <Button type={'submit'} disabled={otherLabel ? (!field.inputValid || !otherField.inputValid) : !field.inputValid}>
-            Save
+            Сохранить
           </Button>
         </FooterButtonsModal>
       </form>

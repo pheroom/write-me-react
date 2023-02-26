@@ -72,22 +72,22 @@ export const addParticipant = createAsyncThunk(
 
 export const removeParticipant = createAsyncThunk(
   'room/removeParticipant',
-  async ({roomId, uid}: {roomId: string, uid: string}) => {
-    return await RoomsService.removeParticipant(roomId, uid)
+  async ({roomId, pid}: {roomId: string, pid: string}) => {
+    return await RoomsService.removeParticipant(roomId, pid)
   }
 )
 
 export const updateParticipant = createAsyncThunk(
   'room/updateParticipant',
-  async ({roomId, uid, status}: {roomId: string, uid: string, status: ParticipantStatuses}) => {
-    return await RoomsService.updateParticipant(roomId, uid, status)
+  async ({roomId, uid, pid, status}: {roomId: string, uid: string, pid: string, status: ParticipantStatuses}) => {
+    return await RoomsService.updateParticipant(roomId, uid, pid, status)
   }
 )
 
 export const addApplication = createAsyncThunk(
   'room/addApplication',
-  async ({roomId, uid}: {roomId: string, uid: string}) => {
-    return await RoomsService.addApplication(roomId, uid)
+  async ({roomId, aid}: {roomId: string, aid: string}) => {
+    return await RoomsService.addApplication(roomId, aid)
   }
 )
 
