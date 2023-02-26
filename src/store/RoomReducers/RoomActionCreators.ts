@@ -1,12 +1,21 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import RoomsService from "../../firebaseAPI/RoomsService";
 import {IMessage} from "../../models/IMessage";
-import {ParticipantStatuses} from "../../models/IRoom";
+import {IRoom, ParticipantStatuses} from "../../models/IRoom";
+import {IRoomUpdates} from "../../models/IRoomUpdates";
+import {getAuth} from "firebase/auth";
 
 export const getRoomById = createAsyncThunk(
   'room/getRoomById',
   async (roomId: string) => {
     return await RoomsService.getRoom(roomId)
+  }
+)
+
+export const updateRoom = createAsyncThunk(
+  'room/updateRoom',
+  async ({room, updates}: {room: IRoom, updates: IRoomUpdates}) => {
+    return await RoomsService.updateRoom(getAuth().currentUser, room, updates)
   }
 )
 
@@ -63,22 +72,22 @@ export const addParticipant = createAsyncThunk(
 
 export const removeParticipant = createAsyncThunk(
   'room/removeParticipant',
-  async ({roomId, uid}: {roomId: string, uid: string}) => {
-    return await RoomsService.removeParticipant(roomId, uid)
+  async ({roomId, pid}: {roomId: string, pid: string}) => {
+    return await RoomsService.removeParticipant(roomId, pid)
   }
 )
 
 export const updateParticipant = createAsyncThunk(
   'room/updateParticipant',
-  async ({roomId, uid, status}: {roomId: string, uid: string, status: ParticipantStatuses}) => {
-    return await RoomsService.updateParticipant(roomId, uid, status)
+  async ({roomId, uid, pid, status}: {roomId: string, uid: string, pid: string, status: ParticipantStatuses}) => {
+    return await RoomsService.updateParticipant(roomId, uid, pid, status)
   }
 )
 
 export const addApplication = createAsyncThunk(
   'room/addApplication',
-  async ({roomId, uid}: {roomId: string, uid: string}) => {
-    return await RoomsService.addApplication(roomId, uid)
+  async ({roomId, aid}: {roomId: string, aid: string}) => {
+    return await RoomsService.addApplication(roomId, aid)
   }
 )
 

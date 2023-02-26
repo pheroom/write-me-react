@@ -3,8 +3,8 @@ import RoomsService from "../../firebaseAPI/RoomsService";
 
 export const createRoom = createAsyncThunk(
   'rooms/createRoom',
-  async (room: {authorId: string, title: string, isPrivate: boolean}) => {
-    return await RoomsService.addRoom(room.authorId, room.title, room.isPrivate)
+  async (room: {authorId: string, title: string, isPrivate: boolean, photoUrl: string | null}) => {
+    return await RoomsService.addRoom(room.authorId, room.title, room.isPrivate, room.photoUrl)
   }
 )
 

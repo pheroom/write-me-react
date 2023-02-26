@@ -1,0 +1,185 @@
+.modal{
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .47);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  &--unfilled{
+    background-color: transparent;
+  }
+  &__inner{
+    margin-top: 40px;
+    background-color: $themeCol;
+    width: 390px;
+    border-radius: 8px;
+    overflow: hidden;
+    &--width-from-content{
+      width: auto;
+    }
+    &--position-center{
+      margin-top: 0;
+      align-self: center;
+    }
+  }
+  &__separate{
+    width: 100%;
+    height: 9px;
+    background: $notifyCol;
+  }
+  &__separate-light{
+    width: 100%;
+    height: 1px;
+    background: $separateCol;
+  }
+  &__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 55px;
+  }
+  &__title{
+    flex: 1 auto;
+    margin-left: 20px;
+    &--small-indent{
+      margin-left: 10px;
+    }
+    &--unindent{
+      margin: 0;
+    }
+  }
+  &__header-btns{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__main{
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 80vh;
+    @extend %scroll-light;
+  }
+  &__scroll-block{
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: calc(80vh - 55px);
+    @extend %scroll-light;
+  }
+  &__block-with-icon{
+    margin: 20px 25px;
+    display: flex;
+  }
+  &__block-icon{
+    margin-top: 8px;
+    height: 22px;
+    margin-right: 27px;
+    }
+  //
+  &__invite{
+    margin-bottom: 18px;
+  }
+
+  &__room-action{
+    margin-top: 8px;
+    margin-bottom: 13px;
+  }
+  &__room-members{
+    padding: 7px 0;
+  }
+  &__wide-btn{
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    color: $majorFontCol;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 25px;
+    &:hover{
+      background-color: $hoverCol;
+    }
+  }
+  &__hover-row{
+    padding: 5px 19px;
+    &:hover{
+      background-color: $hoverCol;
+    }
+  }
+  &__wide-btn-icon-box{
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    margin-right: 28px;
+  }
+  &__wide-btn-icon{
+    height: 100%;
+    width: auto;
+  }
+  &__wide-btn-text{
+    position: absolute;
+    left: 70px;
+    &--left{
+      right: auto;
+      left: 0;
+    }
+    &--right{
+      left: auto;
+      right: 0;
+    }
+    &--center{
+      left: 0;
+      right: 0;
+    }
+  }
+  &__wide-btn-label{
+    color: $activeFontCol;
+  }
+  &__block-indent{
+    margin: 15px 20px;
+  }
+  &__footer-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    &--top-indent{
+      margin-top: 10px;
+    }
+  }
+}
+
+.room-preview{
+  display: flex;
+  align-items: center;
+  &__img-box{
+    overflow: hidden;
+    margin-right: 20px;
+    cursor: pointer;
+    min-width: max-content;
+  }
+  &__img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+  }
+  &__title{
+    margin-bottom: 3px;
+    max-width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  &__count-sub{
+    color: $minorFontCol;
+  }
+}

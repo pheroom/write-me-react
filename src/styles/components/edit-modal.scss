@@ -1,0 +1,59 @@
+.edit{
+  &__preview{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  &__avatar-box{
+    position: relative;
+    margin-bottom: 5px;
+  }
+  &__avatar{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+  }
+  &__reset-avatar{
+    bottom: 0;
+    right: -5px;
+    position: absolute;
+  }
+  &__descriptions{
+    margin: 15px 25px;
+    display: flex;
+    flex-direction: column;
+  }
+  &__descriptions-save{
+    margin-top: 5px;
+    align-self: center;
+    margin-bottom: -8px;
+  }
+  &__actions{
+    margin: 8px 0;
+  }
+  &__exit{
+    margin: 8px 0 12px;
+  }
+}
+
+.update-field{
+  width: 286px;
+  padding: 20px 23px 10px;
+  &__title{
+    margin-bottom: 10px;
+  }
+  &__other-input{
+    margin-top: 15px;
+  }
+}
+
+.edit-room{
+  &__private{
+    margin: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+

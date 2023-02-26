@@ -10,7 +10,7 @@ export default class AuthService {
       throw new Error('Аккаунта с такой почтой не существует')
     }
     const response = await signInWithEmailAndPassword(getAuth(), email, password)
-    return getUserByFirebaseObject(response.user)
+    return UsersService.getUser(response.user.uid)
   }
 
   static async signInWithLoginAndPassword(login: string, password: string) {
@@ -19,7 +19,7 @@ export default class AuthService {
     }
     const email = await NamesService.getEmailByLogin(login)
     const response = await signInWithEmailAndPassword(getAuth(), email, password)
-    return getUserByFirebaseObject(response.user)
+    return UsersService.getUser(response.user.uid)
   }
 
   static async createUserWithEmailAndPassword(login: string, email: string, password: string) {

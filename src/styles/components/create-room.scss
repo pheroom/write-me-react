@@ -1,0 +1,27 @@
+.create-room{
+  padding: 10px 10px 10px 25px;
+  &__form{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 25px 14px 25px 0;
+    gap: 25px;
+  }
+  &__name-box{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  &__inputs{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+  }
+  &__private{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

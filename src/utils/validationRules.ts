@@ -1,3 +1,7 @@
+export const freeRule = {
+  isFree: true
+}
+
 export const loginRule = {
   minLength: 3,
   maxLength: 16,
@@ -7,7 +11,7 @@ export const loginRule = {
 
 export const passwordRule = {
   minLength: 6,
-  maxLength: 16,
+  maxLength: 30,
   isEmpty: false,
   isNotLettersNumUnder: false
 }
@@ -18,8 +22,15 @@ export const emailRule = {
   maxLength: 36,
 }
 
-export const nameRule = {
+export const roomNameRule = {
   isEmpty: false,
   minLength: 1,
+  maxLength: 20,
+}
+
+export const phoneRule = {
+  isFree: true,
+  isEmpty: true,
+  minLength: 9,
   maxLength: 20,
 }

@@ -1,0 +1,39 @@
+.sign-up, .sign-in{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $backgroundCol;
+  &__inner{
+    background-color: $themeCol;
+    border-radius: 8px;
+    padding: 40px 55px 20px;
+  }
+  &__error{
+    margin-bottom: 10px;
+    width: 250px;
+  }
+  &__title{
+    margin-bottom: 15px;
+  }
+  &__input-box, &__input{
+    width: 100%;
+    min-width: 250px;
+    margin-bottom: 15px;
+  }
+  &__form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  &__actions{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__link{
+    color: $activeCol;
+  }
+}

@@ -1,0 +1,70 @@
+.edit-photo{
+  z-index: 500;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 25px;
+  background-color: #6D7F8F;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  &__res img{
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+  }
+  &__inner{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 80vh;
+    max-width: 90vw;
+  }
+  &__photo{
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+  &__controller{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    border: 1px dashed $activeFontCol;
+    cursor: move;
+  }
+  &__groove{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: rgba($activeFontCol, .5);
+  }
+  &__groove-q{
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+  }
+  &__groove-w{
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+  }
+  &__groove-e{
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+  }
+  &__groove-r{
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+  }
+}

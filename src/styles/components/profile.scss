@@ -1,0 +1,92 @@
+.profile-preview-large{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 17px;
+  &__name{
+    color: $majorFontCol;
+  }
+  &__email{
+    color: $minorFontCol;
+  }
+  &__info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  &__img{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+  }
+}
+
+.profile-preview-medium{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 17px;
+  font-size: 13px;
+  &__name{
+    color: $majorFontCol;
+    margin-bottom: 0px;
+  }
+  &__name, &__email, &__img{
+    cursor: pointer;
+  }
+  &__email{
+    color: $minorFontCol;
+  }
+  &__info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  &__img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+}
+
+.profile-preview-small{
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  font-size: 13px;
+  position: relative;
+  &__label{
+    position: absolute;
+    top: 5px;
+    right: 0;
+    color: $activeFontCol;
+  }
+  &__img{
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+  }
+  &__info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    max-width: calc(100% - 45px);
+  }
+  &__email, &__name{
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__name{
+    color: $majorFontCol;
+    margin-bottom: 2px;
+  }
+  &__email{
+    color: $minorFontCol;
+  }
+}

@@ -1,0 +1,141 @@
+.btn-hover-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &__img--disabled{
+    height: 100%;
+  }
+  &:hover &__img--disabled{
+    display: none;
+  }
+  &__img--active{
+    height: 100%;
+    display: none;
+  }
+  &:hover &__img--active{
+    display: block;
+  }
+}
+
+.button{
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  padding: 8px 15px;
+  color: #6AB2F2;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover{
+    background-color: rgba(black, .3);
+  }
+  &:disabled{
+    color: $disabledCol;
+  }
+}
+
+.button-medium{
+  color: $majorFontCol;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 12px 25px;
+  border-radius: 4px;
+  min-width: 150px;
+  background-color: $activeCol;
+  &:disabled{
+    right: 70px;
+    background-color: $disabledCol;
+  }
+}
+
+.button-line-regular{
+  color: $majorFontCol;
+  border: 1px solid $majorFontCol;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 10px 25px;
+  border-radius: 7px;
+  min-width: 150px;
+  background-color: transparent;
+  &:disabled{
+    right: 70px;
+    background-color: $disabledCol;
+  }
+}
+
+.indent-icon-btn{
+  width: 50px;
+  height: 55px;
+}
+.indent-back-icon-btn{
+  padding: 20px 0;
+}
+.indent-cross-icon-btn{
+  padding: 21px 10px 21px 0;
+}
+.indent-dots-icon-btn{
+  width: 40px;
+  padding: 18px 0;
+}
+
+.btn-copy{
+  border: none;
+  background-color: transparent;
+  color: $activeFontCol;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.button-bar{
+  height: 50px;
+  border-radius: 5px;
+  background-color: rgba(black, .3);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__button{
+    background: transparent;
+    border: none;
+    color: $majorFontCol;
+    font-size: 14px;
+    cursor: pointer;
+    height: 100%;
+    padding: 0 15px;
+    &--active{
+      color: $activeFontCol;
+    }
+    &:hover{
+      background-color: rgba(black, .4);
+    }
+  }
+}
+
+.burger-menu{
+  cursor: pointer;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px;
+  &__img--disabled{
+    width: 100%;
+  }
+  &:hover &__img--disabled{
+    display: none;
+  }
+  &__img--active{
+    width: 100%;
+    cursor: pointer;
+    display: none;
+  }
+  &:hover &__img--active{
+    display: block;
+  }
+}
