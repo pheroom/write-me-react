@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/write-me-react/static/css/main.db163881.css",
-    "main.js": "/write-me-react/static/js/main.69019be9.js",
+    "main.css": "/write-me-react/static/css/main.12ff8d30.css",
+    "main.js": "/write-me-react/static/js/main.0a63ba59.js",
     "static/media/emoji-sadness.png": "/write-me-react/static/media/emoji-sadness.d1fa7ad576c1f2d7a3e8.png",
     "index.html": "/write-me-react/index.html",
-    "main.db163881.css.map": "/write-me-react/static/css/main.db163881.css.map",
-    "main.69019be9.js.map": "/write-me-react/static/js/main.69019be9.js.map"
+    "main.12ff8d30.css.map": "/write-me-react/static/css/main.12ff8d30.css.map",
+    "main.0a63ba59.js.map": "/write-me-react/static/js/main.0a63ba59.js.map"
   },
   "entrypoints": [
-    "static/css/main.db163881.css",
-    "static/js/main.69019be9.js"
+    "static/css/main.12ff8d30.css",
+    "static/js/main.0a63ba59.js"
   ]
 }
