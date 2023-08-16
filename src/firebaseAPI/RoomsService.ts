@@ -20,7 +20,7 @@ export default class RoomsService {
       title,
       createdAt: serverTimestamp(),
       isPrivate,
-      avatarURL: photoServerUrl || null,
+      photoURL: photoServerUrl || null,
       isDialog: false,
       description: '',
       applications: [],

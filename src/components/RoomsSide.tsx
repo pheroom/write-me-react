@@ -46,13 +46,13 @@ const RoomsSide = React.forwardRef(({rooms, isLoading, error, currentRoom, class
 
   return (
     <div id={'Resizable'} ref={ref} className={'rooms-side ' + className}>
-      {isLoading && <RegularLoader fullStretch/>}
       {error && <Error>{error}</Error>}
       <div className={'rooms-side__header'}>
         <ButtonHoverImg className={'rooms-side__menu-btn'} imgDisabled={burgerDisIcon} imgActive={burgerActIcon} onClick={change}/>
         <InputFillPrimary classNameBox={'rooms-side__search'} placeholder={'Search'} value={text} onChange={setTextHandle} resetValue={resetText}/>
       </div>
       <div className="rooms-side__inner">
+        {isLoading && <RegularLoader fullStretch/>}
         {sortedRooms
           ? sortedRooms.map(room =>
             <Link className={'room-link ' + (currentRoom?.roomId === room.roomId ? 'room-link--active' : '')}

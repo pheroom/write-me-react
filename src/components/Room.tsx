@@ -69,11 +69,21 @@ const Room = React.forwardRef(({
     removeRoom(room.roomId)
   }
 
-  function sendMessage(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  function sendMessage(){
+    if(!text) return
     dispatch(addMessage({text, authorId: uid, roomId: room.roomId}))
     setText('')
-    // scrollToBottom()
+  }
+
+  function keydownHandler(e: React.KeyboardEvent<HTMLTextAreaElement>){
+    if(e.code === 'Enter' && e.ctrlKey){
+      sendMessage()
+    }
+  }
+
+  function sendMessageHandler(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    sendMessage()
   }
 
   function leaveRoom() {
@@ -169,8 +179,8 @@ const Room = React.forwardRef(({
       <Messages showProfile={showProfile} scrollToBottom={scrollToBottom} screenScrolled={screenScrolled} setScreenScrolled={setScreenScrolled}
                 className={'current-room__main'} toBotBtnRef={toBotBtnRef} messagesRef={messagesRef} messages={messages}
                 uid={uid}/>
-      <form ref={formRef} onSubmit={sendMessage} className={'current-room__form'}>
-        <textarea rows={1} ref={textareaRef} className={'current-room__input'} value={text} onChange={changeHandle}
+      <form ref={formRef} onSubmit={sendMessageHandler} className={'current-room__form'}>
+        <textarea onKeyDown={keydownHandler} rows={1} ref={textareaRef} className={'current-room__input'} value={text} onChange={changeHandle}
                   placeholder={'Напишите что-нибудь...'}/>
         <button className={'current-room__send-btn'} type={'submit'} disabled={!text}>
           <img className={'current-room__send-img'} src={text ? sendActIcon : sendDisIcon} alt="send"/>

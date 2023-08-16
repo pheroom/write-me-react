@@ -9,6 +9,7 @@ import Button from "../UI/ButtonsBase/Button";
 import InputLabeled from "../UI/InputsBase/InputLabeled";
 import {useInput} from "../hooks/useInput";
 import {loginRule, passwordRule} from "../utils/validationRules";
+import TemporaryError from "../UI/Errors/TemporaryError";
 
 const SignIn = () => {
   const login = useInput('', loginRule)
@@ -32,10 +33,12 @@ const SignIn = () => {
   return (
   <main className={'sign-in'}>
     {isLoading && <Loader/>}
+    {error && <TemporaryError time={5000} resetError={() => dispatch(resetError())}>
+      {error}
+    </TemporaryError>}
     <div className="sign-in__inner">
       <h3 className={'sign-in__title'}>Вход</h3>
       <form onSubmit={signIn} className={'sign-in__form'}>
-        {/*{loginInput}*/}
         <InputLabeled
           autoFocus
           boxClassName={'sign-in__input-box'}

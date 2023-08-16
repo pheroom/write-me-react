@@ -18,6 +18,7 @@ const RoomPreviewBrief: FC<RoomPreviewBriefProps> = ({room}) => {
           alt={'room-ava'}
           className="room-preview__img"
           src={room.photoURL || roomIcon}
+          photoData={room.photoURL}
         />
       </div>
       <div className="room-preview__info">
