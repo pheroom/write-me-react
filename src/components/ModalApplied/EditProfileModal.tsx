@@ -105,7 +105,7 @@ const EditProfileModal: FC<EditProfileModalProps> = ({closeModal, changePassword
       <MainModal>
         <div className="edit__preview">
           <div className="edit__avatar-box">
-            <Img className="edit__avatar"
+            <Img className="edit__avatar" photoData={user.photoURL}
                  src={user.photoURL || userAva}/>
             <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit__reset-avatar"/>
           </div>

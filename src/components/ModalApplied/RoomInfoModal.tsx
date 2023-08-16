@@ -51,9 +51,6 @@ const RoomInfoModal: FC<RoomInfoModalProps> = ({closeModal, isOwner, editRoomLin
         <HeaderModal>
           <TitleModal>Информация о группе</TitleModal>
           <ActionsHeaderModal>
-            {/*<ButtonDotsIcon alt={'more'}*/}
-            {/*                indent*/}
-            {/*                onClick={e => console.log('dots')}/>*/}
             <ButtonCrossIcon alt={'close'}
                              indent
                              onClick={closeModal}/>

@@ -129,7 +129,7 @@ const EditProfileModal: FC<EditProfileModalProps> = ({removeUser, removeAdminSta
         <MainModal>
           <div className="edit__preview">
             <div className="edit__avatar-box">
-              <Img className="edit__avatar"
+              <Img className="edit__avatar" photoData={room.photoURL}
                    src={room.photoURL || roomIcon}/>
               <ImageInput photoUrl={null} setPhotoUrl={updateAvatar} className="edit__reset-avatar"/>
             </div>

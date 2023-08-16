@@ -10,9 +10,9 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
     controllerRef.current?.addEventListener('mousedown', initResize)
   }, [controllerRef])
 
-  useLayoutEffect(()=>{
-    // moveControllerHandle(0, 0)
-  }, [photo])
+  // useLayoutEffect(()=>{
+  //   // moveControllerHandle(0, 0)
+  // }, [photo])
 
   function moveControllerHandle(x: number, y: number, side: number){
     if(innerRef.current){
@@ -71,8 +71,13 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
       move(e)
     } else if(e.target.dataset.resize === 'groove-q'){
       resizeQ(e)
+    } else if(e.target.dataset.resize === 'groove-w'){
+      resizeW(e)
+    } else if(e.target.dataset.resize === 'groove-e'){
+      resizeE(e)
+    } else if(e.target.dataset.resize === 'groove-r'){
+      resizeR(e)
     }
-
   }
 
   function resizeQ(e: MouseEvent){
@@ -82,36 +87,25 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
         let elCoords = controllerRef.current.getBoundingClientRect()
         let innerCoords = innerRef.current.getBoundingClientRect()
 
-        let newLeft = elCoords.left
-        let newTop = elCoords.top
         let newSide = elCoords.width
 
-        if(pageX < elCoords.left || pageY < elCoords.top){
-          newSide = Math.max(elCoords.width + elCoords.left - pageX, elCoords.width + elCoords.top - pageY)
-          if(newSide <= innerCoords.width || newSide <= innerCoords.height){
-            newTop = pageY - innerCoords.top
-            newLeft = pageX - innerCoords.left
-          }else{
-            return
-          }
-        } else {
-          newSide = Math.min(elCoords.width + elCoords.left - pageX, elCoords.width + elCoords.top - pageY)
-          if(newSide >= 30){
-            newTop = pageY - innerCoords.top
-            newLeft = pageX - innerCoords.left
-          }else{
-            return
-          }
-        }
+        newSide = Math.max(elCoords.width + elCoords.left - pageX, elCoords.width + elCoords.top - pageY)
 
         newSide = Math.min(Math.max(newSide, 30), Math.min(innerCoords.height, innerCoords.width))
-        newTop = Math.min(Math.max(newTop, 0), innerCoords.height - newSide)
-        newLeft = Math.min(Math.max(newLeft, 0), innerCoords.width - newSide)
+
+        if(elCoords.right - newSide - innerCoords.left < 0){
+          newSide = elCoords.right - innerCoords.left
+        }
+        if(elCoords.bottom - newSide - innerCoords.top < 0){
+          newSide = elCoords.bottom - innerCoords.top
+        }
 
         controllerRef.current.style.width = newSide + 'px';
         controllerRef.current.style.height = newSide + 'px';
-        controllerRef.current.style.left = newLeft + 'px';
-        controllerRef.current.style.top = newTop + 'px';
+
+        controllerRef.current.style.left = elCoords.right - newSide - innerCoords.left + 'px';
+        controllerRef.current.style.top = elCoords.bottom - newSide - innerCoords.top + 'px';
+
       }
     }
 
@@ -128,6 +122,130 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
       document.onmouseup = null
     };
 
+  }
+
+  function resizeW(e: MouseEvent){
+    function moveAt(pageX: number, pageY: number) {
+      if(controllerRef.current && innerRef.current) {
+
+        let elCoords = controllerRef.current.getBoundingClientRect()
+        let innerCoords = innerRef.current.getBoundingClientRect()
+
+        let newSide = elCoords.width
+
+        newSide = Math.max(pageX - elCoords.left, elCoords.width + elCoords.top - pageY)
+
+        newSide = Math.min(Math.max(newSide, 30), Math.min(innerCoords.height, innerCoords.width))
+
+        if(elCoords.left + newSide - innerCoords.left > innerCoords.width){
+          newSide = innerCoords.width + innerCoords.left - elCoords.left
+        }
+        if(elCoords.bottom - newSide - innerCoords.top < 0){
+          newSide = elCoords.bottom - innerCoords.top
+        }
+
+        controllerRef.current.style.width = newSide + 'px';
+        controllerRef.current.style.height = newSide + 'px';
+
+        controllerRef.current.style.top = elCoords.bottom - newSide - innerCoords.top + 'px';
+
+      }
+    }
+
+    function onMouseMove(event: MouseEvent) {
+      if(controllerRef.current) {
+        moveAt(event.pageX, event.pageY);
+      }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    document.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.onmouseup = null
+    };
+  }
+
+  function resizeE(e: MouseEvent){
+    function moveAt(pageX: number, pageY: number) {
+      if(controllerRef.current && innerRef.current) {
+
+        let elCoords = controllerRef.current.getBoundingClientRect()
+        let innerCoords = innerRef.current.getBoundingClientRect()
+
+        let newSide = elCoords.width
+
+        newSide = Math.max(pageX - elCoords.left, pageY - elCoords.top)
+
+        newSide = Math.min(Math.max(newSide, 30), Math.min(innerCoords.height, innerCoords.width))
+
+        if(elCoords.left + newSide - innerCoords.left > innerCoords.width){
+          newSide = innerCoords.width + innerCoords.left - elCoords.left
+        }
+        if(elCoords.top + newSide - innerCoords.top > innerCoords.height){
+          newSide = innerCoords.height + innerCoords.top - elCoords.top
+        }
+
+        controllerRef.current.style.width = newSide + 'px';
+        controllerRef.current.style.height = newSide + 'px';
+
+      }
+    }
+
+    function onMouseMove(event: MouseEvent) {
+      if(controllerRef.current) {
+        moveAt(event.pageX, event.pageY);
+      }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    document.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.onmouseup = null
+    };
+  }
+
+  function resizeR(e: MouseEvent){
+    function moveAt(pageX: number, pageY: number) {
+      if(controllerRef.current && innerRef.current) {
+
+        let elCoords = controllerRef.current.getBoundingClientRect()
+        let innerCoords = innerRef.current.getBoundingClientRect()
+
+        let newSide = elCoords.width
+
+        newSide = Math.max(pageY - elCoords.top, elCoords.width + elCoords.left - pageX)
+
+        newSide = Math.min(Math.max(newSide, 30), Math.min(innerCoords.height, innerCoords.width))
+
+        if(elCoords.right - newSide - innerCoords.left < 0){
+          newSide = elCoords.right - innerCoords.left
+        }
+        if(elCoords.top + newSide - innerCoords.top > innerCoords.height){
+          newSide = innerCoords.height + innerCoords.top - elCoords.top
+        }
+
+        controllerRef.current.style.width = newSide + 'px';
+        controllerRef.current.style.height = newSide + 'px';
+
+        controllerRef.current.style.left = elCoords.right - newSide - innerCoords.left + 'px';
+
+      }
+    }
+
+    function onMouseMove(event: MouseEvent) {
+      if(controllerRef.current) {
+        moveAt(event.pageX, event.pageY);
+      }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    document.onmouseup = function() {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.onmouseup = null
+    };
   }
 
   function move(e: MouseEvent){
@@ -186,8 +304,8 @@ const EditImage = ({photo, photoDone, cancel}: {photo: File, photoDone: (img: st
           </div>
       </div>
       <div className={'button-bar'}>
-        <button className={'button-bar__button'} onClick={cancel}>Cancel</button>
-        <button className={'button-bar__button button-bar__button--active'} onClick={getPhoto}>Done</button>
+        <button className={'button-bar__button'} onClick={cancel}>Отмена</button>
+        <button className={'button-bar__button button-bar__button--active'} onClick={getPhoto}>Установить</button>
       </div>
     </div>
   );

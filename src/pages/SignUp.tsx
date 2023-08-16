@@ -10,6 +10,7 @@ import {useInput} from "../hooks/useInput";
 import {emailRule, loginRule, passwordRule} from "../utils/validationRules";
 import InputLabeled from "../UI/InputsBase/InputLabeled";
 import Button from "../UI/ButtonsBase/Button";
+import TemporaryError from "../UI/Errors/TemporaryError";
 
 const SignUp = () => {
   const login = useInput('', loginRule)
@@ -31,14 +32,14 @@ const SignUp = () => {
     dispatch(userSignUp({login: login.value, email: email.value, password: password.value}))
   }
 
-  if(isLoading) return <Loader/>
   return (
     <main className={'sign-up'}>
+      {isLoading && <Loader/>}
+      {error && <TemporaryError time={5000} resetError={() => dispatch(resetError())}>
+        {error}
+      </TemporaryError>}
       <div className="sign-up__inner">
         <h3 className={'sign-up__title'}>Регистрация</h3>
-        {error && <div className={'sign-in__error'}>
-          <Error>{error}</Error>
-        </div>}
         <form onSubmit={signUp} className={'sign-up__form'}>
           <InputLabeled
             autoFocus

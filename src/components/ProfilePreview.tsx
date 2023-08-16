@@ -4,6 +4,7 @@ import {getUserByUid} from "../utils/getUserByUid";
 import RegularLoader from "../UI/Loaders/RegularLoader";
 import Img from "../UI/Img";
 import userIcon from '../assets/icons/user-base.png'
+import PUser from "../UI/Texts/PUser";
 
 interface ProfilePreviewProps{
   onClick?: (e: React.MouseEvent) => void
@@ -31,14 +32,16 @@ const ProfilePreview: FC<ProfilePreviewProps> = ({userData, onClick, size = 'sma
         {size === 'small' && status && <p className={className + '__label'}>{status}</p>}
         <Img className={className + '__img'}
              src={user.photoURL || userIcon}
-             alt="avatar" onClick={onClick}/>
+             photoData={user.photoURL}
+             alt="avatar"
+             onClick={onClick}/>
         <div className={className + '__info'}>
-          <p className={className + '__name'} onClick={onClick}>{user.displayName}</p>
-          <p className={className + '__email'} onClick={onClick}>{user.email}</p>
+          <PUser className={className + '__name'} onClick={onClick}>{user.displayName}</PUser>
+          <PUser className={className + '__email'} onClick={onClick}>{user.email}</PUser>
         </div>
       </div>
-      : <RegularLoader/>
+      : <RegularLoader fullWidth/>
   );
-};
+}
 
 export default ProfilePreview;
